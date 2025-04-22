@@ -16,7 +16,7 @@ class ClientClass{
             System.out.println("Connected to Address[Port]: " + SERVER_ADDRESS + "[" + SERVER_PORT + "]" );
 
             // Set up output-stream to Server.
-            PrintWriter outputstream = new PrintWriter(clientconection.getOutputStream(), true);
+            PrintWriter toServer = new PrintWriter(clientconection.getOutputStream(), true);
 
             // Set up system scanner, to parse user input
             Scanner scanner = new Scanner(System.in);
@@ -26,12 +26,12 @@ class ClientClass{
             String username = scanner.nextLine();
 
             // Send user-name to Server
-            outputstream.println(username);
+            toServer.println(username);
             System.out.println("Name sent to Sever!");
 
             // Close resources
             clientconection.close();
-            outputstream.close();
+            toServer.close();
             scanner.close();
         }
         catch(IOException e)

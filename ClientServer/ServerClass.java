@@ -22,15 +22,15 @@ class ServerClass{
             System.out.println("Client Connected!");
 
             // Set up input-stream.
-            BufferedReader inputstream = new BufferedReader(new InputStreamReader(clientconnection.getInputStream()));
+            BufferedReader fromClient = new BufferedReader(new InputStreamReader(clientconnection.getInputStream()));
 
             // Fetch username from client
-            String username = inputstream.readLine();
+            String username = fromClient.readLine();
             System.out.println("Username " + username + " retrieved from Client!");
 
             serveconnection.close();
             clientconnection.close();
-            inputstream.close();
+            fromClient.close();
         }
         catch(IOException e)
         {

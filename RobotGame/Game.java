@@ -6,12 +6,13 @@ import java.util.Map;
 /**
  * Main game class that handles robot movement.
  */
-public class Game {
+public class Game 
+{
     private final Robot robot;
-    private static final Map<String, Direction> DIRECTION_MAP;
+    private static final Map<String, Direction> DIRECTION_MAP = new HashMap<>();
 
-    static {
-        DIRECTION_MAP = new HashMap<>();
+    static 
+    {
         DIRECTION_MAP.put("left", Direction.LEFT);
         DIRECTION_MAP.put("right", Direction.RIGHT);
         DIRECTION_MAP.put("up", Direction.UP);
@@ -21,7 +22,8 @@ public class Game {
     /**
      * Creates a new game with robot at origin.
      */
-    public Game() {
+    public Game() 
+    {
         this.robot = new Robot(0, 0);
     }
 
@@ -32,19 +34,25 @@ public class Game {
      * @param strQuantity The number of steps to move
      * @throws IllegalArgumentException if the direction is invalid or quantity is not a positive integer
      */
-    public void playGame(String strDirection, String strQuantity) {
+    public void playGame(String strDirection, String strQuantity) 
+    {
         Direction direction = DIRECTION_MAP.get(strDirection.toLowerCase());
-        if (direction == null) {
+        if (direction == null) 
+        {
             throw new IllegalArgumentException("Invalid direction. Valid options are: left, right, up, down");
         }
 
         int quantity;
-        try {
+        try 
+        {
             quantity = Integer.parseInt(strQuantity);
-            if (quantity < 0) {
+            if (quantity < 0) 
+            {
                 throw new IllegalArgumentException("Quantity must be a positive number");
             }
-        } catch (NumberFormatException e) {
+        } 
+        catch (NumberFormatException e) 
+        {
             throw new IllegalArgumentException("Quantity must be a valid integer");
         }
 
@@ -54,7 +62,8 @@ public class Game {
     /**
      * @return Current status of the robot
      */
-    public String getStatus() {
+    public String getStatus() 
+    {
         return "Robot is at: " + robot.toString();
     }
 }

@@ -10,16 +10,19 @@ import java.io.PrintStream;
 /**
  * Client for the Robot Game that connects to a server.
  */
-public class GameClient {
+public class GameClient 
+{
     private static final String EXIT_COMMAND = "exit";
     
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         try (
             Socket server = new Socket("localhost", GameServer.PORT);
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
             PrintStream toServer = new PrintStream(server.getOutputStream(), true);
             Scanner consoleIn = new Scanner(System.in)
-        ) {
+        ) 
+        {
             System.out.println("Connected to server!");
 
             // Read welcome message from server if any
@@ -34,19 +37,23 @@ public class GameClient {
             String direction;
             String steps;
             
-            while (true) {
+            while (true) 
+            {
                 System.out.println("Enter the direction and steps separated by ':'");
                 userInput = consoleIn.nextLine();
 
-                if (userInput != null && userInput.trim().equalsIgnoreCase(EXIT_COMMAND)) {
+                if (userInput != null && userInput.trim().equalsIgnoreCase(EXIT_COMMAND)) 
+                {
                     System.out.println("Player has exited game");
                     toServer.println(EXIT_COMMAND);
                     break;
                 }
                 
-                try {
+                try 
+                {
                     String[] split = userInput.split(":");
-                    if (split.length != 2) {
+                    if (split.length != 2) 
+                    {
                         System.out.println("Incorrect input!");
                         continue;
                     }
@@ -60,11 +67,16 @@ public class GameClient {
                     
                     // Receive game status from Server
                     System.out.println(fromServer.readLine());
-                } catch (Exception e) {
-                    System.out.println("Incorrect input! " + e.getMessage());
+                } 
+                catch (Exception e) 
+                {
+                    System.out.println("Incorrect input type! " + e.getMessage());
                 }
             }
-        } catch (IOException e) {
+
+        } 
+        catch (IOException e) 
+        {
             System.out.println("Client error: " + e.getMessage());
         }
     }

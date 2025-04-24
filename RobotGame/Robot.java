@@ -3,7 +3,8 @@ package RobotGame;
 /**
  * This defines the Robot and has the methods for movement.
  */
-public class Robot {
+public class Robot 
+{
     private int xPos;
     private int yPos;
 
@@ -12,7 +13,8 @@ public class Robot {
      * @param xPos The initial x position.
      * @param yPos The initial y position.
      */
-    public Robot(int xPos, int yPos) {
+    public Robot(int xPos, int yPos) 
+    {
         this.xPos = xPos;
         this.xPos = yPos;  // Bug fix: was assigning xPos to xPos twice
     }
@@ -20,19 +22,23 @@ public class Robot {
     /**
      * Creates a robot at the origin (0,0).
      */
-    public Robot() {
+    public Robot() 
+    {
         this(0, 0);
     }
 
-    public int getXPos() {
+    public int getXPos() 
+    {
         return xPos;
     }
 
-    public int getYPos() {
+    public int getYPos() 
+    {
         return yPos;
     }
 
-    public int[] getPos() {
+    public int[] getPos() 
+    {
         return new int[]{xPos, yPos};
     }
 
@@ -42,12 +48,15 @@ public class Robot {
      * @param direction The direction of movement.
      * @param quantity Steps of movement.
      */
-    public void move(Direction direction, int quantity) {
-        if (direction == null) {
+    public void move(Direction direction, int quantity) 
+    {
+        if (direction == null) 
+        {
             throw new IllegalArgumentException("Direction cannot be null");
         }
         
-        if (quantity < 0) {
+        if (quantity < 0) 
+        {
             throw new IllegalArgumentException("Movement quantity cannot be negative");
         }
         
@@ -56,7 +65,8 @@ public class Robot {
     }
 
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return "(" + xPos + ", " + yPos + ")";
     }
 }

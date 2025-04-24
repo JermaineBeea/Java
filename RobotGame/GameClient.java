@@ -55,7 +55,9 @@ public class GameClient
             while (true) 
             {   
                 sleep(seconds);
-                System.out.println("Enter the direction and steps separated by ':'");
+                System.out.println("---------------------");
+                System.out.println("\nEnter the direction and steps separated by space\nExample -> 'Right 3': ");
+                System.out.print("Entry: ");
                 userInput = consoleIn.nextLine();
 
                 if (userInput != null && userInput.trim().equalsIgnoreCase(EXIT_COMMAND)) 
@@ -67,7 +69,7 @@ public class GameClient
                 
                 try 
                 {
-                    String[] split = userInput.split(":");
+                    String[] split = userInput.split(" ");
                     if (split.length != seconds) 
                     {
                         System.out.println("Incorrect input!");

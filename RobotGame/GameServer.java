@@ -76,7 +76,7 @@ public class GameServer
                         
                         try 
                         {
-                            System.out.println("Client has entered\nDirection: " + direction + " | Steps: " + steps);
+                            System.out.println("\nClient has entered\nDirection: " + direction + " | Steps: " + steps);
                             // Send input to game
                             game.playGame(direction, steps);
                             

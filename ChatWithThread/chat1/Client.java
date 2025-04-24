@@ -1,4 +1,6 @@
-package Chat;
+package ChatWithThread.chat1;
+
+
 import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

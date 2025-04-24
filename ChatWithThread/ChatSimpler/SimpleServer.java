@@ -8,7 +8,7 @@ public class SimpleServer {
         int port = 5000;
         
         // Create server socket that accepts connections on all network interfaces
-        ServerSocket serverSocket = new ServerSocket(port, 50, InetAddress.getByName("0.0.0.0"));
+        try(ServerSocket serverSocket = new ServerSocket(port, 50, InetAddress.getByName("0.0.0.0"))){
         System.out.println("Server started on port " + port);
         System.out.println("Server IP address: " + getServerIP());
         
@@ -67,7 +67,9 @@ public class SimpleServer {
                 System.out.println("Client 2 disconnected");
             }
         }).start();
+
     }
+}
     
     // Method to get server's IP address to display for connection info
     private static String getServerIP() {

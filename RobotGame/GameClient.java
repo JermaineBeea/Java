@@ -12,7 +12,20 @@ import java.io.PrintStream;
  */
 public class GameClient 
 {
+    private static final int seconds = 2;
     private static final String EXIT_COMMAND = "exit";
+
+    /**
+     * This static method is intended to delay the output messages.
+     * @param seconds Time in seconds that programs sleeps for.
+     */
+    private static final void sleep(int seconds){
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void main(String[] args) 
     {
@@ -23,13 +36,15 @@ public class GameClient
             Scanner consoleIn = new Scanner(System.in)
         ) 
         {
-            System.out.println("Connected to server!");
-
             // Read welcome message from server if any
-            String serverMessage = fromServer.readLine();
-            System.out.println(serverMessage);
-
+            String serverMessage1 = fromServer.readLine();
+            String serverMessage2 = fromServer.readLine();
+            System.out.println(serverMessage1);
+            sleep(2);
+            System.out.println(serverMessage2);
+            
             // Begin game
+            sleep(seconds);
             System.out.println("Let's begin the game!");
 
             // Main game loop
@@ -38,7 +53,8 @@ public class GameClient
             String steps;
             
             while (true) 
-            {
+            {   
+                sleep(seconds);
                 System.out.println("Enter the direction and steps separated by ':'");
                 userInput = consoleIn.nextLine();
 
@@ -52,7 +68,7 @@ public class GameClient
                 try 
                 {
                     String[] split = userInput.split(":");
-                    if (split.length != 2) 
+                    if (split.length != seconds) 
                     {
                         System.out.println("Incorrect input!");
                         continue;

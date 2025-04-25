@@ -9,19 +9,25 @@ import java.io.PrintStream;
 
 /**
  * Client for the Robot Game that connects to a server.
+ * This class handles user input and communicates with the game server.
+ * It sends move commands and displays the results to the user.
  */
 public class GameClient extends UtilityMethods
 {
-    private static final String SERVER_HOST = "localhost";
-    private static final int SERVER_PORT = 9000;
-    private static final int seconds = 2;
-    private static final String EXIT_COMMAND = "exit";
+    private static final String SERVER_HOST = "localhost";  // Server hostname
+    private static final int SERVER_PORT = 9000;            // Server port 
+    private static final int seconds = 2;                   // Delay for messages in seconds
+    private static final String EXIT_COMMAND = "exit";      // Command to end the game
 
-    
+    /**
+     * Main method that starts the client, connects to the server, and handles user input.
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) 
     {
         System.out.println("Connecting to server at " + SERVER_HOST + ":" + SERVER_PORT + "...");
         try (
+            // Establish connection with the game server
             Socket server = new Socket("localhost", GameServer.PORT);
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
             PrintStream toServer = new PrintStream(server.getOutputStream(), true);
@@ -35,7 +41,7 @@ public class GameClient extends UtilityMethods
             // Begin game
             delayPrint(seconds, "Let's begin the game!");
 
-            // Main game loop
+            // Main game loop - process user input until exit
             String userInput;
             while (true) 
             {   
@@ -45,16 +51,17 @@ public class GameClient extends UtilityMethods
                 System.out.print("Entry: ");
                 userInput = consoleIn.nextLine();
 
+                // Check if user wants to exit
                 if (userInput != null && userInput.trim().equalsIgnoreCase(EXIT_COMMAND)) 
                 {
                     System.out.println("Player has exited game");
                     toServer.println(EXIT_COMMAND);
                     break;
                 }              
-                // Send to server
+                // Send user input to server
                 toServer.println(userInput);  
                 
-                // Recieve Robot status or Error Message from Server
+                // Receive and display robot status or error message from server
                 System.out.println(fromServer.readLine());
             }
         } 

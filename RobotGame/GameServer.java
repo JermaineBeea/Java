@@ -10,15 +10,20 @@ import java.io.PrintStream;
 
 /**
  * Server for the Robot game that handles a single client connection.
+ * This class creates a socket server that listens for client commands to move the robot.
+ * The server accepts commands in the format "Direction steps" (e.g., "Right 3").
  */
 public class GameServer extends UtilityMethods
 {
-    private static final int seconds = 2;
-    public static final int PORT = 9000;
-    private static final String EXIT_COMMAND = "exit";
-    private static final Game game = new Game();
+    private static final int seconds = 2;         // Delay time for messages in seconds
+    public static final int PORT = 9000;          // Server port number
+    private static final String EXIT_COMMAND = "exit";  // Command to terminate the connection
+    private static final GameHandler game = new GameHandler();  // Game instance that manages the robot
 
-
+    /**
+     * Main method that starts the server and handles client connections.
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) 
     {
         try (ServerSocket server = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))) 
@@ -28,7 +33,7 @@ public class GameServer extends UtilityMethods
 
             // Accept a single client connection
             try (
-                Socket client = server.accept();
+                Socket client = server.accept();  // Blocks until a client connects
                 BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 PrintStream toClient = new PrintStream(client.getOutputStream(), true)
             ) 
@@ -36,16 +41,18 @@ public class GameServer extends UtilityMethods
                 // Begin game
                 delayPrint(seconds, "Awaiting client input...");
                 
-                String direction;
-                String steps;
+                String direction;  // Direction for robot movement
+                String steps;      // Number of steps to move
                 String clientInput;
                 
+                // Main server loop - processes client commands until exit
                 while (true) 
                 {
                     try 
                     {
                         clientInput = fromClient.readLine();
                         
+                        // Check if client has disconnected or sent exit command
                         if (clientInput == null || EXIT_COMMAND.equals(clientInput)) 
                         {
                             System.out.println("Player has exited game");
@@ -54,6 +61,7 @@ public class GameServer extends UtilityMethods
 
                         try
                         {
+                            // Parse the client input - should be in format "Direction steps"
                             String[] split = clientInput.split(" ");
                             if(!(split.length == 2))
                             {
@@ -62,22 +70,21 @@ public class GameServer extends UtilityMethods
                             }
                             else
                             {
-                                // Get Direction and Steps.
+                                // Get Direction and Steps
                                 direction = split[0];
                                 steps = split[1];
                                 
-                                // Send input from client, then send back to client game output back to Client
+                                // Process the game move and send result back to client
                                 toClient.println(game.playGame(direction, steps));
                                 System.out.println("\nClient has entered: " + clientInput);
                             }
                         }
                         catch(Exception e)                
                         {
+                            // Handle any errors in processing client input
                             toClient.println("Invalid Input!: " + e.getMessage());
                             System.out.println("\nClient has entered Invalid entry: " + clientInput);
                         }   
-
-                        
                     } 
                     catch (IOException e) 
                     {
@@ -92,6 +99,4 @@ public class GameServer extends UtilityMethods
             System.err.println("Server error: " + e.getMessage());
         }
     }
-
 }
-

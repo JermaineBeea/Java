@@ -1,4 +1,4 @@
-package RobotGame;
+package RobotGame0;
 
 /**
  * Represents possible movement directions for the robot.
@@ -24,12 +24,5 @@ public enum Direction
     public int getYUnitChange() 
     {
         return yUnitChange;
-    }
-
-    public static void main(String[] args) {
-        
-        Direction direction = Direction.UP;
-        System.out.println(direction.getXUnitChange());
-
     }
 }

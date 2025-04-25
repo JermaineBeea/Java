@@ -1,4 +1,4 @@
-package RobotGame;
+package RobotGame0;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class Game
      * @param strQuantity The number of steps to move
      * @throws IllegalArgumentException if the direction is invalid or quantity is not a positive integer
      */
-    public String playGame(String strDirection, String strQuantity) 
+    public void playGame(String strDirection, String strQuantity) 
     {
         Direction direction = DIRECTION_MAP.get(strDirection.toLowerCase());
         if (direction == null) 
@@ -53,12 +53,17 @@ public class Game
         } 
         catch (NumberFormatException e) 
         {
-            throw new IllegalArgumentException ("Quantity must be a valid integer");
+            throw new IllegalArgumentException("Quantity must be a valid integer");
         }
 
         robot.move(direction, quantity);
-
-        return "Robot is at: " + robot.toString();
     }
 
+    /**
+     * @return Current status of the robot
+     */
+    public String getStatus() 
+    {
+        return "Robot is at: " + robot.toString();
+    }
 }

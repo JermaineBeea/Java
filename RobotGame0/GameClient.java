@@ -1,4 +1,4 @@
-package RobotGame;
+package RobotGame0;
 
 import java.net.Socket;
 import java.io.BufferedReader;
@@ -49,6 +49,9 @@ public class GameClient
 
             // Main game loop
             String userInput;
+            String direction;
+            String steps;
+            
             while (true) 
             {   
                 sleep(seconds);
@@ -62,13 +65,33 @@ public class GameClient
                     System.out.println("Player has exited game");
                     toServer.println(EXIT_COMMAND);
                     break;
-                }              
-                // Send to server
-                toServer.println(userInput);  
+                }
                 
-                // Recieve Robot status or Error Message from Server
-                System.out.println(fromServer.readLine());
+                try 
+                {
+                    String[] split = userInput.split(" ");
+                    if (split.length != seconds) 
+                    {
+                        System.out.println("Incorrect input!");
+                        continue;
+                    }
+                    
+                    direction = split[0];
+                    steps = split[1];
+                    
+                    // Send direction and steps to Server
+                    toServer.println(direction);
+                    toServer.println(steps);
+                    
+                    // Receive game status from Server
+                    System.out.println(fromServer.readLine());
+                } 
+                catch (Exception e) 
+                {
+                    System.out.println("Incorrect input type! " + e.getMessage());
+                }
             }
+
         } 
         catch (IOException e) 
         {

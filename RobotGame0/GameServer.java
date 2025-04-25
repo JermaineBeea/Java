@@ -1,4 +1,4 @@
-package RobotGame;
+package RobotGame0;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -69,34 +69,24 @@ public class GameServer
                             System.out.println("Player has exited game");
                             break;
                         }
-
-                        try
-                        {
-                            String[] split = clientInput.split(" ");
-                            if(!(split.length == 2))
-                            {
-                                toClient.println("Invalid Input!: Use format 'Direction steps'");
-                                System.out.println("\nClient has entered Invalid entry: " + clientInput);
-                            }
-                            else
-                            {
-                                // Get Direction and Steps.
-                                direction = split[0];
-                                steps = split[1];
-                                
-                                // Send input from client, then send back to client game output back to Client
-                                toClient.println(game.playGame(direction, steps));
-
-                                System.out.println("\nClient has entered: " + clientInput);
-                            }
-                        }
-                        catch(Exception e)                
-                        {
-                            toClient.println("Invalid Input!: " + e.getMessage());
-                            System.out.println("\nClient has entered Invalid entry: " + clientInput);
-                        }   
-
                         
+                        // Receive input from Client
+                        direction = clientInput;
+                        steps = fromClient.readLine();
+                        
+                        try 
+                        {
+                            System.out.println("\nClient has entered\nDirection: " + direction + " | Steps: " + steps);
+                            // Send input to game
+                            game.playGame(direction, steps);
+                            
+                            // Send game output to Client
+                            toClient.println(game.getStatus());
+                        } 
+                        catch (Exception e) 
+                        {
+                            toClient.println("Error: " + e.getMessage());
+                        } 
                     } 
                     catch (IOException e) 
                     {

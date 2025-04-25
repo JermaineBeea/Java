@@ -10,25 +10,17 @@ import java.io.PrintStream;
 /**
  * Client for the Robot Game that connects to a server.
  */
-public class GameClient 
+public class GameClient extends UtilityMethods
 {
+    private static final String SERVER_HOST = "localhost";
+    private static final int SERVER_PORT = 9000;
     private static final int seconds = 2;
     private static final String EXIT_COMMAND = "exit";
 
-    /**
-     * This static method is intended to delay the output messages.
-     * @param seconds Time in seconds that programs sleeps for.
-     */
-    private static final void sleep(int seconds){
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     
     public static void main(String[] args) 
     {
+        System.out.println("Connecting to server at " + SERVER_HOST + ":" + SERVER_PORT + "...");
         try (
             Socket server = new Socket("localhost", GameServer.PORT);
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
@@ -36,22 +28,18 @@ public class GameClient
             Scanner consoleIn = new Scanner(System.in)
         ) 
         {
-            // Read welcome message from server if any
-            String serverMessage1 = fromServer.readLine();
-            String serverMessage2 = fromServer.readLine();
-            System.out.println(serverMessage1);
-            sleep(2);
-            System.out.println(serverMessage2);
-            
+            // Inform clients that they are connected
+            delayPrint(seconds, "Connected Successfully!");
+            delayPrint(seconds, "Welcome to Robot Game");
+                        
             // Begin game
-            sleep(seconds);
-            System.out.println("Let's begin the game!");
+            delayPrint(seconds, "Let's begin the game!");
 
             // Main game loop
             String userInput;
             while (true) 
             {   
-                sleep(seconds);
+                delay(1);
                 System.out.println("---------------------");
                 System.out.println("\nEnter the direction and steps separated by space\nExample -> 'Right 3': ");
                 System.out.print("Entry: ");

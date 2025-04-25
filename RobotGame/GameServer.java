@@ -11,32 +11,20 @@ import java.io.PrintStream;
 /**
  * Server for the Robot game that handles a single client connection.
  */
-public class GameServer 
+public class GameServer extends UtilityMethods
 {
     private static final int seconds = 2;
     public static final int PORT = 9000;
     private static final String EXIT_COMMAND = "exit";
     private static final Game game = new Game();
 
-    /**
-     * This static method is intended to delay the output messages.
-     * @param seconds Time in seconds program delays for.
-     */
-    private static final void delay(int seconds){
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) 
     {
         try (ServerSocket server = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))) 
         {
             System.out.println("Server started on port " + PORT);
-            delay(seconds);
-            System.out.println("Waiting for client connection...");
+            delayPrint(seconds, "Waiting for client connection...");
 
             // Accept a single client connection
             try (
@@ -45,14 +33,8 @@ public class GameServer
                 PrintStream toClient = new PrintStream(client.getOutputStream(), true)
             ) 
             {
-                // Inform clients that they are connected
-                toClient.println("You are connected to the Game Server!");
-                toClient.println("Welcome to Robot Game!");
-                System.out.println("Client connected from: " + client.getInetAddress().getHostAddress());
-                
                 // Begin game
-                delay(seconds);
-                System.out.println("Awaiting client input...");
+                delayPrint(seconds, "Awaiting client input...");
                 
                 String direction;
                 String steps;
@@ -86,7 +68,6 @@ public class GameServer
                                 
                                 // Send input from client, then send back to client game output back to Client
                                 toClient.println(game.playGame(direction, steps));
-
                                 System.out.println("\nClient has entered: " + clientInput);
                             }
                         }

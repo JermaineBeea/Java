@@ -13,8 +13,7 @@ public class Server {
     public static void main(String[] args) throws InterruptedException{
 
         System.out.println("Connected to Port");
-        Thread.sleep(1);
-        System.out.println("Waiting fro clients\n");
+        System.out.println("Waiting for clients\n");
 
         try (ServerSocket server = new ServerSocket(3000)) {
             new Thread(() -> 

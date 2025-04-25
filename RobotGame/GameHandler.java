@@ -38,7 +38,7 @@ public class GameHandler
      * @param strDirection The direction to move (left, right, up, down - case insensitive)
      * @param steps The number of steps to move (must be a positive integer)
      * @return A string indicating the robot's new position
-     * @throws IllegalArgumentException if the direction is invalid or quantity is not a positive integer
+     * @throws IllegalArgumentException if the direction is invalid or intSteps is not a positive integer
      */
     public String playGame(String strDirection, String steps) 
     {
@@ -49,23 +49,23 @@ public class GameHandler
             throw new IllegalArgumentException("Invalid direction. Valid options are: left, right, up, down");
         }
 
-        // Parse and validate the quantity (steps)
-        int quantity;
+        // Parse and validate the intSteps (steps)
+        int intSteps;
         try 
         {
-            quantity = Integer.parseInt(steps);
-            if (quantity < 0) 
+            intSteps = Integer.parseInt(steps);
+            if (intSteps < 0) 
             {
-                throw new IllegalArgumentException("Quantity must be a positive number");
+                throw new IllegalArgumentException("Steps must be a positive number");
             }
         } 
         catch (NumberFormatException e) 
         {
-            throw new IllegalArgumentException("Quantity must be a valid integer");
+            throw new IllegalArgumentException("Steps must be a valid integer");
         }
 
         // Move the robot and return its new position
-        robot.move(direction, quantity);
+        robot.move(direction, intSteps);
         return "Robot is at: " + robot.toString();
     }
 }

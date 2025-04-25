@@ -36,11 +36,11 @@ public class GameHandler
      * Validates the input, moves the robot accordingly, and returns the new position.
      * 
      * @param strDirection The direction to move (left, right, up, down - case insensitive)
-     * @param strQuantity The number of steps to move (must be a positive integer)
+     * @param steps The number of steps to move (must be a positive integer)
      * @return A string indicating the robot's new position
      * @throws IllegalArgumentException if the direction is invalid or quantity is not a positive integer
      */
-    public String playGame(String strDirection, String strQuantity) 
+    public String playGame(String strDirection, String steps) 
     {
         // Convert string direction to Direction enum
         Direction direction = DIRECTION_MAP.get(strDirection.toLowerCase());
@@ -53,7 +53,7 @@ public class GameHandler
         int quantity;
         try 
         {
-            quantity = Integer.parseInt(strQuantity);
+            quantity = Integer.parseInt(steps);
             if (quantity < 0) 
             {
                 throw new IllegalArgumentException("Quantity must be a positive number");

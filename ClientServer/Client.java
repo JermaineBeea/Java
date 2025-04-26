@@ -33,16 +33,19 @@ public class Client{
 
             // Send messages to Server
             String message;
-            while(((message == null) ? "": message.trim().toLowerCase()).equalsIgnoreCase("exit"))
-            {
+            while (true) {
+                message = consoleIn.nextLine();
+                if (message.equalsIgnoreCase("exit"))
+                    break;
                 toServer.println(message);
             }
+            
 
         }catch(IOException e){
-            System.out.println("Cleint Error: " + e.getMessage());
+            System.out.println("Client Error: " + e.getMessage());
         }finally{
             try{
-                serve.close()
+                server.close();
             }catch(Exception e){
                 System.out.println("Error occured while closing resources: " + e.getMessage());
             }

@@ -9,97 +9,106 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-public class Server{
+public class Server {
     private static final String IP = getServerIp();
     private static final int PORT = 9000;
-    private static BufferedReader fromClient;
-    private static PrintWriter toClient;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         System.out.println("Attempting connection to " + IP + ":" + PORT + "...");
+        ServerSocket server = null;
 
-        try
-        {
-            ServerSocket server = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
-            System.out.println("Connected succesfully to Port " + PORT + "\nWaiting for Clients to connected...");
+        try {
+            server = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
+            System.out.println("Connected successfully to Port " + PORT + "\nWaiting for Clients to connect...");
 
             // Main thread to accepts client connections.
             int clientcount = 1;
-            while(true)
-            {
+            while(true) {
                 Socket client = server.accept();
-                System.out.println("Client " + clientcount + ", is connected from: " + client.getPort());
+                System.out.println("Client " + clientcount + ", is connected from: " + client.getRemoteSocketAddress());
+                
+                // Thread to handle each Client separately.
+                final int currentClientId = clientcount;
+                new Thread(() -> handleClient(client, currentClientId)).start();
+                
                 clientcount++;
-
-                // Thread to handle each Client seperately.
-                new Thread(()-> handleClient(client, clientcount)).start();
             }
 
-        }catch(IOException e){
-            System.out.println("Server Error: Unable to connect" + e.getMessage());
-        }finally{
-            try{
-                server.close();
-            }catch(IOException e){
-                System.out.println("Could not close resources" + e.getMessage());
+        } catch(IOException e) {
+            System.out.println("Server Error: Unable to connect: " + e.getMessage());
+        } finally {
+            if (server != null && !server.isClosed()) {
+                try {
+                    server.close();
+                } catch(IOException e) {
+                    System.out.println("Could not close server: " + e.getMessage());
+                }
             }
         }
     }
 
-    private static final void handleClient(Socket client, int clientcount)
-    {   
-        String name;
+    private static void handleClient(Socket client, int clientId) {   
+        String name = "Unknown";
         String clientMessage;
-        try
-        {
+        BufferedReader fromClient = null;
+        PrintWriter toClient = null;
+        
+        try {
             fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
             toClient = new PrintWriter(client.getOutputStream(), true);
 
             // Retrieve name from client.
             name = fromClient.readLine();
-            System.out.println(name + "[" + "client " + clientcount + "], is connected.");
-            System.out.println("Waiting to recieve messages from " + name + "...");
-            while(client.isConnected())
-            {
-                // Recive Messages from Client.
+            System.out.println(name + " [client " + clientId + "], is connected.");
+            System.out.println("Waiting to receive messages from " + name + "...");
+            
+            while(!client.isClosed()) {
+                // Receive Messages from Client.
                 clientMessage = fromClient.readLine();
-                System.out.println("\n"+ name + "[" + "client " + clientcount + "]" + clientMessage);
+                if (clientMessage == null) {
+                    // Client disconnected
+                    break;
+                }
+                System.out.println("\n" + name + " [client " + clientId + "]: " + clientMessage);
             }
 
-        }catch(IOException e){
-            System.out.println("Error connecting client" + e.getMessage());
-        }finally{
-            try{ 
-                fromClient.close();
-                toClient.close();
-            }catch(IOException e){
-                System.out.println("Error: " + e.getMessage());
+        } catch(IOException e) {
+            System.out.println("Error handling client " + clientId + ": " + e.getMessage());
+        } finally {
+            System.out.println(name + " [client " + clientId + "] disconnected.");
+            
+            try {
+                if (fromClient != null) fromClient.close();
+                if (toClient != null) toClient.close();
+                if (client != null && !client.isClosed()) client.close();
+            } catch(IOException e) {
+                System.out.println("Error closing client resources: " + e.getMessage());
             }
         }
     }
 
-
-    private static final String getServerIp()
-    {
-        try
-        {
-            // Find non-local Ip address.
-            Socket serversocket = new Socket("8.8.8.8", 53);
-            return serversocket.getLocalAddress().getHostAddress();
-        }catch(IOException e){
-           try{
-            // Find local IP address.
+    private static String getServerIp() {
+        Socket tempSocket = null;
+        
+        try {
+            // Find non-local IP address.
+            tempSocket = new Socket("8.8.8.8", 53);
+            return tempSocket.getLocalAddress().getHostAddress();
+        } catch(IOException e) {
+            try {
+                // Find local IP address.
                 return InetAddress.getLocalHost().getHostAddress();
-           }catch(UnknownHostException ex){
-                System.out.println("Cannot find IP Address" + ex.getMessage());
-           }
-        }finally{
-            try{
-                serversocket.close();
+            } catch(UnknownHostException ex) {
+                System.out.println("Cannot find IP Address: " + ex.getMessage());
                 return "localhost";
-            }catch(Exception e){
-                System.out.println("Error: " + e.getMessage());
+            }
+        } finally {
+            if (tempSocket != null) {
+                try {
+                    tempSocket.close();
+                } catch(IOException e) {
+                    System.out.println("Error closing temp socket: " + e.getMessage());
+                }
             }
         }
     }

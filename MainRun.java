@@ -20,7 +20,6 @@ public class MainRun {
             e.printStackTrace();
         }
 
-        int num = 5;
         
     }
 }

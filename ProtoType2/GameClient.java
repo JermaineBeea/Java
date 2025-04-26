@@ -1,4 +1,4 @@
-package RobotGame;
+package ProtoType2;
 
 import java.net.Socket;
 import java.io.BufferedReader;

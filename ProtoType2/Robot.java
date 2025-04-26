@@ -1,4 +1,4 @@
-package RobotGame;
+package ProtoType2;
 
 /**
  * This class defines a Robot and provides methods for movement in a 2D coordinate system.

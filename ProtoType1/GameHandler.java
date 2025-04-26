@@ -1,4 +1,4 @@
-package RobotGame;
+package ProtoType1;
 
 import java.util.HashMap;
 import java.util.Map;

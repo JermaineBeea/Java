@@ -1,4 +1,4 @@
-package RobotGame;
+package ProtoType2;
 
 /**
  * Represents possible movement directions for the robot in a 2D coordinate system.

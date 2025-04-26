@@ -1,4 +1,4 @@
-package RobotGame;
+package ProtoType1;
 
 import java.net.ServerSocket;
 import java.net.Socket;

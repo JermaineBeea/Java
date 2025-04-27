@@ -11,9 +11,9 @@ public class MainRun {
             Thread.sleep(100);
 
             // Now start the client
-            try (Socket server = new Socket("localhost", 9000)) {
+            try (Socket server = new Socket("localhost", 9000)){
                 System.out.println("Client connected to server!");
-            } catch (Exception e) {
+            } catch (Exception e){
                 e.printStackTrace();
             }
         } catch (InterruptedException e) {

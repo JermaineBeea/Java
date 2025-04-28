@@ -19,6 +19,7 @@ public class Server {
 
         try {
             server = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
+            System.out.println(InetAddress.getByName("0.0.0.0"));
             System.out.println("Connected successfully to Port " + PORT + "\nWaiting for Clients to connect...");
 
             // Main thread to accepts client connections.

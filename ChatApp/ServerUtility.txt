@@ -1,0 +1,52 @@
+package ChatApp;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import static AllClients.*;
+
+/**
+* The methods used in the ServerSide class.
+*/
+public class ServerUtility{
+
+    /**
+    * Recieves client-socket with Id, and passes to class 'AllClients'
+    * @param clientId The client Id, which is the order of the client being accepted.
+    * @param client The instance of 'CLient'class.
+    */
+    public static void clientHandler(int clientID, Socket clientsocket){
+        
+        // Set up input-output resources
+        DataInputStream FromClient = new DataInputStream(clientsocket.getInputSteam());
+        DataOutputStream ToClient = new DataOutputStream(clientsocket.getOutputStream());
+
+        // Recieve name from client and pass client-socket, clientID and name, to Client instance.
+        System.out.println("Waiting to recieve name from client " + clientcount + "...");
+        String clientname = FromClient.readUTF();
+        Client client = new Client(clientID, clientname, clientsocket);
+
+        // Pass client instance to set of clients.
+        addClient(client);
+    }
+
+    /**
+    * Delays the program before a message.
+    * @param seconds Seconds of delay before printing message.
+    * @param String to be printed.
+    */
+    public static void delayPrint(int seconds, String outputstring){
+        try{
+            Thread.sleep(seconds * 1000);
+            System.out.println(outputstring);
+        }catch(InterruptedException e){
+            System.out.println("Error delaying print: " + e.getMessage())
+        }
+    }
+
+}

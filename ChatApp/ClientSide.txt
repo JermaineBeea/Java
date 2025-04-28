@@ -1,0 +1,10 @@
+import java.net.Socket;
+import java.io.IOException;
+
+public class ClientSide{
+    private static final int SERVERPORT = 1700;
+
+    public static void main(String[] args){
+        System.out.println("");
+    }
+}

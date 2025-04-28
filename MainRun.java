@@ -25,6 +25,10 @@ public class MainRun {
     }
 }
 
+/**
+ * @return str:main
+ */
+
 class Server {
     public static void runClient() { 
         try (ServerSocket server = new ServerSocket(9000)) {

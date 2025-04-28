@@ -1,0 +1,49 @@
+package ChatApp;
+
+import java.net.Socket;
+
+/**
+* Class of each client connected to Server.
+*/
+public class Client extends {
+
+    private int clientId;
+    private String name;
+    private Socket clientsocket;
+
+    /**
+    * Constructor to initialise fields - name, clientId and clientsocket.
+    * @param clientId Unique Id of each client
+    * @param name Client name.
+    * @param clientsocket socket of connection to server.
+    */
+    public Client(int clientId, String name, Socket clientsocket){
+        this.clientId = clientId;
+        this.name = name;
+        this.clientsocket = clientsocket;
+    }
+
+    /** 
+    * Retrieval method.
+    * @returns: The ID of the client.
+    */
+    public int getClientID(){
+        return clientId;
+    }
+
+    /**
+    * Retrieval method.
+    * @return Name of client
+    */
+    public String getClientName(){
+        return name;
+    }
+
+    /**
+    * Retrieval method.
+    * @return Client's connection-socket to server.
+    */
+    public Socket getClientSocket(){
+        return clientsocket;
+    }
+}

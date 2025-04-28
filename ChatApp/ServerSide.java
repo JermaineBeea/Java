@@ -5,7 +5,10 @@ import java.net.Socket;
 import java.net.InetAddress;
 import java.io.IOException;
 
-public class ServerSide extends ServerUtility{
+import static  ChatApp.ServerUtility.getServerIp;
+import static ChatApp.ServerUtility.delayPrint;
+
+public class ServerSide {
 
     private static final int serverPort = 1100;
     private static final int backLog = 50;
@@ -25,7 +28,6 @@ public class ServerSide extends ServerUtility{
                 Socket clientsocket = server.accept();
                 final int clientID = clientcount;
                 new Client(clientID, clientsocket, "");
-    
                 System.out.println("Client " + clientcount + ", is connected!");
                 delayPrint(1, "Waiting to recieve name from client " + clientcount + "...");
                 clientcount++;

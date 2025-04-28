@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.net.Socket;
 
+@SuppressWarnings("unused")
 public class Client2 {
     private static final int SERVERPORT = 9000;
 

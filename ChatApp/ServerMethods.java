@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 /**
  * The methods used in the ServerSide class.
  */

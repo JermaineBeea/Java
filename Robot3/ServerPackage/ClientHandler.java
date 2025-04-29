@@ -1,9 +1,16 @@
-package ClientPackage;
+package ServerPackage;
+
+import static UtilityModules.PrintMethods.delayPrint;
+import static UtilityModules.PrintMethods.delayPrintWipe;
+import static UtilityModules.PrintMethods.delayPrint;
+import static UtilityModules.PrintMethods.iteratingMessage;
 
 import java.io.*;
 import java.net.*;
 
-// @SuppressWarnings("unused")
+import ClientPackage.Client;
+import UtilityModules.PrintMethods.*;
+
 /**
  * The methods used in the ServerSide class.
  */
@@ -16,7 +23,7 @@ public class ClientHandler {
      */
     public static void clientHandler(int clientId, Socket clientSocket) {
 
-        System.out.println("Waiting to recieve name from client " + clientId + "...");
+        delayPrintWipe("Waiting to recieve name from client " + clientId + "...");
 
         try(
             // Set up input-output resources.
@@ -25,12 +32,22 @@ public class ClientHandler {
         ){
             // Retrieve name from client.
             String clientname = fromClient.readUTF();
-            System.out.println("Name recieved from client!");
+            System.out.println(" ");
+            delayPrint("Name recieved from client " + clientId);
+            delayPrintWipe("Waiting for client response to start game...");
 
             // Recieve client answer if they wish to play game.
             String clientResponse = fromClient.readUTF();
             if(clientSocket.isConnected() && clientResponse.trim().toLowerCase().equals("yes")){
                 // Create insance of Robot Class
+            }else{
+                delayPrintWipe("Client" + clientId + ", has been disconnected!");
+                delayPrint("");
+                iteratingMessage(3, ".", "Closing client connecting");
+                delayPrintWipe("Waiting for other clients...");
+                if(clientSocket.isConnected()){
+                    clientSocket.close();
+                }
             }
 
             // Create an instance of the "Client" class.
@@ -39,7 +56,7 @@ public class ClientHandler {
             // Pass instance of Client to set of all clients.
                 
         }catch(IOException e){
-            System.out.println("ClientHandler Error: " + e.getMessage());
+            delayPrint("\nClientHandler Error: " + e.getMessage());
         }
     }
     

@@ -5,6 +5,16 @@ package UtilityModules;
  */
 public class PrintMethods {
 
+    public static void clearTerminal() {
+        System.out.print("\033[H\033[2J");  // ANSI escape code to clear screen
+        System.out.flush();  // Make sure it's applied immediately
+    }
+
+    public static void main(String[] args) {
+        delayPrint("Hi there pal");
+        delayPrint("\nHow are you doing");
+    }
+
     /**
      * Waits for a specified time, then prints a message character by character.
      * 
@@ -12,7 +22,7 @@ public class PrintMethods {
      * @param charDelayMillis Delay in milliseconds between each character
      * @param outputString Message to be printed
      */
-    public static void delaySlowPrint(int initialDelayMillis, int charDelayMillis, String outputString) {
+    public static void delayPrint(int initialDelayMillis, int charDelayMillis, String outputString) {
         try {
             Thread.sleep(initialDelayMillis);
             printSlowly(charDelayMillis, outputString);
@@ -21,6 +31,32 @@ public class PrintMethods {
             Thread.currentThread().interrupt(); // Restore interrupt status
         }
     }
+
+    public static void delayPrintWipe(String outputString) {
+        try {
+            Thread.sleep(2000);
+            clearTerminal();  // Clear the entire terminal
+            printSlowly(45, outputString);
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            System.err.println("Error delaying print: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void delayPrint(String outputString) {
+        int strsize = outputString.length();
+        try {
+            Thread.sleep(1000);
+            printSlowly(45, outputString);
+        } catch (InterruptedException e) {
+            System.err.println("Error delaying print: " + e.getMessage());
+            Thread.currentThread().interrupt(); // Restore interrupt status
+        }
+    }
+
+
+
 
     /**
      * Print a message slowly, character by character
@@ -40,21 +76,22 @@ public class PrintMethods {
         }
     }
     
-    /**
-     * Delays the program, then prints a message on a new line.
-     * 
-     * @param delayMillis Milliseconds of delay before printing message
-     * @param outputString String to be printed
-     */
-    public static void delayPrint(int delayMillis, String outputString) {
-        try {
-            Thread.sleep(delayMillis);
-            System.out.println(outputString);
-        } catch (InterruptedException e) {
-            System.err.println("Error delaying print: " + e.getMessage());
-            Thread.currentThread().interrupt(); // Restore interrupt status
-        }
-    }
+    // /**
+    //  * Delays the program, then prints a message on a new line.
+    //  * 
+    //  * @param delayMillis Milliseconds of delay before printing message
+    //  * @param outputString String to be printed
+    //  */
+    // public static void delayPrint(int delayMillis, String outputString) {
+    //     try {
+    //         Thread.sleep(delayMillis);
+    //         System.out.println(outputString);
+    //     } catch (InterruptedException e) {
+    //         System.err.println("Error delaying print: " + e.getMessage());
+    //         Thread.currentThread().interrupt(); // Restore interrupt status
+    //     }
+    // }
+
 
     /**
      * Delays the program, then prints a message with or without a new line.

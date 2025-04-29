@@ -1,14 +1,13 @@
-package ServerPackage;
+package ClientPackage;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 /**
  * The methods used in the ServerSide class.
  */
-public class ServerMethods {
+public class ClientHandler {
 
     /**
      * Handles a new client connection, creating a new client instance and starting message handling.
@@ -28,6 +27,17 @@ public class ServerMethods {
             String clientname = fromClient.readUTF();
             System.out.println("Name recieved from client!");
 
+            // Recieve client answer if they wish to play game.
+            String clientResponse = fromClient.readUTF();
+            if(clientSocket.isConnected() && clientResponse.trim().toLowerCase().equals("yes")){
+                // Create insance of Robot Class
+            }
+
+            // Create an instance of the "Client" class.
+            Client client = new Client(clientId, clientname, clientSocket);
+
+            // Pass instance of Client to set of all clients.
+                
         }catch(IOException e){
             System.out.println("ClientHandler Error: " + e.getMessage());
         }

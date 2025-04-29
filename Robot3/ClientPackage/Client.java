@@ -10,4 +10,10 @@ public class Client {
     private int Identification;
     private Socket cleintsocket;
     private Robot robot;
+
+    public Client(int clientID, String name, Socket clienSocket){
+        this.Identification = clientID;
+        this.name = name;
+        this.cleintsocket = clienSocket;
+    }
 }

@@ -5,8 +5,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.io.IOException;
 
+import static ClientPackage.ClientHandler.*;
 import static UtilityModules.PrintMethods.*;
-import static ServerPackage.ServerMethods.*;
 
 public class ServerSide {
 

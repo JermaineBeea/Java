@@ -105,12 +105,12 @@ public class PrintMethods {
      * @param message The base message to display
      * @param character The character to repeat for animation
      */
-    public static void waitingMessage(String message, String character) {    
+    public static void iteratingMessage(int iterations, String character, String message) {    
         try {
-            for (int n = 1; n <= 3; n++) {
+            for (int n = 1; n <= iterations; n++) {
                 String currentMessage = message + character.repeat(n);
                 System.out.print("\r" + currentMessage);
-                Thread.sleep(300);
+                Thread.sleep(500);
             }
             // Clear the line after completing the animation
             System.out.print("\r" + " ".repeat(message.length() + 3) + "\r");

@@ -19,11 +19,13 @@ public class ClientSide {
 
         delayPrintWipe("Establishing connection to Server at (" + SERVERIP + ":" + SERVERPORT + ")");
 
-        try (Socket serversocket = new Socket(SERVERIP, SERVERPORT)) {
+        try (
+            Socket serversocket = new Socket(SERVERIP, SERVERPORT);
+            Scanner consoleIn = new Scanner(System.in)
+            ) {
             // Set up input-ouuput resources
             DataInputStream fromServer = new DataInputStream(serversocket.getInputStream());
             DataOutputStream toServer = new DataOutputStream(serversocket.getOutputStream());
-            Scanner consoleIn = new Scanner(System.in);
 
             delayPrint("\nConnected Successfully!");
             delayPrintWipe("Welcome to the Server!");
@@ -36,8 +38,8 @@ public class ClientSide {
             toServer.writeUTF(clientname);
             
             delayPrintWipe("\nHi " + clientname + "!");
-            delayPrintWipe("Do you want to start the game?");
-            delayPrint("\nType 'yes' to start game: ");
+            delayPrintWipe("Do you want to start the game?: ");
+            // delayPrint("\nType 'yes' to start game: ");
 
             String clientInput = consoleIn.nextLine();
             toServer.writeUTF(clientInput);
@@ -48,9 +50,8 @@ public class ClientSide {
             }else{
                 //TODO: COMPLETE GAME IMPLEMENTATION
                 System.out.println();
-                while(true){
-                    iteratingMessage(3, ".", "Starting game");
-                }
+                iteratingMessage(3, ".", "Starting game");
+                
             }
             // Send client Name to Server.
             toServer.writeUTF(clientname);

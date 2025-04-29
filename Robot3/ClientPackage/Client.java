@@ -1,7 +1,6 @@
 package ClientPackage;
 
 import java.net.Socket;
-
 import RobotPackage.Robot;
 
 public class Client {

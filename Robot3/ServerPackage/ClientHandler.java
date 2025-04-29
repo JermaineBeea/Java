@@ -1,9 +1,6 @@
 package ServerPackage;
 
-import static UtilityModules.PrintMethods.delayPrint;
-import static UtilityModules.PrintMethods.delayPrintWipe;
-import static UtilityModules.PrintMethods.delayPrint;
-import static UtilityModules.PrintMethods.iteratingMessage;
+import static UtilityModules.PrintMethods.*;
 
 import java.io.*;
 import java.net.*;
@@ -14,6 +11,7 @@ import RobotPackage.*;
 /**
  * The methods used in the ServerSide class.
  */
+@SuppressWarnings("unused")
 public class ClientHandler {
 
     /**
@@ -51,10 +49,15 @@ public class ClientHandler {
             }
 
             // Create an instance of the "Client" class, and Robot class.
-            Client client = new Client(clientId, clientname, clientSocket, new Robot());
+            Robot robot = new Robot();
+            Client client = new Client(clientId, clientname, clientSocket, robot);
             
             // Pass instance of Client to set of all clients.
+            // Pass instance of Robot to World
             AllClients.addClient(client);
+            World.addRobot(robot);
+            
+            //
 
         }catch(IOException e){
             delayPrint("\nClientHandler Error: " + e.getMessage());

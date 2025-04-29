@@ -10,11 +10,6 @@ public class PrintMethods {
         System.out.flush();  // Make sure it's applied immediately
     }
 
-    public static void main(String[] args) {
-        delayPrint("Hi there pal");
-        delayPrint("\nHow are you doing");
-    }
-
     /**
      * Waits for a specified time, then prints a message character by character.
      * 
@@ -45,7 +40,6 @@ public class PrintMethods {
     }
 
     public static void delayPrint(String outputString) {
-        int strsize = outputString.length();
         try {
             Thread.sleep(1000);
             printSlowly(45, outputString);
@@ -54,8 +48,6 @@ public class PrintMethods {
             Thread.currentThread().interrupt(); // Restore interrupt status
         }
     }
-
-
 
 
     /**

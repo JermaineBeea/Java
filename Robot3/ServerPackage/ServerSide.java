@@ -1,10 +1,12 @@
-package ClientServer;
+package ServerPackage;
 
-import java.net.*;
-import java.io.*;
+import java.net.ServerSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.io.IOException;
 
-import static ClientServer.PrintMethods.*;
-import static ClientServer.ServerMethods.*;
+import static UtilityModules.PrintMethods.*;
+import static ServerPackage.ServerMethods.*;
 
 public class ServerSide {
 
@@ -16,18 +18,18 @@ public class ServerSide {
 
         try(ServerSocket serversocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
 
-            System.out.println("Successfully connected to Port: " + PORT);
-            delayPrint(true, 2, "Waiting for clients to connect...");
+            delayPrint(2000, "Successfully connected to Port: " + PORT);
+            delayPrint(2000, "Waiting for clients to connect...");
 
             // Connect client with Server.
             int clientcount = 1;
             while (true) {
                 Socket clientsocket = serversocket.accept();
-                System.out.println("Client " + clientcount + ", is connected from: " + clientsocket.getRemoteSocketAddress());
+                System.out.println("\nClient " + clientcount + ", is connected from: " + clientsocket.getRemoteSocketAddress());
 
                 // Pass clientsocket, and client Id to clientHandler.
                 final int clientId = clientcount;
-                clientHandler(clientId, clientsocket);
+                new Thread(()-> clientHandler(clientId, clientsocket)).start();
             }
 
         }catch(IOException e){

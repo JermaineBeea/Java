@@ -1,4 +1,4 @@
-package RobotModules;
+package RobotPackage;
 
 public class Implementation {
     public static void main(String[] args) {

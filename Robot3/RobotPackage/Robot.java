@@ -1,4 +1,4 @@
-package RobotModules;
+package RobotPackage;
 public class Robot extends Position {
     
     private String name;

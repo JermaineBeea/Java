@@ -1,4 +1,4 @@
-package RobotModules;
+package RobotPackage;
 public class Position{
 
     private int xPos;

@@ -1,8 +1,8 @@
-package ClientServer;
+package ClientPackage;
 
 import java.net.Socket;
 
-import RobotModules.Robot;
+import RobotPackage.Robot;
 
 public class Client {
        

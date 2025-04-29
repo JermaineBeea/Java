@@ -36,7 +36,7 @@ public class ClientSide {
             toServer.writeUTF(clientname);
             
             delayPrintWipe("\nHi " + clientname + "!");
-            delayPrint("\nDo you want to start the game?");
+            delayPrintWipe("Do you want to start the game?");
             delayPrint("\nType 'yes' to start game: ");
 
             String clientInput = consoleIn.nextLine();
@@ -56,7 +56,7 @@ public class ClientSide {
             toServer.writeUTF(clientname);
 
         } catch (IOException e) {
-            delayPrint("\nClient Error: " + e.getMessage());
+            delayPrint("\nClientSide Error: " + e.getMessage());
         }
     }
 }

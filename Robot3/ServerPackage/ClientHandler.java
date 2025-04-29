@@ -42,7 +42,7 @@ public class ClientHandler {
                 // Create insance of Robot Class
             }else{
                 delayPrintWipe("Client" + clientId + ", has been disconnected!");
-                delayPrint("");
+                delayPrintWipe("");
                 iteratingMessage(3, ".", "Closing client connecting");
                 delayPrintWipe("Waiting for other clients...");
                 if(clientSocket.isConnected()){

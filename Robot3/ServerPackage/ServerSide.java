@@ -19,7 +19,7 @@ public class ServerSide {
         try(ServerSocket serversocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
 
             delayPrint("\nSuccessfully connected to Port: " + PORT);
-            delayPrint("\nWaiting for clients to connect...");
+            delayPrintWipe("Waiting for clients to connect...");
 
             // Connect client with Server.
             int clientcount = 1;
@@ -34,7 +34,7 @@ public class ServerSide {
             }
 
         }catch(IOException e){
-            delayPrint("\nServer Error: " + e.getMessage());
+            delayPrint("\nServerSide Error: " + e.getMessage());
         }
     }
 }

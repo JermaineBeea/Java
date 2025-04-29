@@ -17,7 +17,7 @@ public class ClientSide {
 
     public static void main(String[] args) {
 
-        delayPrint("Establishing connection to Server at (" + SERVERIP + ":" + SERVERPORT + ")");
+        delayPrintWipe("Establishing connection to Server at (" + SERVERIP + ":" + SERVERPORT + ")");
 
         try (Socket serversocket = new Socket(SERVERIP, SERVERPORT)) {
             // Set up input-ouuput resources
@@ -26,10 +26,10 @@ public class ClientSide {
             Scanner consoleIn = new Scanner(System.in);
 
             delayPrint("\nConnected Successfully!");
-            delayPrint(1000,100, "\n\nWelcome to the Server");
+            delayPrintWipe("Welcome to the Server!");
 
             // Prompt client for name.
-            delayPrintWipe("\nEnter your name: ");
+            delayPrint("\nEnter your name: ");
             String clientname = consoleIn.nextLine();
 
             // Send name to Server.

@@ -1,4 +1,4 @@
-package Robot1;
+package RobotPrototypes.Robot1;
 
 /**
  * Represents possible movement directions for the robot in a 2D coordinate system.

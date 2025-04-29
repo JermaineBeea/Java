@@ -1,4 +1,4 @@
-package Robot1;
+package RobotPrototypes.Robot1;
 /**
  * This static method is intended to delay the output messages.
  * @param seconds Time in seconds program delays for.

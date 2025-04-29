@@ -1,4 +1,4 @@
-package Robot2;
+package RobotPrototypes.Robot2;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package Robot2;
+package RobotPrototypes.Robot2;
 
 /**
  * This class defines a Robot and provides methods for movement in a 2D coordinate system.
@@ -14,8 +14,7 @@ public class Robot
      * @param xPos The initial x position (horizontal axis).
      * @param yPos The initial y position (vertical axis).
      */
-    public Robot(int xPos, int yPos) 
-    {
+    public Robot(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;  
     }
@@ -24,8 +23,7 @@ public class Robot
      * Creates a robot at the origin (0,0).
      * This is a convenience constructor that delegates to the main constructor.
      */
-    public Robot() 
-    {
+    public Robot() {
         this(0, 0);
     }
 
@@ -33,8 +31,7 @@ public class Robot
      * Gets the current X coordinate of the robot.
      * @return The x-coordinate position.
      */
-    public int getXPos() 
-    {
+    public int getXPos() {
         return xPos;
     }
 
@@ -42,8 +39,7 @@ public class Robot
      * Gets the current Y coordinate of the robot.
      * @return The y-coordinate position.
      */
-    public int getYPos() 
-    {
+    public int getYPos() {
         return yPos;
     }
 
@@ -51,8 +47,7 @@ public class Robot
      * Gets both the X and Y coordinates as an array.
      * @return An integer array where index 0 is the x-coordinate and index 1 is the y-coordinate.
      */
-    public int[] getPos() 
-    {
+    public int[] getPos() {
         return new int[]{xPos, yPos};
     }
 
@@ -64,15 +59,12 @@ public class Robot
      * @param quantity Number of steps to move in the specified direction.
      * @throws IllegalArgumentException If direction is null or quantity is negative.
      */
-    public void move(Direction direction, int quantity) 
-    {
-        if (direction == null) 
-        {
+    public void move(Direction direction, int quantity) {
+        if (direction == null) {
             throw new IllegalArgumentException("Direction cannot be null");
         }
         
-        if (quantity < 0) 
-        {
+        if (quantity < 0) {
             throw new IllegalArgumentException("Movement quantity cannot be negative");
         }
         
@@ -85,8 +77,7 @@ public class Robot
      * @return A string in the format "(x, y)" representing the robot's coordinates.
      */
     @Override
-    public String toString() 
-    {
+    public String toString() {
         return "(" + xPos + ", " + yPos + ")";
     }
 }

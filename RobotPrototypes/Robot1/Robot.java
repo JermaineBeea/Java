@@ -1,4 +1,4 @@
-package Robot1;
+package RobotPrototypes.Robot1;
 
 /**
  * This class defines a Robot and provides methods for movement in a 2D coordinate system.

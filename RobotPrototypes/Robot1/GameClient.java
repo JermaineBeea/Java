@@ -1,4 +1,4 @@
-package Robot2;
+package RobotPrototypes.Robot1;
 
 import java.net.Socket;
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ import java.io.PrintStream;
  * This class handles user input and communicates with the game server.
  * It sends move commands and displays the results to the user.
  */
-public class Client extends UtilityMethods
+public class GameClient extends UtilityMethods
 {
     private static final String SERVER_HOST = "localhost";  // Server hostname
     private static final int SERVER_PORT = 9000;            // Server port 
@@ -28,7 +28,7 @@ public class Client extends UtilityMethods
         System.out.println("Connecting to server at " + SERVER_HOST + ":" + SERVER_PORT + "...");
         try (
             // Establish connection with the game server
-            Socket server = new Socket("localhost", ClientHandler.PORT);
+            Socket server = new Socket("localhost", GameServer.PORT);
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
             PrintStream toServer = new PrintStream(server.getOutputStream(), true);
             Scanner consoleIn = new Scanner(System.in)

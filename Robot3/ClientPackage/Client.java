@@ -8,12 +8,13 @@ public class Client {
        
     private String name;
     private int Identification;
-    private Socket cleintsocket;
+    private Socket clientsocket;
     private Robot robot;
 
-    public Client(int clientID, String name, Socket clienSocket){
+    public Client(int clientID, String name, Socket clientsocket, Robot robot){
         this.Identification = clientID;
         this.name = name;
-        this.cleintsocket = clienSocket;
+        this.clientsocket = clientsocket;
+        this.robot = robot;
     }
 }

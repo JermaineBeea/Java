@@ -8,8 +8,8 @@ import static UtilityModules.PrintMethods.iteratingMessage;
 import java.io.*;
 import java.net.*;
 
-import ClientPackage.Client;
-import UtilityModules.PrintMethods.*;
+import ClientPackage.*;
+import RobotPackage.*;
 
 /**
  * The methods used in the ServerSide class.
@@ -50,11 +50,12 @@ public class ClientHandler {
                 }
             }
 
-            // Create an instance of the "Client" class.
-            Client client = new Client(clientId, clientname, clientSocket);
-
+            // Create an instance of the "Client" class, and Robot class.
+            Client client = new Client(clientId, clientname, clientSocket, new Robot());
+            
             // Pass instance of Client to set of all clients.
-                
+            AllClients.addClient(client);
+
         }catch(IOException e){
             delayPrint("\nClientHandler Error: " + e.getMessage());
         }

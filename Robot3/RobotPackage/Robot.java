@@ -7,7 +7,7 @@ public class Robot extends Position {
         super(xPos, yPos);
     }
 
-    Robot(){
+    public Robot(){
         this(0,0);
     }
 }

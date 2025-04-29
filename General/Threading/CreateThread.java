@@ -2,6 +2,9 @@ package Threading;
 
 public class CreateThread {
     
+    public static void main(String[] args) {
+        new CreateThread().startThread();
+    }
     private Thread thread;
 
     public void startThread() {

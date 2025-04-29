@@ -5,15 +5,16 @@ import java.io.*;
 
 import static ClientServer.PrintMethods.*;
 import static ClientServer.ServerMethods.*;
+
 public class ServerSide {
 
     private static final int PORT = 1100;
 
     public static void main(String[] args) {
 
-        System.out.println("Attempting connection to Server...");
+        System.out.println("Establishing connection to Server...");
 
-        try(ServerSocket serversocket = new ServerSocket(PORT)){
+        try(ServerSocket serversocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
 
             System.out.println("Successfully connected to Port: " + PORT);
             delayPrint(true, 2, "Waiting for clients to connect...");

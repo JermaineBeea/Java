@@ -17,17 +17,21 @@ public class Createthread {
         }
         
         this.runnablefunction = mainfunction;
-
-        //Lambda runnable that encapsulates the runnablefunction, so that function runs if thread is running and has started.
+        
+        // Create a wrapper around the user-provided runnable that:
+        // 1. Only executes when the thread is flagged as running
+        // 2. Handles all exceptions to prevent thread termination
+        // 3. Ensures the running flag is properly reset when execution completes
         this.wrapperfunction = ()-> {
             try {
-                if (threadrunning.get()) { // .get() returns true if thread is running, else false.
+                if (threadrunning.get()) {
                     runnablefunction.run();
                 }
             } catch (Exception e) {
                 System.err.println("Error in thread execution: " + e.getMessage());
                 e.printStackTrace();
             } finally {
+                // Always mark the thread as not running when execution ends
                 threadrunning.set(false);
             }
         };
@@ -77,34 +81,43 @@ public class Createthread {
     }
 
     /**
-    * Pauses the Main thread that new thread partitioned from, until new thread is complete.
-    * @param timeMilli Pause time in milli seconds. E.g 1000 milli-seconds = 1 second.
-    * @throws NullPointerException if thread has not been started
-    */
-    public void delayMain(int timeMilli) {
+     * Waits for this thread to complete for up to the specified time.
+     * This method causes the current thread to pause execution until this thread terminates
+     * or the specified amount of time elapses.
+     *
+     * @param timeoutMillis Maximum time to wait in milliseconds. A value of 0 means to wait indefinitely.
+     * @throws NullPointerException if the thread has not been started via startThread()
+     * @throws IllegalArgumentException if timeoutMillis is negative
+     */
+    public void waitForCompletion(long timeoutMillis) {
         if (thread == null) {
             throw new NullPointerException("Thread has not been initialized, call startThread() first");
         }
+        if (timeoutMillis < 0) {
+            throw new IllegalArgumentException("Timeout value cannot be negative");
+        }
         try {
-            thread.join(timeMilli);
+            thread.join(timeoutMillis);
         } catch (InterruptedException e) {
-            System.err.println("Error delaying Main: " + e.getMessage());
+            System.err.println("Thread wait interrupted: " + e.getMessage());
             Thread.currentThread().interrupt(); // Preserve interrupt status
         }
     }
 
     /**
-    * Indefinetly pauses the Main thread that new thread partitioned from, to pause until new thread is complete.
-    * @throws NullPointerException if thread has not been started
-    */
-    public void delayMain() {
+     * Waits for this thread to complete, with no timeout.
+     * This method causes the current thread to pause execution until this thread terminates.
+     *
+     * @throws NullPointerException if the thread has not been started via startThread()
+     */
+    public void waitForCompletion() {
         if (thread == null) {
             throw new NullPointerException("Thread has not been initialized, call startThread() first");
         }
         try {
             thread.join();
         } catch (InterruptedException e) {
-            System.err.println("Error delaying Main: " + e.getMessage());
+            System.err.println("Thread wait interrupted: " + e.getMessage());
             Thread.currentThread().interrupt(); // Preserve interrupt status
         }
     }

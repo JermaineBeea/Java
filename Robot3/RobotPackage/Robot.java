@@ -2,7 +2,7 @@ package RobotPackage;
 
 public class Robot extends Position {
     
-    private String name;
+    private String robotname;
 
     Robot(int xPos, int yPos){
         super(xPos, yPos);

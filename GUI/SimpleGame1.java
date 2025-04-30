@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ImageGame extends JFrame implements KeyListener {
+public class SimpleGame1 extends JFrame implements KeyListener {
     
     // Game variables
     private int playerX = 100;    // Starting X position
@@ -14,7 +14,7 @@ public class ImageGame extends JFrame implements KeyListener {
     private final int moveSpeed = 5;    // How fast the player moves
     
     // Constructor
-    public ImageGame() {
+    public SimpleGame1() {
         // Set up the window
         setTitle("Simple Java Game");
         setSize(800, 600);

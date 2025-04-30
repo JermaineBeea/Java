@@ -4,7 +4,7 @@ public class CreateThread2{
 
     private Thread thread; // Default value for Thread type is null;
     private final AtomicBoolean threadrunning = new AtomicBoolean(false);
-    private final Runnable runnablefunction; // Removed 'final' modifier
+    private final Runnable runnablefunction;
     private Runnable wrapperfunction;
 
     /**
@@ -19,13 +19,11 @@ public class CreateThread2{
         */
         this.wrapperfunction = ()-> {
             try{
-                if(threadrunning.get()){ // .get() returns true if thread is running, else false.
-                    if(runnablefunction != null) {
-                        runnablefunction.run();
-                    }
+                if(threadrunning.get()){ // .get() returns true if thread is running, else fasle.
+                    runnablefunction.run();
                 }
             }catch(Exception e){
-                System.err.println("Error in thread execution: " + e.getMessage());
+                System.err.println("Error in thread creation: " + e.getMessage());
                 e.printStackTrace();
             }finally{
                 threadrunning.set(false);
@@ -33,6 +31,7 @@ public class CreateThread2{
         };
 
     }
+
 
     /**
     * Starts the thread, then runs the mainfunction.
@@ -67,7 +66,6 @@ public class CreateThread2{
             threadrunning.set(false);
         }
     }
-    
 
     /**
     * Stops thread run.

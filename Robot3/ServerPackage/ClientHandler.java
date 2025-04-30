@@ -11,7 +11,6 @@ import RobotPackage.*;
 /**
  * The methods used in the ServerSide class.
  */
-@SuppressWarnings("unused")
 public class ClientHandler {
 
     /**
@@ -48,16 +47,15 @@ public class ClientHandler {
                 }
             }
 
+            //=====================================
+            // GAME SECTION
+            //=====================================
+
             // Create an instance of the "Client" class, and Robot class.
-            Robot robot = new Robot();
-            Client client = new Client(clientId, clientname, clientSocket, robot);
-            
-            // Pass instance of Client to set of all clients.
-            // Pass instance of Robot to World
+            // Pass client instance to AllClients and to Game Handler.
+            Client client = new Client(clientId, clientname, clientSocket);
             AllClients.addClient(client);
-            World.addRobot(robot);
-            
-            //
+            new GameHandler(client).runGame();
 
         }catch(IOException e){
             delayPrint("\nClientHandler Error: " + e.getMessage());

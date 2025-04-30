@@ -3,11 +3,11 @@ package ClientPackage;
 import java.util.Scanner;
 import java.net.Socket;
 import java.io.IOException;
-
-import static UtilityModules.PrintMethods.*;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+
+
+import static UtilityModules.PrintMethods.*;
 
 
 public class ClientSide {
@@ -34,7 +34,7 @@ public class ClientSide {
             delayPrint("\nEnter your name: ");
             String clientname = consoleIn.nextLine();
 
-            // Send name to Server.
+            // Send client name to Server.
             toServer.writeUTF(clientname);
             
             delayPrintWipe("\nHi " + clientname + "!");
@@ -48,13 +48,14 @@ public class ClientSide {
                 System.out.println();
                 iteratingMessage(4, ".", "Exiting game");
             }else{
-                //TODO: COMPLETE GAME IMPLEMENTATION
                 System.out.println();
                 iteratingMessage(3, ".", "Starting game");
                 
+                //=====================================
+                // GAME SECTION
+                //=====================================
+                new ClientGameHandler(serversocket);
             }
-            // Send client Name to Server.
-            toServer.writeUTF(clientname);
 
         } catch (IOException e) {
             delayPrint("\nClientSide Error: " + e.getMessage());

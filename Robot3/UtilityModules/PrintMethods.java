@@ -29,10 +29,10 @@ public class PrintMethods {
 
     public static void delayPrintWipe(String outputString) {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             clearTerminal();  // Clear the entire terminal
             printSlowly(45, outputString);
-            Thread.sleep(3000);
+            // Thread.sleep(3000);
         } catch (InterruptedException e) {
             System.err.println("Error delaying print: " + e.getMessage());
             Thread.currentThread().interrupt();

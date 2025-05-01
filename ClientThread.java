@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
 public class ClientThread {
 
     private Socket clientSocket;
@@ -16,21 +15,19 @@ public class ClientThread {
         this.clientcount = clientcount;
     }   
 
-    Runnable wrapperfunction = ()-> {
-      try{
-        if(isRunning.get()){
+    Runnable wrapperfunction = () -> {
+        try {
             System.out.println("Thread of client " + clientcount + ", is running...");
             DataInputStream fromClient = new DataInputStream(clientSocket.getInputStream());
             String inMessage;
-            while(clientSocket.isConnected()){
+            while(clientSocket.isConnected() && isRunning.get()){
                 inMessage = fromClient.readUTF();
                 System.out.println("Client " + clientcount + ": " + inMessage);
             }
+        } catch(Exception e) {
+            System.out.println("Error running thread function: " + e.getMessage());
+            this.stopThread();
         }
-      }catch(Exception e){
-        System.out.println("Error running thread function: " + e.getMessage());
-        this.stopThread();
-      }
     };
 
     public void startThread(){
@@ -46,12 +43,12 @@ public class ClientThread {
             // Create new thread.
             thread = new Thread(wrapperfunction);
             thread.start();
-        }else{
-            try{
+        } else {
+            try {
                 System.out.println("Client is not connected to Server");
                 System.out.println("Closing client connection...");
                 clientSocket.close();
-            }catch(IOException e){
+            } catch(IOException e) {
                 System.err.println("Error closing client connection: " + e.getMessage());
             }
             

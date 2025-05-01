@@ -1,100 +1,118 @@
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
-* Creates a new thread, which exutes a runnable during thread run.
-* @param thread Thread to be created. Default is null.
-* @param threadRunning Boolean that sets if thread is running(true), or not-running(false);
-* @param threadRunnable Runnable function that executes during thread run.
-*/
-public class CreateThread{
+ * Creates and manages a thread that executes a provided runnable.
+ * @author [Your Name]
+ */
+public class CreateThread {
     private Thread thread;
     private final AtomicBoolean threadRunning = new AtomicBoolean(false);
     private final Runnable threadRunnable;
+    private final Runnable wrapperFunction;
 
     /**
-    * Initialises the threadRunnable with function.
-    * Executes the creation of wrapper function.
-    * @param function Function executed, during thread run.
-    */
-    public CreateThread(Runnable function){
+     * Initializes the thread manager with a function to run.
+     * @param function Function executed during thread run.
+     */
+    public CreateThread(Runnable function) {
+        if (function == null) {
+            throw new IllegalArgumentException("Function cannot be null");
+        }
         this.threadRunnable = function;
-        createWrapper();
+        this.wrapperFunction = createWrapper();
     }
 
     /**
-    * Creates a Runnable function that encapsulates the threadRunnable.
-    * Ensures threadRunnable runs, if thread is running.
-    * Handles NullPointer and Interrupted exception.
-    * Resets the 'threadRunning' to false, ir error is caught.
-    * @throws Exception.
-    */
-    public Runnable createWrapper(){
-        Runnable wrapperFunction = ()-> {
-            try{
-                if(threadRunning.get()){
-                    threadRunnable.run();
+     * Creates a Runnable function that encapsulates the threadRunnable.
+     * Ensures threadRunnable runs only if thread is in running state.
+     * @return A wrapper Runnable that handles exceptions and state management.
+     */
+    private Runnable createWrapper() {
+        return () -> {
+            try {
+                while (threadRunning.get()) {
+                    try {
+                        threadRunnable.run();
+                    } catch (Exception e) {
+                        System.err.println("Error executing thread runnable: " + e.getMessage());
+                        // Allow the thread to continue running despite errors in the runnable
+                    }
+                    
+                    // Check if we need to exit due to interruption
+                    if (Thread.currentThread().isInterrupted()) {
+                        break;
+                    }
                 }
-            }catch(Exception e){
-                System.out.println("Error executing thread runnable; " + e.getMessage());
-            }finally{
+            } finally {
                 threadRunning.set(false);
             }
         };
-
-        return wrapperFunction;
     }
 
     /**
-    * Creates a new thread.
-    * Starts thread only if, thread has not been started(is alive);
-    * Catches NullPointer and Starts thread.
-    * @throws NullPointerException.
-    * @throws InterruptedException.
-    */
-    public void startThread(){
-        try{
-            if(thread.isAlive()){
-                return;
-            }
-        }catch(NullPointerException e){
-            // Continue if thread is null.
+     * Creates and starts a new thread if one isn't already running.
+     * @return true if a new thread was started, false if a thread was already running
+     */
+    public boolean startThread() {
+        // Only create a new thread if necessary
+        if (thread != null && thread.isAlive()) {
+            return false;
         }
-
-        // Run the thread.
+        
+        // Set running flag before creating the thread
         threadRunning.set(true);
-
-        thread = new Thread(createWrapper());
+        
+        // Create and start the thread
+        thread = new Thread(wrapperFunction);
         thread.start();
+        return true;
     }
 
     /**
-    * Stops thread, if thread is not null.
-    * @throws NullPointerException;
-    */
-    public void stopThread(){
-        try{
-            threadRunning.set(false);
+     * Requests the thread to stop gracefully.
+     * Sets the running flag to false and interrupts the thread if it exists.
+     */
+    public void stopThread() {
+        // Set running flag to false to signal thread termination
+        threadRunning.set(false);
+        
+        // Interrupt the thread if it exists
+        if (thread != null) {
             thread.interrupt();
-        }catch(NullPointerException e){
-            System.out.println("Initialise the thread first with startThread.(): " + e.getMessage());
-        }catch(Exception ex){
-            System.out.println("Error stipoing thread: " + ex.getMessage());
         }
     }
 
     /**
-    * Change the running state of thread.
-    * Set to 'true' to run thread, and 'false'to end thread run.
-    * @Warning Does not stop thread!
-    * @throws IllegalArgumentException;
-    * @throw InterruptedException | Exception;
-    */
-    public void setRunning(boolean runflag){
-        try{
-            threadRunning.set(runflag);
-        }catch(IllegalArgumentException e){
-            System.out.println("Invalid run flag");
+     * Changes the running state of the thread.
+     * Setting to 'false' will cause the thread to exit after completing current task.
+     * Setting to 'true' will only take effect if the thread is still alive.
+     * 
+     * @param runFlag true to continue running, false to stop
+     * @return true if the state was changed, false otherwise
+     */
+    public boolean setRunning(boolean runFlag) {
+        // Can't set to true if thread isn't alive
+        if (runFlag && (thread == null || !thread.isAlive())) {
+            return false;
         }
+        
+        threadRunning.set(runFlag);
+        return true;
     }
-
+    
+    /**
+     * Checks if the thread is currently running.
+     * @return true if the thread is running, false otherwise
+     */
+    public boolean isRunning() {
+        return threadRunning.get();
+    }
+    
+    /**
+     * Checks if the thread exists and is alive.
+     * @return true if the thread exists and is alive, false otherwise
+     */
+    public boolean isAlive() {
+        return thread != null && thread.isAlive();
+    }
 }

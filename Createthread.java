@@ -17,7 +17,7 @@ public class Createthread {
         }
         
         this.runnablefunction = mainfunction;
-        
+
         // Create a wrapper around the user-provided runnable that:
         // 1. Only executes when the thread is flagged as running
         // 2. Handles all exceptions to prevent thread termination
@@ -36,8 +36,6 @@ public class Createthread {
             }
         };
     }
-
-
 
     /**
     * Starts the thread, then runs the mainfunction.

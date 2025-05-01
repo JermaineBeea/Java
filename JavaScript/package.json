@@ -1,0 +1,13 @@
+{
+    "name": "simple-chat-server",
+    "version": "1.0.0",
+    "description": "A simple web chat server",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js",
+      "start-express": "node express-server.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1"
+    }
+  }

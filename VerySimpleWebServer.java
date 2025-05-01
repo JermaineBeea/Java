@@ -3,6 +3,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -59,58 +60,16 @@ public class VerySimpleWebServer {
             }
             // Handle GET requests (homepage)
             else if ("GET".equals(requestMethod)) {
-                String html = "<!DOCTYPE html>\n" +
-                        "<html>\n" +
-                        "<head>\n" +
-                        "    <title>Very Simple Web Chat</title>\n" +
-                        "    <style>\n" +
-                        "        body { font-family: Arial, sans-serif; margin: 20px; }\n" +
-                        "        #messageInput { width: 300px; padding: 5px; }\n" +
-                        "        #sendButton { padding: 5px 10px; }\n" +
-                        "    </style>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "    <h1>Very Simple Web Chat</h1>\n" +
-                        "    <input type=\"text\" id=\"messageInput\" placeholder=\"Type a message...\">\n" +
-                        "    <button id=\"sendButton\">Send</button>\n" +
-                        "    <p id=\"status\"></p>\n" +
-                        "\n" +
-                        "    <script>\n" +
-                        "        const messageInput = document.getElementById('messageInput');\n" +
-                        "        const sendButton = document.getElementById('sendButton');\n" +
-                        "        const status = document.getElementById('status');\n" +
-                        "\n" +
-                        "        // Function to send a message to the server\n" +
-                        "        function sendMessage() {\n" +
-                        "            const message = messageInput.value.trim();\n" +
-                        "            if (message) {\n" +
-                        "                status.textContent = 'Sending...';\n" +
-                        "                fetch('/', {\n" +
-                        "                    method: 'POST',\n" +
-                        "                    body: message\n" +
-                        "                })\n" +
-                        "                .then(response => {\n" +
-                        "                    if (response.ok) {\n" +
-                        "                        status.textContent = 'Message sent!';\n" +
-                        "                        messageInput.value = '';\n" +
-                        "                    }\n" +
-                        "                })\n" +
-                        "                .catch(error => {\n" +
-                        "                    status.textContent = 'Error sending message.';\n" +
-                        "                });\n" +
-                        "            }\n" +
-                        "        }\n" +
-                        "\n" +
-                        "        // Set up event listeners\n" +
-                        "        sendButton.addEventListener('click', sendMessage);\n" +
-                        "        messageInput.addEventListener('keypress', function(e) {\n" +
-                        "            if (e.key === 'Enter') {\n" +
-                        "                sendMessage();\n" +
-                        "            }\n" +
-                        "        });\n" +
-                        "    </script>\n" +
-                        "</body>\n" +
-                        "</html>";
+                // Read HTML content from file
+                String html;
+                try {
+                    html = readHtmlFile("index.html");
+                } catch (IOException e) {
+                    System.err.println("Error reading index.html: " + e.getMessage());
+                    String errorMsg = "Error loading HTML file. Make sure index.html exists in the same directory.";
+                    sendResponse(exchange, errorMsg, 500);
+                    return;
+                }
 
                 exchange.getResponseHeaders().set("Content-Type", "text/html");
                 sendResponse(exchange, html);
@@ -132,6 +91,19 @@ public class VerySimpleWebServer {
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(response.getBytes());
             }
+        }
+        
+        // Helper method to read HTML file
+        private String readHtmlFile(String filename) throws IOException {
+            StringBuilder content = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(filename), "UTF-8"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append("\n");
+                }
+            }
+            return content.toString();
         }
     }
 }

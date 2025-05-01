@@ -1,0 +1,80 @@
+import java.concurrent.atomic.AtomicBoolean;
+
+public class Thread{
+    private Thread thread; // Default value of Thread class, is null.
+    private final AtomicBoolean threadrunning = new AtomicBoolean(false);
+    private final Runnanble runnableFunction;
+    private final Runnable wrapperFunction;
+
+    /** 
+    * Initialise the runnableFunction with the mainfunction passed to instance.
+    * Initialised the warapper function.
+
+    * @param mainfunction The function executed during run of thread.
+    */
+    public Thread(Runnable mainfunction){
+        this.runnableFunction = mainfunction;
+        this.wrapperFunction = ()-> {
+            try{
+                if(threadrunning.get()){
+                    runnableFunction.run();
+                }
+            }catch(Exception e){
+                System.err.println("Error running mainfunction: " + e.getMessage());
+            }finally{
+                this.stopThread();
+            }
+        };
+    }
+
+    /**
+    * Starts the thread, only if the thtread is not active, and not null.
+    */
+    public void startThread(){
+        // Check if thread has been started, but not terminated.
+        // We check if thread is null, as that's the default value.
+        if(thread != null && thread.isAlive()){
+            return; // If thread has started, end function.
+        }
+
+        // If thread has not started, run thread.
+        threadrunning.set(true);
+
+        thread = new Thread(wrapperFunction);
+        thread.start();
+    }
+
+    /**
+    * Stops the thread, only if has been started (thread != null).
+    */
+    public void stopThread(){
+        // Ensure that it's not first instance of activating thread.
+        if(thread != null){
+            threadrunning.set(false);
+            thread.interrupt();
+        }
+    }
+
+    /**
+    * Indefinetly delays the current thread, until this thread has fnished.
+    */
+    public void waitForThread() throws InterruptedException{
+        if(thread != null){
+            thread.join();
+        }
+    }
+
+    /**
+    * Delays the current thread for a specified time (milli-sec).
+    * @param timeMilli Length of delay in milli-seconds.
+    */
+    public void waitForThread(int timeMilli) throws InterruptedException{
+        try{
+            if(thread != null){
+                thread.join(timeMilli);
+            }
+        }catch(IllegalArgumentException e){
+            System.out.println("Invalid time entry: " + e.getMessage()):
+        }
+    }
+}

@@ -1,31 +1,60 @@
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Createthread {
+public class Createthread3 {
 
     private Thread thread; // Default value for Thread type is null;
     private final AtomicBoolean threadrunning = new AtomicBoolean(false);
-    private final Runnable runnablefunction;
-    private Runnable wrapperfunction;
+    private final Runnable runnableFunction;
+    private Runnable wrapperFunction;
 
     /**
-    * Constructor to initialise the runnable function to the mainfunction passed to instance.
-    * @param mainfunction Function executed in thread.
-    */
-    public Createthread(Runnable mainfunction) {
-        if (mainfunction == null) {
+     * Constructor to initialize with a Runnable function.
+     * @param mainFunction Function executed in thread.
+     */
+    public Createthread3(Runnable mainFunction) {
+        if (mainFunction == null) {
             throw new NullPointerException("Main function cannot be null");
         }
         
-        this.runnablefunction = mainfunction;
+        this.runnableFunction = mainFunction;
+        createWrapperFunction();
+    }
+    
+    /**
+     * Constructor to initialize with any Object that can be executed as a function.
+     * @param functionObject Object representing a function to be executed.
+     */
+    public Createthread3(Object functionObject) {
+        if (functionObject == null) {
+            throw new NullPointerException("Function object cannot be null");
+        }
         
+        if (functionObject instanceof Runnable) {
+            this.runnableFunction = (Runnable) functionObject;
+        } else {
+            // Create a simple adapter that calls toString() if it's not a Runnable
+            // You can replace this with any appropriate default behavior
+            this.runnableFunction = () -> {
+                functionObject.toString();
+                System.out.println("Executed function object: " + functionObject);
+            };
+        }
+        
+        createWrapperFunction();
+    }
+    
+    /**
+     * Creates the wrapper function that handles execution and error handling.
+     */
+    private void createWrapperFunction() {
         // Create a wrapper around the user-provided runnable that:
         // 1. Only executes when the thread is flagged as running
         // 2. Handles all exceptions to prevent thread termination
         // 3. Ensures the running flag is properly reset when execution completes
-        this.wrapperfunction = ()-> {
+        this.wrapperFunction = () -> {
             try {
                 if (threadrunning.get()) {
-                    runnablefunction.run();
+                    runnableFunction.run();
                 }
             } catch (Exception e) {
                 System.err.println("Error in thread execution: " + e.getMessage());
@@ -37,11 +66,9 @@ public class Createthread {
         };
     }
 
-
-
     /**
-    * Starts the thread, then runs the mainfunction.
-    */
+     * Starts the thread, then runs the mainFunction.
+     */
     public void startThread() {
         try {
             // Check if thread is already running
@@ -52,8 +79,8 @@ public class Createthread {
             // If not started, set thread as running
             threadrunning.set(true);
 
-            // Initialise thread, and pass wrapperfunction to thread.
-            thread = new Thread(wrapperfunction);
+            // Initialize thread, and pass wrapperFunction to thread.
+            thread = new Thread(wrapperFunction);
             thread.start();
 
         } catch (Exception e) {
@@ -64,9 +91,9 @@ public class Createthread {
     }
 
     /**
-    * Stops thread run.
-    * @throws NullPointerException if thread has not been started
-    */
+     * Stops thread run.
+     * @throws NullPointerException if thread has not been started
+     */
     public void stopThread() {
         if (thread == null) {
             throw new NullPointerException("Thread has not been initialized, call startThread() first");
@@ -76,8 +103,9 @@ public class Createthread {
     }
 
     /**
-    * Validates if thread is running or not.
-    */
+     * Validates if thread is running or not.
+     * @return true if the thread is running, false otherwise
+     */
     public Boolean threadrunning() {
         return threadrunning.get();
     }

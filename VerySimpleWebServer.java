@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
+@SuppressWarnings("unused")
 public class VerySimpleWebServer {
     private static final int PORT = 1300;
 

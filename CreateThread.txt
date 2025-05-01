@@ -44,7 +44,8 @@ public class CreateThread{
 
     /**
     * Creates a new thread.
-    * Starts thread only if, thread has not been started(is alive), and is not null;
+    * Starts thread only if, thread has not been started(is alive);
+    * Catches NullPointer and Starts thread.
     * @throws NullPointerException.
     * @throws InterruptedException.
     */
@@ -57,8 +58,25 @@ public class CreateThread{
             // Continue if thread is null.
         }
 
+        // Run the thread.
         threadRunning.set(true);
 
-        
+        thread = new Thread(threadRunnable);
+        thread.start();
+    }
+
+    /**
+    * Stops thread, if thread is not null.
+    * @throws NullPointerException;
+    */
+    public void stopThread(){
+        try{
+            threadRunning.set(false);
+            thread.interrupt();
+        }catch(NullPointerException e){
+            System.out.println("Initialise the thread first with startThread.(): " + e.getMessage());
+        }catch(Exception ex){
+            System.out.println("Error stipoing thread: " + ex.getMessage());
+        }
     }
 }

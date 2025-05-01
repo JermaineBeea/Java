@@ -1,124 +1,98 @@
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Createthread {
-
-    private Thread thread; // Default value for Thread type is null;
-    private final AtomicBoolean threadrunning = new AtomicBoolean(false);
-    private final Runnable runnablefunction;
-    private Runnable wrapperfunction;
+/**
+* Creates a new thread, which exutes a runnable during thread run.
+* @param thread Thread to be created. Default is null.
+* @param threadRunning Boolean that sets if thread is running(true), or not-running(false);
+* @param threadRunnable Runnable function that executes during thread run.
+*/
+public class CreateThread{
+    private Thread thread;
+    private final AtomicBoolean threadRunning = new AtomicBoolean(false);
+    private final Runnable threadRunnable;
 
     /**
-    * Constructor to initialise the runnable function to the mainfunction passed to instance.
-    * @param mainfunction Function executed in thread.
+    * Initialises the threadRunnable with function.
+    * Executes the creation of wrapper function.
+    * @param function Function executed, during thread run.
     */
-    public Createthread(Runnable mainfunction) {
-        if (mainfunction == null) {
-            throw new NullPointerException("Main function cannot be null");
-        }
-        
-        this.runnablefunction = mainfunction;
+    public CreateThread(Runnable function){
+        this.threadRunnable = function;
+        createWrapper();
+    }
 
-        // Create a wrapper around the user-provided runnable that:
-        // 1. Only executes when the thread is flagged as running
-        // 2. Handles all exceptions to prevent thread termination
-        // 3. Ensures the running flag is properly reset when execution completes
-        this.wrapperfunction = ()-> {
-            try {
-                if (threadrunning.get()) {
-                    runnablefunction.run();
+    /**
+    * Creates a Runnable function that encapsulates the threadRunnable.
+    * Ensures threadRunnable runs, if thread is running.
+    * Handles NullPointer and Interrupted exception.
+    * Resets the 'threadRunning' to false, ir error is caught.
+    * @throws Exception.
+    */
+    public void createWrapper(){
+        Runnable wrapperFunction = ()-> {
+            try{
+                if(threadRunning.get()){
+                    threadRunnable.run();
                 }
-            } catch (Exception e) {
-                System.err.println("Error in thread execution: " + e.getMessage());
-                e.printStackTrace();
-            } finally {
-                // Always mark the thread as not running when execution ends
-                threadrunning.set(false);
+            }catch(Exception e){
+                System.out.println("Error executing thread runnable; " + e.getMessage());
+            }finally{
+                threadRunning.set(false);
             }
         };
     }
 
     /**
-    * Starts the thread, then runs the mainfunction.
+    * Creates a new thread.
+    * Starts thread only if, thread has not been started(is alive);
+    * Catches NullPointer and Starts thread.
+    * @throws NullPointerException.
+    * @throws InterruptedException.
     */
-    public void startThread() {
-        try {
-            // Check if thread is already running
-            if (thread != null && thread.isAlive()) {
+    public void startThread(){
+        try{
+            if(thread.isAlive()){
                 return;
             }
-
-            // If not started, set thread as running
-            threadrunning.set(true);
-
-            // Initialise thread, and pass wrapperfunction to thread.
-            thread = new Thread(wrapperfunction);
-            thread.start();
-
-        } catch (Exception e) {
-            System.err.println("Error starting thread: " + e.getMessage());
-            e.printStackTrace();
-            threadrunning.set(false);
+        }catch(NullPointerException e){
+            // Continue if thread is null.
         }
+
+        // Run the thread.
+        threadRunning.set(true);
+
+        thread = new Thread(threadRunnable);
+        thread.start();
     }
 
     /**
-    * Stops thread run.
-    * @throws NullPointerException if thread has not been started
+    * Stops thread, if thread is not null.
+    * @throws NullPointerException;
     */
-    public void stopThread() {
-        if (thread == null) {
-            throw new NullPointerException("Thread has not been initialized, call startThread() first");
+    public void stopThread(){
+        try{
+            threadRunning.set(false);
+            thread.interrupt();
+        }catch(NullPointerException e){
+            System.out.println("Initialise the thread first with startThread.(): " + e.getMessage());
+        }catch(Exception ex){
+            System.out.println("Error stipoing thread: " + ex.getMessage());
         }
-        threadrunning.set(false);
-        thread.interrupt();
     }
 
     /**
-    * Validates if thread is running or not.
+    * Change the running state of thread.
+    * Set to 'true' to run thread, and 'false'to end thread run.
+    * @Warning Does not stop thread!
+    * @throws IllegalArgumentException;
+    * @throw InterruptedException | Exception;
     */
-    public Boolean threadrunning() {
-        return threadrunning.get();
-    }
-
-    /**
-     * Waits for this thread to complete for up to the specified time.
-     * This method causes the current thread to pause execution until this thread terminates
-     * or the specified amount of time elapses.
-     *
-     * @param timeoutMillis Maximum time to wait in milliseconds. A value of 0 means to wait indefinitely.
-     * @throws NullPointerException if the thread has not been started via startThread()
-     * @throws IllegalArgumentException if timeoutMillis is negative
-     */
-    public void waitForCompletion(long timeoutMillis) {
-        if (thread == null) {
-            throw new NullPointerException("Thread has not been initialized, call startThread() first");
-        }
-        if (timeoutMillis < 0) {
-            throw new IllegalArgumentException("Timeout value cannot be negative");
-        }
-        try {
-            thread.join(timeoutMillis);
-        } catch (InterruptedException e) {
-            System.err.println("Thread wait interrupted: " + e.getMessage());
-            Thread.currentThread().interrupt(); // Preserve interrupt status
+    public void setRunning(boolean runflag){
+        try{
+            threadRunning.set(runflag);
+        }catch(IllegalArgumentException e){
+            System.out.println("Invalid run flag");
         }
     }
 
-    /**
-     * Waits for this thread to complete, with no timeout.
-     * This method causes the current thread to pause execution until this thread terminates.
-     *
-     * @throws NullPointerException if the thread has not been started via startThread()
-     */
-    public void waitForCompletion() {
-        if (thread == null) {
-            throw new NullPointerException("Thread has not been initialized, call startThread() first");
-        }
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            System.err.println("Thread wait interrupted: " + e.getMessage());
-            Thread.currentThread().interrupt(); // Preserve interrupt status
-        }
-    }
 }

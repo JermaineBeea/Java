@@ -28,7 +28,7 @@ public class CreateThread{
     * Resets the 'threadRunning' to false, ir error is caught.
     * @throws Exception.
     */
-    public void createWrapper(){
+    public Runnable createWrapper(){
         Runnable wrapperFunction = ()-> {
             try{
                 if(threadRunning.get()){
@@ -40,6 +40,8 @@ public class CreateThread{
                 threadRunning.set(false);
             }
         };
+
+        return wrapperFunction;
     }
 
     /**
@@ -61,7 +63,7 @@ public class CreateThread{
         // Run the thread.
         threadRunning.set(true);
 
-        thread = new Thread(threadRunnable);
+        thread = new Thread(createWrapper());
         thread.start();
     }
 

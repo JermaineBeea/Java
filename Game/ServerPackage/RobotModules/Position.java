@@ -2,17 +2,27 @@ package Game.ServerPackage.RobotModules;
 
 public class Position {
     
-    private double xPos;
-    private double yPos;
+    private double xPos = 0;
+    private double yPos = 0;
+    private double xInitial;
+    private double yInitial;
+    private boolean positionSet = false;
     private Direction direction = Direction.NORTH;
 
-    public Position(double xPos, double yPos){
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public void setPos(double xinit, double yinit) {
+        if (!this.positionSet) {
+            this.xPos = xinit;
+            this.yPos = yinit;
+            this.xInitial = xinit;
+            this.yInitial = yinit;
+            this.positionSet = true;
+        }
+        System.out.println("Cannot re-set Position!");
+        System.out.println("Position has been set to (" + xInitial +  ", " + yInitial + ")");
     }
 
-    public Position(){
-        this(0, 0);
+    public boolean isPositionSet(){
+        return positionSet;
     }
 
     public double getXpos(){

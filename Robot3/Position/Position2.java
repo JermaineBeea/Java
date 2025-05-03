@@ -36,25 +36,25 @@ public class Position2 {
         this.direction = direction;
     }
     
+    public void changeCoordinates(double distance, int xTranslation, int yTranslation){
+        this.xPos += distance * xTranslation;
+        this.yPos += distance * yTranslation;
+    }
 
     public void moveForward(double distance) {
-        this.xPos += direction.xVector;
-        this.yPos += direction.yVector;
+       changeCoordinates(distance, direction.xVector, direction.yVector);
     }
 
     public void moveBackward(double distance){
-        this.xPos -= direction.xVector;
-        this.yPos -= direction.yVector;
+        changeCoordinates(distance, -direction.xVector, -direction.yVector);
     }
     
     public void moveLeft(double distance){
-        this.xPos -= direction.yVector;
-        this.yPos += direction.xVector;
+        changeCoordinates(distance, -direction.yVector, direction.xVector);
     }
 
     public void moveRight(double distance){
-        this.xPos += direction.yVector;
-        this.yPos -= direction.xVector;
+        changeCoordinates(distance, direction.yVector, -direction.xVector);
     }
 
 }

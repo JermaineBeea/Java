@@ -1,78 +1,175 @@
-package ChatApp;
-
 import java.util.Scanner;
 import java.net.Socket;
-import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
-
-import static ChatApp.PrintMethods.*;
+import java.io.IOException;
 
 /**
- * Client side of the chat application.
- * Handles connecting to server and sending/receiving messages.
+ * Handles client-side operations for the chat application.
+ * Manages connecting to the server and client operations.
  */
 public class ClientSide {
-    private static final int SERVERPORT = 1700;
-    private static final String SERVERIP = "localhost";
-    private static boolean isRunning = true;
+    private final String serverIp;
+    private final int serverPort;
+    private final int connectionAttempts;
+    private Socket serverSocket;
+    
+    /**
+     * Creates a new client with the specified server IP and port.
+     *
+     * @param serverIp The IP address of the server
+     * @param serverPort The port of the server
+     */
+    public ClientSide(String serverIp, int serverPort) {
+        this.serverIp = serverIp;
+        this.serverPort = serverPort;
+        this.connectionAttempts = 5; // Default connection attempts
+    }
+    
+    /**
+     * Creates a new client with the specified server IP, port, and connection attempts.
+     *
+     * @param serverIp The IP address of the server
+     * @param serverPort The port of the server
+     * @param connectionAttempts Number of connection attempts before giving up
+     */
+    public ClientSide(String serverIp, int serverPort, int connectionAttempts) {
+        this.serverIp = serverIp;
+        this.serverPort = serverPort;
+        this.connectionAttempts = connectionAttempts;
+    }
 
-    public static void main(String[] args) {
-        System.out.println("Establishing connection to server...");
+    /**
+     * Logs a message to the console if logging is enabled.
+     *
+     * @param printLog Whether to print the log message
+     * @param message The message to log
+     */
+    private void printLog(boolean printLog, String message) {
+        if (printLog) {
+            System.out.println(message);
+        }
+    }
 
+    /**
+     * Closes the connection to the server.
+     */
+    public void closeConnection() {
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+                System.out.println("Connection to server closed");
+            }
+        } catch (IOException e) {
+            System.err.println("Error closing connection: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Starts the client and connects to the server.
+     */
+    public void startClient() {
+        String ipPort = "[" + serverIp + ":" + serverPort + "]";
+        System.out.println("Establishing connection to server at " + ipPort + "...");
+
+        // Try to connect to the server
+        for (int n = 0; n < connectionAttempts; n++) {
+            try {
+                serverSocket = new Socket(serverIp, serverPort);
+                if (serverSocket.isConnected()) {
+                    break;
+                }
+            } catch (IOException e) {
+                System.err.println("Attempt " + (n + 1) + ": Error connecting to server: " + e.getMessage());
+                
+                if (n + 1 < connectionAttempts) {
+                    try {
+                        Thread.sleep(1000); // Wait a second before retrying
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+
+            if (n + 1 == connectionAttempts) {
+                System.err.println("Could not connect to " + ipPort + " after " + connectionAttempts + " attempts");
+                return;
+            }
+        }
+
+        // Handle client communication
         try (
-            // Set up input-output resources
-            Socket serverSocket = new Socket(SERVERIP, SERVERPORT);
-            DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream());
-            DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream());
-            Scanner consoleIn = new Scanner(System.in)
+            Scanner consoleIn = new Scanner(System.in);
+            PrintWriter toServer = new PrintWriter(serverSocket.getOutputStream(), true);
+            DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream())
         ) {
-            System.out.println("Connected successfully at: " + SERVERIP + ":" + SERVERPORT);
-
-            // Prompt client for name, and send name to server
-            delayPrint(false, 1, "Enter your name: ");
-            String clientName = consoleIn.nextLine();
-            toServer.writeUTF(clientName);
-            System.out.println("Name sent to server!");
+            System.out.println("Successfully connected to server at " + ipPort);
             
-            // Start a thread to listen for messages from server
-            Thread listenerThread = new Thread(() -> {
-                try {
-                    while (isRunning) {
+            // Send client name to server
+            System.out.print("Enter your name: ");
+            String clientName = consoleIn.nextLine();
+            toServer.println(clientName);
+
+            final int serverStatus = fromServer.readInt();
+            printLog(true, "Server status received code: " + serverStatus);
+
+            if (serverStatus == StatusCode.ONBOARDING_COMPLETE.code) {
+                System.out.println("Hello " + clientName + ", welcome to the chat!");
+                
+                // Handle chat session
+                handleChatSession(consoleIn, toServer, fromServer);
+            } else {
+                System.out.println("Connection failed with status code: " + serverStatus);
+            }
+        } catch (IOException e) {
+            System.err.println("Error during client session: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+    }
+    
+    /**
+     * Handles the client's chat session after successful connection.
+     *
+     * @param consoleIn Scanner for reading console input
+     * @param toServer PrintWriter for sending data to server
+     * @param fromServer DataInputStream for receiving data from server
+     */
+    private void handleChatSession(Scanner consoleIn, PrintWriter toServer, DataInputStream fromServer) {
+        // Create a thread to listen for messages from the server
+        Thread messageListener = new Thread(() -> {
+            try {
+                while (!Thread.currentThread().isInterrupted() && serverSocket.isConnected()) {
+                    if (fromServer.available() > 0) {
                         String message = fromServer.readUTF();
                         System.out.println(message);
                     }
-                } catch (IOException e) {
-                    if (isRunning) {
-                        System.out.println("Disconnected from server: " + e.getMessage());
-                        isRunning = false;
-                    }
+                    Thread.sleep(100);
                 }
-            });
-            listenerThread.setDaemon(true);
-            listenerThread.start();
-            
-            // Main thread handles user input
-            System.out.println("Chat is ready! Type a message or '/exit' to quit.");
-            while (isRunning) {
-                String message = consoleIn.nextLine();
-                
-                // Check for exit command
-                if (message.equalsIgnoreCase("/exit")) {
-                    toServer.writeUTF("/exit");
-                    isRunning = false;
-                    System.out.println("Disconnecting from server...");
-                    break;
+            } catch (IOException | InterruptedException e) {
+                if (!serverSocket.isClosed()) {
+                    System.err.println("Error receiving messages: " + e.getMessage());
                 }
-                
-                // Send the message
-                toServer.writeUTF(message);
             }
-
-        } catch (IOException e) {
-            System.err.println("Client Error: " + e.getMessage());
-        } finally {
-            System.out.println("Client shutdown complete.");
+        });
+        messageListener.setDaemon(true);
+        messageListener.start();
+        
+        // Handle user input
+        try {
+            System.out.println("Type your messages (type 'exit' to quit):");
+            String message;
+            while (!(message = consoleIn.nextLine()).equalsIgnoreCase("exit")) {
+                toServer.println(message);
+            }
+            System.out.println("Exiting chat...");
+        } catch (Exception e) {
+            System.err.println("Error sending messages: " + e.getMessage());
         }
+        
+        // Cleanup
+        messageListener.interrupt();
     }
+    
+
 }

@@ -1,0 +1,35 @@
+/**
+ * Main application class for starting the chat client.
+ * Acts as the entry point for the client-side application.
+ */
+public class ClientApp {
+    /**
+     * Main method to start the chat client.
+     *
+     * @param args Command line arguments - first argument can be server IP, second argument can be port number
+     */
+    public static void main(String[] args) {
+        String serverIp = "localhost"; // Default server IP
+        int serverPort = 8080; // Default port
+        
+        // Parse server IP from command line arguments if provided
+        if (args.length > 0) {
+            serverIp = args[0];
+        }
+        
+        // Parse port from command line arguments if provided
+        if (args.length > 1) {
+            try {
+                serverPort = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid port number, using default port 8080");
+            }
+        }
+        
+        System.out.println("Starting chat client, connecting to " + serverIp + ":" + serverPort);
+        
+        // Create and start the client
+        ClientSide client = new ClientSide(serverIp, serverPort);
+        client.startClient();
+    }
+}

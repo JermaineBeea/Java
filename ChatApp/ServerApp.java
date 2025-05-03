@@ -1,0 +1,37 @@
+/**
+ * Main application class for starting the chat server.
+ * Acts as the entry point for the server-side application.
+ */
+public class ServerApp {
+    /**
+     * Main method to start the chat server.
+     *
+     * @param args Command line arguments - first argument can be the port number
+     */
+    public static void main(String[] args) {
+        int port = 8080; // Default port
+        
+        // Parse port from command line arguments if provided
+        if (args.length > 0) {
+            try {
+                port = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid port number, using default port 8080");
+            }
+        }
+        
+        System.out.println("Starting chat server on port " + port);
+        
+        // Create and start the server
+        final ServerSide server = new ServerSide(port);
+        
+        // Add shutdown hook to properly close the server
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutting down server...");
+            server.closeServer();
+        }));
+        
+        // Start the server
+        server.startServer();
+    }
+}

@@ -18,7 +18,7 @@ public class Position {
             this.positionSet = true;
         }
         System.out.println("Cannot re-set Position!");
-        System.out.println("Position has been set to (" + xInitial +  ", " + yInitial + ")");
+        System.out.println("Position had been set to (" + xInitial +  ", " + yInitial + ")");
     }
 
     public boolean isPositionSet(){

@@ -3,12 +3,11 @@ package Game.ServerPackage.RobotModules;
 public class Robot extends Position {
 
     private String name;
-    private double fuelAmount;
+    private double fuelAmount = 10000;
     private double RATE_FUEL_USAGE; // Units of fuel usage per 1 unit of distance.
     
-    Robot(String name, double fuelAmount, double rateFuelUsage){
+    Robot(String name, double rateFuelUsage){
         this.name = name;
-        this.fuelAmount = fuelAmount;
         this.RATE_FUEL_USAGE = rateFuelUsage;
     }
   
@@ -21,6 +20,14 @@ public class Robot extends Position {
             System.out.println("Not enough fuel to go distance " + distance);
             System.out.println("Fuel level is: " + fuelAmount);
             System.out.println("Engine uses " + RATE_FUEL_USAGE + ", per 1 distance.");
+        }
+   }
+
+   public void reFuel(double amount){
+        if(amount instanceof Number && amount > 0){
+            this.fuelAmount += amount;
+        }else{
+            System.err.println("Fuel amount" + amount + ", is invalid!");
         }
    }
 

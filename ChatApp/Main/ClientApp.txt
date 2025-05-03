@@ -1,3 +1,6 @@
+package Main;
+
+import ClientSide;
 /**
  * Main application class for starting the chat client.
  * Acts as the entry point for the client-side application.

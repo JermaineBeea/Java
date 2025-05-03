@@ -1,3 +1,5 @@
+package Main;
+
 /**
  * Main application class for starting the chat server.
  * Acts as the entry point for the server-side application.

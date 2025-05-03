@@ -1,4 +1,4 @@
-package Game.ServerPackage.RobotModules;
+package Game.ServerPackage.PositionModules;
 
 public class Position {
     

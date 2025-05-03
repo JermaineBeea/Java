@@ -1,5 +1,7 @@
 package Game.ServerPackage.RobotModules;
 
+import Game.ServerPackage.PositionModules.Position;
+
 public class Robot extends Position {
 
     private String name;

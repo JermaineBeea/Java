@@ -47,19 +47,19 @@ public class Position3 {
         this.yPos += distance * yUnitChange(rotation);
     }
 
-    public void moveForward(int distance) {
+    public void moveForward(double distance) {
         changeCoordinates(distance, 0);
     }
 
-    public void moveBackward(int distance){
+    public void moveBackward(double distance){
         changeCoordinates(distance, 2);
     }
     
-    public void moveLeft(int distance){
+    public void moveLeft(double distance){
         changeCoordinates(distance, 1);
     }
 
-    public void moveRight(int distance){
+    public void moveRight(double distance){
         changeCoordinates(distance, -1);
     }
 

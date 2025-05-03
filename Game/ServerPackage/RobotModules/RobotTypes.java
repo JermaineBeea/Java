@@ -1,15 +1,18 @@
 package Game.ServerPackage.RobotModules;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 public class RobotTypes {
 
-    private Set<Robot> availableRobots = new HashSet<>();
+    private static Map<Integer, Robot> availableRobots = new HashMap<>();
     {
-        availableRobots.add(new Robot("Raptor99", 25));
-        availableRobots.add(new Robot("Jaguar77", 15));
-        availableRobots.add(new Robot("Blitzer", 33));
+        availableRobots.put(1, new Robot("Raptor99", 25));
+        availableRobots.put(2, new Robot("Jaguar77", 15));
+        availableRobots.put(3, new Robot("Blitzer", 33));
+    }
+
+    public static Map<Integer, Robot> getAvailableRobots(){
+        return availableRobots;
     }
 
 }

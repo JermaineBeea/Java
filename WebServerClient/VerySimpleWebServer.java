@@ -65,7 +65,7 @@ public class VerySimpleWebServer {
                 // Read HTML content from file
                 String html;
                 try {
-                    html = readHtmlFile("index.html");
+                    html = readHtmlFile("WebServerClient\\index.html");
                 } catch (IOException e) {
                     System.err.println("Error reading index.html: " + e.getMessage());
                     String errorMsg = "Error loading HTML file. Make sure index.html exists in the same directory.";

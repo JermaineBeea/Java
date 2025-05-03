@@ -1,29 +1,15 @@
-package PositionModules;
-
-enum Direction2{
-    NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
-
-    public int xUnitChange;
-    public int yUnitChange;
-
-    Direction2(int xUnitChange, int yUnitChange){
-        this.xUnitChange = xUnitChange;
-        this.yUnitChange = yUnitChange;
-    }
-}
-
-public class Position2 {
+public class Position {
     
     private double xPos;
     private double yPos;
-    private Direction2 direction = Direction2.NORTH;
+    private Direction direction = Direction.NORTH;
 
-    public Position2(double xPos, double yPos){
+    public Position(double xPos, double yPos){
         this.xPos = xPos;
         this.yPos = yPos;
     }
 
-    public Position2(){
+    public Position(){
         this(0, 0);
     }
 
@@ -32,7 +18,7 @@ public class Position2 {
         return "Robot is at (" + xPos + "," + yPos + ")";
     }
 
-    public void setDirection(Direction2 direction){
+    public void setDirection(Direction direction){
         this.direction = direction;
     }
     

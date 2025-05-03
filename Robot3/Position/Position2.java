@@ -12,18 +12,18 @@ enum Direction2{
     }
 }
 
-public class Position1 {
+public class Position2 {
     
     private double xPos;
     private double yPos;
-    private Direction1 direction = Direction1.NORTH;
+    private Direction2 direction = Direction2.NORTH;
 
-    public Position1(double xPos, double yPos){
+    public Position2(double xPos, double yPos){
         this.xPos = xPos;
         this.yPos = yPos;
     }
 
-    public Position1(){
+    public Position2(){
         this(0, 0);
     }
 
@@ -32,38 +32,29 @@ public class Position1 {
         return "Robot is at (" + xPos + "," + yPos + ")";
     }
 
-    public void setDirection(Direction1 direction){
+    public void setDirection(Direction2 direction){
         this.direction = direction;
     }
     
-    private int xUnitChange(double radians){
-        return (int) Math.cos(radians);
-    }
-
-    private int yUnitChange(double radians){
-        return (int) Math.sin(radians);
-    }
-
-    public void changeCoordinates(double distance, double movementArc){
-        double radians = (direction.arc + movementArc) * 2 * Math.PI;
-        this.xPos += distance * xUnitChange(radians);
-        this.yPos += distance * yUnitChange(radians);
-    }
 
     public void moveForward(double distance) {
-        changeCoordinates(distance, 0);
+        this.xPos += direction.xVector;
+        this.yPos += direction.yVector;
     }
 
     public void moveBackward(double distance){
-        changeCoordinates(distance, 0.5);
+        this.xPos -= direction.xVector;
+        this.yPos -= direction.yVector;
     }
     
     public void moveLeft(double distance){
-        changeCoordinates(distance, 0.25);
+        this.xPos -= direction.yVector;
+        this.yPos += direction.xVector;
     }
 
     public void moveRight(double distance){
-        changeCoordinates(distance, 0.75);
+        this.xPos += direction.yVector;
+        this.yPos -= direction.xVector;
     }
 
 }

@@ -1,3 +1,5 @@
+package Game.ServerPackage.RobotModules;
+
 public class Position {
     
     private double xPos;
@@ -13,9 +15,12 @@ public class Position {
         this(0, 0);
     }
 
-    @Override
-    public String toString(){
-        return "Robot is at (" + xPos + "," + yPos + ")";
+    public double getXpos(){
+        return xPos;
+    }
+
+    public double getYpos(){
+        return yPos;
     }
 
     public void setDirection(Direction direction){

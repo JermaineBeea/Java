@@ -3,6 +3,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@SuppressWarnings("all")
 public class FunctionToRunnableExamples {
 
     public static void main(String[] args) {

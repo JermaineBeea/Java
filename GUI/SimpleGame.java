@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public class SimpleGame {
     // Game window components
     private JFrame frame;

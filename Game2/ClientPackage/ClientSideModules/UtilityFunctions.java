@@ -1,5 +1,7 @@
 package Game2.ClientPackage.ClientSideModules;
 
+import java.net.Socket;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +20,22 @@ public class UtilityFunctions {
     public static void main(String[] args) {
         Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
         System.out.println(displayTextVertically(path));
+    }
+
+    /**
+     * Test if there is still connection to socket.
+     * @param socket The socket being tested
+     * @return True or False
+     */
+    public static boolean testConnection(Socket socket){
+        try(
+            DataOutputStream toSocket = new DataOutputStream(socket.getOutputStream())
+        ){
+            toSocket.writeInt(0);
+            return true;
+        }catch(IOException e){
+            return false;
+        }
     }
 
     /**

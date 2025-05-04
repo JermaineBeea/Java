@@ -58,7 +58,17 @@ public class ClientSide {
 
             //Begin the game
             boolean running = true;
+            boolean isConnected = true;
             while (running && serverSocket.isConnected()) {
+
+                //Connection test
+                    isConnected = UtilityFunctions.testConnection(serverSocket);
+                    if(!isConnected){
+                        System.err.println("Connection Error");
+                        System.out.println("Shutting down Game...");
+                        serverSocket.close();
+                        break;
+                    }
 
                     UtilityFunctions.delayRun(1300);
                     System.out.println("\n------------------------\n" + displayOfCommands);        
@@ -100,8 +110,8 @@ public class ClientSide {
                     // Handle specific input parsing errors
                     System.out.println("Input error: " + e.getMessage());
                 } catch (Exception e) {
-                    // Handle any other unexpected exceptions
-                    System.out.println("ERROR: " + e.getMessage());
+                    // If IO Exception break loop
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         } catch (IOException e) {

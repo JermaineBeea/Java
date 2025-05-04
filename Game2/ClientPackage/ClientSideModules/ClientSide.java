@@ -61,6 +61,9 @@ public class ClientSide {
             boolean connecteToServer;
             while (running && serverSocket.isConnected()) {
 
+                // Improve readability of output.
+                ClientUtility.delayRun(1300);
+
                 //Connection test
                     connecteToServer = ClientUtility.sendHandshake(serverSocket);
                     if(!connecteToServer){
@@ -70,7 +73,6 @@ public class ClientSide {
                         break;
                     }
 
-                    ClientUtility.delayRun(1300);
                     System.out.println("\n------------------------\n" + displayOfCommands);        
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.println("Type 'exit' to quit the game");

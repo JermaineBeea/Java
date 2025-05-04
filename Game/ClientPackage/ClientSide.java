@@ -17,11 +17,12 @@ public class ClientSide {
             Scanner consoleIn = new Scanner(System.in);
         ) {
             System.out.println("Connected to server!");
+            System.out.println("Lets begin game!, waiting for Server to set game up....");
 
             ClientRobot robot = new ClientRobot();
             ClientCommands robotCommand = new ClientCommands(robot);
 
-            //Retriev robot default values.
+            //Retrieve robot default values.
             double xInitial = fromServer.readDouble();
             double yInitial = fromServer.readDouble();
             double fuelInitial = fromServer.readDouble();
@@ -33,24 +34,29 @@ public class ClientSide {
             robotCommand.setDirection(direction);
                         
             while (serverSocket.isConnected()) {
-                System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
-                System.out.print("Enter command: ");
-                String clientInput = consoleIn.nextLine();
-                
-                Object[] result = Utility.parseInput(clientInput);
-                if (result != null) {
-                    String command = (String) result[0];
-                    double quantity = (double) result[1];
-                    
-                    robotCommand.executeCommand(command, quantity);
-                    
-                    // Return state to server
-                    toServer.writeDouble(robotCommand.getXpos());
-                    toServer.writeDouble(robotCommand.getYpos());
-                    ObjectToServer.writeObject(robotCommand.getDirection());
-                    toServer.flush();
-                    ObjectToServer.flush();
+
+                Object result[] = {};
+                while(true){                
+                    System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
+                    System.out.print("Enter command: ");
+                    String clientInput = consoleIn.nextLine();
+                    result = Utility.parseInput(clientInput);
+                    if(result != null){
+                        break;
+                    }
                 }
+
+                String command = (String) result[0];
+                double quantity = (double) result[1];
+                
+                robotCommand.executeCommand(command, quantity);
+                
+                // Return state to server
+                toServer.writeDouble(robotCommand.getXpos());
+                toServer.writeDouble(robotCommand.getYpos());
+                ObjectToServer.writeObject(robotCommand.getDirection());
+                toServer.flush();
+                ObjectToServer.flush();
             }
         } catch (IOException e) {
             System.err.println("Connection error: " + e.getMessage());

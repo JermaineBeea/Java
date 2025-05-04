@@ -26,6 +26,7 @@ public class Utility {
             }
             
             return new Object[] {command, quantity};
+
         } catch (Exception e) {
             System.err.println("Error parsing input: " + e.getMessage());
             return null;

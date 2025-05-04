@@ -1,7 +1,10 @@
-package Game.ClientPackage.RobotModules;
+package Game.ClientPackage.ClientSideModules;
 
 import java.util.*;
 import java.util.function.Consumer;
+
+import Game.ClientPackage.RobotModules.ClientRobot;
+import Game.ClientPackage.RobotModules.Direction;
 
 public class ClientCommands {
     
@@ -16,8 +19,8 @@ public class ClientCommands {
 
     public ClientCommands(ClientRobot instance){
         this.clientRobot = instance;
-        mapCommands.put("rotateClockWise", n -> rotateClockWise(n.intValue()));
-        mapCommands.put("rotateAntiClockWise", n -> rotateAntiClockWise(n.intValue()));
+        mapCommands.put("rotateright", n -> rotateClockWise(n.intValue()));
+        mapCommands.put("rotateleft", n -> rotateAntiClockWise(n.intValue()));
         mapCommands.put("forward", this::moveForward);
         mapCommands.put("backward", this::moveBackward);  // Fixed the typo from 'backwards' to 'backward'
         mapCommands.put("right", this::moveRight);
@@ -68,6 +71,20 @@ public class ClientCommands {
         }
     }
 
+    public void rotate(int rotationQuantity, int newIndex){
+        if(rotationQuantity instanceof Integer){
+            if(rotationQuantity >= 0){
+                clientRobot.direction = listDirections.get(newIndex);
+            }else{
+                System.err.println("rotationQuantity cannot be less than zero");
+                return;
+            }
+        }else{
+            System.err.println("rotationQuantity has to be an integer!");
+            return;
+        }
+    }
+
     // Setter methods.
     public void setPosition(double xPos, double yPos){
         clientRobot.xPos = xPos;
@@ -86,37 +103,17 @@ public class ClientCommands {
         clientRobot.rateFuelUsage = fuelRate;
     }
 
-    // Direction methods
+    // Rotate methods
     public void rotateClockWise(int rotationQuantity){
-        if(rotationQuantity instanceof Integer){
-            if(rotationQuantity >= 0){
-                int currentIndex = listDirections.indexOf(clientRobot.direction);
-                int newIndex = (currentIndex + rotationQuantity) % 4;
-                clientRobot.direction = listDirections.get(newIndex);
-            }else{
-                System.err.println("rotationQuantity cannot be less than zero");
-                return;
-            }
-        }else{
-            System.err.println("rotationQuantity has to be an integer!");
-            return;
-        }
+        int currentIndex = listDirections.indexOf(clientRobot.direction);
+        int newIndex = (currentIndex + rotationQuantity) % 4;
+        rotate(rotationQuantity, newIndex);
     }
 
     public void rotateAntiClockWise(int rotationQuantity){
-        if(rotationQuantity instanceof Integer){
-            if(rotationQuantity >= 0){
-                int currentIndex = listDirections.indexOf(clientRobot.direction);
-                int newIndex = 4 - (currentIndex - rotationQuantity) % 4;
-                clientRobot.direction = listDirections.get(newIndex);
-            }else{
-                System.err.println("rotationQuantity cannot be less than zero");
-                return;
-            }
-        }else{
-            System.err.println("rotationQuantity has to be an integer!");
-            return;
-        }
+        int currentIndex = listDirections.indexOf(clientRobot.direction);
+        int newIndex = 4 + (currentIndex + rotationQuantity) % 4;
+        rotate(rotationQuantity, newIndex);
     }
 
     // Modifier methods.

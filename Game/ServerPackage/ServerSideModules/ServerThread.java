@@ -39,7 +39,7 @@ public class ServerThread {
 
                 // Recieve response from client
                 int robotIndex = dataFromClient.readInt();
-                System.out.println("Client selected robot type number: " + robotIndex);
+                System.out.println("\nClient selected robot type number: " + robotIndex);
 
                 // Get robot type from client
                 Robot clientRobot = (Robot) RobotTypes.getAvailableRobots().get(robotIndex);

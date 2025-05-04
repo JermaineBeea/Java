@@ -1,4 +1,7 @@
-package Game.ServerPackage.RobotModules;
+package Game.ServerPackage.ServerSideModules;
+
+import Game.ServerPackage.RobotModules.Direction;
+import Game.ServerPackage.RobotModules.Robot;
 
 public class ServerCommands {
     

@@ -48,8 +48,12 @@ public class ClientCommands {
         return clientRobot.direction;
     }
 
-    public String viewPos(){
-        return "Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ") facing " + clientRobot.direction;
+    public double getFuel(){
+        return clientRobot.fuelAmount;
+    }
+
+    public void viewPosition(){
+        System.out.println("Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ") facing " + clientRobot.direction);
     }
 
     // Helper methods.
@@ -65,17 +69,21 @@ public class ClientCommands {
     }
 
     // Setter methods.
-    public void setDirection(Direction direction){
-        clientRobot.direction = direction;
-    }
-
-    public void setPos(double xPos, double yPos){
+    public void setPosition(double xPos, double yPos){
         clientRobot.xPos = xPos;
         clientRobot.yPos = yPos;
     }
 
-    public void setFuel(double amount){
-        clientRobot.fuelAmount = amount;
+    public void setDirection(Direction direction){
+        clientRobot.direction = direction;
+    }
+
+    public void setFuel(double fuelAmount){
+        clientRobot.fuelAmount = fuelAmount;
+    }
+
+    public void setRateUsage(double fuelRate){
+        clientRobot.rateFuelUsage = fuelRate;
     }
 
     // Direction methods

@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 
 import Game.ClientPackage.RobotModules.ClientCommands;
 import Game.ClientPackage.RobotModules.ClientRobot;
+import Game.ClientPackage.RobotModules.Direction;
 
 import java.net.*;
 import java.io.*;
@@ -15,9 +16,7 @@ public class ClientSide {
     
     private static final int PORT = 1700;
     private static final Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
-    static Runnable displayCommands = () -> {
-        System.out.println(Utility.displayTextVertically(path));
-    };
+    static String displayOfCommands = Utility.displayTextVertically(path);
     
     public static void main(String[] args) {
         System.out.println("Connecting to Server.....");
@@ -31,8 +30,8 @@ public class ClientSide {
         ) {
             System.out.println("Connected to server!");
 
-            ClientRobot robot = new ClientRobot();
-            ClientCommands clientCommand = new ClientCommands(robot);
+            ClientRobot clientRobot = new ClientRobot();
+            ClientCommands clientCommand = new ClientCommands(clientRobot);
 
             System.out.println("\nLets begin the game...");
 
@@ -46,11 +45,27 @@ public class ClientSide {
             // Send index of robot to Server
             dataToServer.writeInt(robotIndex);
 
+            // Recieve default values of robot properties from server.
+            double xInitial = dataFromServer.readDouble();// X initial position
+            double yInitial = dataFromServer.readDouble();// Y initial position
+            double rateInitial = dataFromServer.readDouble();// Rate of fuel usage
+            double fuelInitial = dataFromServer.readDouble();// Fuel initilal amount
+
+            // Receive direction as a string and convert back to client Direction enum
+            String directionName = (String) objectFromServer.readObject();
+            Direction directionInitial = (Direction) Direction.valueOf(directionName);
+
+            // Set robot inital properties.
+            clientCommand.setPosition(xInitial, yInitial);
+            clientCommand.setDirection(directionInitial);
+            clientCommand.setFuel(fuelInitial);
+
+            //Begin the game
             while (serverSocket.isConnected()) {
 
                 Object result[] = {};
-                while(true){  
-                    displayCommands.run();         
+                while(serverSocket.isConnected()){  
+                    System.out.println("\n" + displayOfCommands);        
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.print("Enter command: ");
                     String clientInput = consoleIn.nextLine();
@@ -64,14 +79,19 @@ public class ClientSide {
                 double quantity = (double) result[1];
                 
                 clientCommand.executeCommand(command, quantity);
-                System.out.println(clientCommand.viewPos());
+                // View current Position.
+                clientCommand.viewPosition();
 
                 // Return state to server
                 dataToServer.writeDouble(clientCommand.getXpos());
                 dataToServer.writeDouble(clientCommand.getYpos());
+                dataToServer.writeDouble(clientCommand.getFuel()); 
+
                 // Send direction as a string name
                 objectToServer.writeObject(clientCommand.getDirection().name());
-                dataToServer.writeDouble(robot.fuelAmount); // Added missing fuel data
+                dataToServer.writeDouble(clientCommand.getFuel()); 
+
+                // Flush output stream
                 dataToServer.flush();
                 objectToServer.flush();
             }

@@ -9,9 +9,12 @@ public class ServerCommands {
     }
 
     // Updater methods.
-    public void updatePos(double xPosArg, double yPosArg, Direction directionArg){
+    public void updatePosition(double xPosArg, double yPosArg){
         robot.xPos = xPosArg;
         robot.yPos = yPosArg;
+    }
+
+    public void updateDirection(Direction directionArg){
         robot.direction = directionArg;
     }
 
@@ -20,8 +23,8 @@ public class ServerCommands {
     }
 
     // Retrieval methods.
-    public String viewPosition(){
-        return "Robot is at (" + robot.xPos + "," + robot.yPos + ") facing " + robot.direction;
+    public void viewPosition(){
+        System.out.println("Robot is at (" + robot.xPos + "," + robot.yPos + ") facing " + robot.direction);
     }
 
     public double getXpos(){
@@ -38,6 +41,10 @@ public class ServerCommands {
 
     public double getFuel(){
         return robot.fuelAmount;
+    }
+
+    public double getRateFuelUsage(){
+        return robot.rateFuelUsage;
     }
     
 }

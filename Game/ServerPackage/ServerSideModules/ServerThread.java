@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import Game.ServerPackage.RobotModules.*;
 
-@SuppressWarnings("unused")
 public class ServerThread {
     
     private Socket clientsocket;
@@ -42,22 +41,36 @@ public class ServerThread {
                 Robot clientRobot = (Robot) RobotTypes.getAvailableRobots().get(robotIndex);
                 ServerCommands serverCommand = new ServerCommands(clientRobot);
 
+                // Send default values of robot properties to client.
+                dataToClient.writeDouble(serverCommand.getXpos()); // send x initial posiiton
+                dataToClient.writeDouble(serverCommand.getYpos()); // send y initial posiiton
+                dataToClient.writeDouble(serverCommand.getRateFuelUsage()); // send rate of fuel usage.
+                dataToClient.writeDouble(serverCommand.getFuel()); // send initial fuel amount
 
+                // Send Direction object as a serialised String.
+                objectToClient.writeObject(serverCommand.getDirection().name());
+
+                // Flush output stream
+                dataToClient.flush();
+                objectToClient.flush();
 
                 // Begin the game.
                 while(isRunning.get() && clientsocket.isConnected()){
                     // Receive robot state from client.
                     double xPos = dataFromClient.readDouble(); // xPos
                     double yPos = dataFromClient.readDouble(); // yPos
+                    double fuel = dataFromClient.readDouble(); // fuel amount
+
                     // Receive direction as a string and convert back to server Direction enum
                     String directionName = (String) objectFromClient.readObject();
                     Direction direction = Direction.valueOf(directionName);
-                    double fuel = dataFromClient.readDouble(); // fuel amount
                     
                     // Update robot position and fuel amount.
-                    serverCommand.updatePos(xPos, yPos, direction);
+                    serverCommand.updatePosition(xPos, yPos);
+                    serverCommand.updateDirection(direction);
                     serverCommand.updateFuel(fuel);
-                    System.out.println("Client " + clientId + ": " + serverCommand.viewPosition());
+                    // View current Position of client robot.
+                    serverCommand.viewPosition();
                 }
 
             }catch(IOException ex){

@@ -78,13 +78,15 @@ public class ServerThread {
                 }
 
             }catch(IOException ex){
-                System.err.println("Server Error: " + ex.getMessage());
+                System.err.println("Server Thread Error: " + ex.getMessage());
                 System.err.println("Closing client " + clientId + " connection, and stopping thread");
+                ex.printStackTrace();
                 this.stopThread();
             }
         }catch(Exception e){
             System.err.println("Error running client thread: " + e.getMessage());
             System.err.println("Closing client " + clientId + " connection, and stopping thread");
+            e.printStackTrace();
             this.stopThread();
         }
     };

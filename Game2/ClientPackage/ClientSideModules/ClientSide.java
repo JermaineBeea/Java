@@ -59,36 +59,36 @@ public class ClientSide {
             //Begin the game
             while (serverSocket.isConnected()) {
 
-                Object result[] = {};
-                while(serverSocket.isConnected()){  
                     System.out.println("\n" + displayOfCommands);        
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.print("Enter command: ");
                     String clientInput = consoleIn.nextLine();
-                    result = UtilityFunctions.parseInput(clientInput);
-                    if(result != null){
-                        break;
-                    }
-                }
-
-                String command = (String) result[0];
-                double quantity = (double) result[1];
                 
-                // Execute the commands.
-                clientCommand.executeCommand(command, quantity);
+                try{
+                    Object[] result = UtilityFunctions.parseInput(clientInput);
+                    String command = (String) result[0];
+                    double quantity = (double) result[1];
 
-                // View current Position.
-                clientCommand.viewPosition();
+                    // Execute the commands.
+                    clientCommand.executeCommand(command, quantity);
 
-                // Return state to server
-                dataToServer.writeDouble(clientCommand.getXpos());
-                dataToServer.writeDouble(clientCommand.getYpos());
-                // Send direction as a string name
-                objectToServer.writeObject(clientCommand.getDirection().name());
+                    // View current Position.
+                    clientCommand.viewPosition();
 
-                // Flush output stream
-                dataToServer.flush();
-                objectToServer.flush();
+                    // Return state to server
+                    dataToServer.writeDouble(clientCommand.getXpos());
+                    dataToServer.writeDouble(clientCommand.getYpos());
+                    // Send direction as a string name
+                    objectToServer.writeObject(clientCommand.getDirection().name());
+
+                    // Flush output stream
+                    dataToServer.flush();
+                    objectToServer.flush();
+
+                }catch(Exception e){
+                    System.out.println("ERROR: " + e.getMessage());
+                }
+    
             }
         } catch (IOException e) {
             System.err.println("Client Connection error: " + e.getMessage());

@@ -46,32 +46,28 @@ public class UtilityFunctions {
     /**
      * Parses user input for robot commands.
      * @param input String in format "command quantity" (e.g., "forward 3")
-     * @return Object array containing the command string and quantity value, or null if invalid
+     * @return Object array containing the command string and quantity value
+     * @throws IllegalArgumentException if input is invalid
      */
-    public static Object[] parseInput(String input) {
-        try {
-            if (input == null || input.trim().isEmpty()) {
-                throw new IllegalArgumentException("Error: Input is null or empty");
-            }
-            
-            String[] split = input.trim().split("\\s+");
-            if (split.length < 2) {
-                throw new IllegalArgumentException ("Error: Input must contain a command and a quantity");
-            }
-            
-            String command = split[0].toLowerCase();
-            double quantity;
-            
-            try {
-                quantity = Double.parseDouble(split[1]);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Error: Quantity must be a numeric value");
-            }
-
-            return new Object[] {command, quantity};
-
-        } catch (Exception e) {
-            throw new Error("Error parsing input: " + e.getMessage());
+    public static Object[] parseInput(String input) throws IllegalArgumentException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new IllegalArgumentException("Input is null or empty");
         }
+        
+        String[] split = input.trim().split("\\s+");
+        if (split.length < 2) {
+            throw new IllegalArgumentException("Input must contain a command and a quantity");
+        }
+        
+        String command = split[0].toLowerCase();
+        double quantity;
+        
+        try {
+            quantity = Double.parseDouble(split[1]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Quantity must be a numeric value");
+        }
+
+        return new Object[] {command, quantity};
     }
 }

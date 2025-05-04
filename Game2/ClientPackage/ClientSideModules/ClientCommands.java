@@ -38,14 +38,15 @@ public class ClientCommands {
      * Executes a string command with the specified quantity.
      * @param strCommand The command to execute
      * @param commandQuantity The quantity/magnitude for the command
+     * @throws IllegalArgumentException if the command is unknown
      */
     public void executeCommand(String strCommand, double commandQuantity){
         Consumer<Double> command = mapCommands.get(strCommand.toLowerCase());
         if (command != null) {
             command.accept(commandQuantity);
         } else {
-            System.err.println("Unknown command: " + strCommand);
-            System.err.println("Available commands: forward, backward, right, left");
+            String availableCommands = String.join(", ", mapCommands.keySet());
+            throw new IllegalArgumentException("Unknown command: " + strCommand + "\nAvailable commands: " + availableCommands);
         }
     }
 
@@ -84,26 +85,25 @@ public class ClientCommands {
      * @param yTranslation Y component of movement vector
      */
     private void changeCoordinates(double distance, int xTranslation, int yTranslation){
-            clientRobot.xPos += distance * xTranslation;
-            clientRobot.yPos += distance * yTranslation;    
+            if(distance > 0){
+                clientRobot.xPos += distance * xTranslation;
+                clientRobot.yPos += distance * yTranslation;
+            }else{
+                throw new IllegalArgumentException("Distance cannot be neagtive!");
+            }
     }
 
     /**
      * Rotates the robot to a new direction.
      * @param rotationQuantity The amount to rotate (must be non-negative)
      * @param newIndex The new direction index in the listDirections list
+     * @throws IllegalArgumentException if rotation quantity is negative or not an integer
      */
     public void rotate(int rotationQuantity, int newIndex){
-        if(rotationQuantity instanceof Integer){
-            if(rotationQuantity >= 0){
-                clientRobot.direction = listDirections.get(newIndex);
-            }else{
-                System.err.println("rotationQuantity cannot be less than zero");
-                return;
-            }
-        }else{
-            System.err.println("rotationQuantity has to be an integer!");
-            return;
+        if(rotationQuantity >= 0){
+            clientRobot.direction = listDirections.get(newIndex);
+        } else {
+            throw new IllegalArgumentException("Rotation quantity cannot be less than zero");
         }
     }
 
@@ -141,7 +141,7 @@ public class ClientCommands {
      */
     public void rotateAntiClockWise(int rotationQuantity){
         int currentIndex = listDirections.indexOf(clientRobot.direction);
-        int newIndex = (4 + currentIndex + rotationQuantity) % 4;
+        int newIndex = (4 + currentIndex - rotationQuantity) % 4;
         rotate(rotationQuantity, newIndex);
     }
 

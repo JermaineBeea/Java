@@ -57,14 +57,23 @@ public class ClientSide {
             clientCommand.setDirection(directionInitial);
 
             //Begin the game
-            while (serverSocket.isConnected()) {
+            boolean running = true;
+            while (running && serverSocket.isConnected()) {
 
                     System.out.println("\n" + displayOfCommands);        
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
+                    System.out.println("Type 'exit' to quit the game");
                     System.out.print("Enter command: ");
                     String clientInput = consoleIn.nextLine();
                 
-                try{
+                try {
+                    // Check for exit command
+                    if (clientInput.trim().toLowerCase().equalsIgnoreCase("exit")) {
+                        System.out.println("Exiting the game...");
+                        running = false;
+                        continue;
+                    }
+                    
                     Object[] result = UtilityFunctions.parseInput(clientInput);
                     String command = (String) result[0];
                     double quantity = (double) result[1];
@@ -85,10 +94,13 @@ public class ClientSide {
                     dataToServer.flush();
                     objectToServer.flush();
 
-                }catch(Exception e){
+                } catch (IllegalArgumentException e) {
+                    // Handle specific input parsing errors
+                    System.out.println("Input error: " + e.getMessage());
+                } catch (Exception e) {
+                    // Handle any other unexpected exceptions
                     System.out.println("ERROR: " + e.getMessage());
                 }
-                
             }
         } catch (IOException e) {
             System.err.println("Client Connection error: " + e.getMessage());

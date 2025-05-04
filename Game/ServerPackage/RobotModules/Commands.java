@@ -27,9 +27,6 @@ public class Commands {
     }
 
     // Retrieval methods.
-    public String getRobotInfo(){
-        return robot.getInfo();
-    }
 
     public String getPos(){
         return "Robot is at (" + robot.xPos + "," + robot.yPos + ")";

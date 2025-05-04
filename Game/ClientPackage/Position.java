@@ -1,29 +1,12 @@
-package Game.ServerPackage.PositionModules;
+package Game.ClientPackage;
 
-public class Position {
+public class Position  {
     
-    private double xPos = 0;
-    private double yPos = 0;
+    private double xPos;
+    private double yPos;
     private double xInitial;
     private double yInitial;
-    private boolean positionSet = false;
-    private Direction direction = Direction.NORTH;
-
-    public void setPos(double xinit, double yinit) {
-        if (!this.positionSet) {
-            this.xPos = xinit;
-            this.yPos = yinit;
-            this.xInitial = xinit;
-            this.yInitial = yinit;
-            this.positionSet = true;
-        }
-        System.out.println("Cannot re-set Position!");
-        System.out.println("Position had been set to (" + xInitial +  ", " + yInitial + ")");
-    }
-
-    public boolean isPositionSet(){
-        return positionSet;
-    }
+    private Direction direction;
 
     public double getXpos(){
         return xPos;
@@ -37,7 +20,7 @@ public class Position {
         this.direction = direction;
     }
     
-    public void changeCoordinates(double distance, int xTranslation, int yTranslation){
+    private void changeCoordinates(double distance, int xTranslation, int yTranslation){
         this.xPos += distance * xTranslation;
         this.yPos += distance * yTranslation;
     }

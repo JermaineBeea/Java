@@ -1,44 +1,48 @@
 package Game.ServerPackage.RobotModules;
 
-import Game.ServerPackage.PositionModules.Position;
+public class Robot{
 
-public class Robot extends Position {
-
+    // Fixed properties
     private String name;
-    private double fuelAmount = 10000;
     private double RATE_FUEL_USAGE; // Units of fuel usage per 1 unit of distance.
+
+    // Dynamic properties.
+    private double fuelAmount = 10000;
+    private Direction direction;
+    private double xPos;
+    private double yPos;
     
     Robot(String name, double rateFuelUsage){
         this.name = name;
         this.RATE_FUEL_USAGE = rateFuelUsage;
     }
   
-   @Override
-   public void changeCoordinates(double distance, int xTranslation, int yTranslation) {
-        if(fuelAmount >= fuelAmount * distance){       
-            super.changeCoordinates(distance, xTranslation, yTranslation);
-            this.fuelAmount -= distance * RATE_FUEL_USAGE;
-        }else{
-            System.out.println("Not enough fuel to go distance " + distance);
-            System.out.println("Fuel level is: " + fuelAmount);
-            System.out.println("Engine uses " + RATE_FUEL_USAGE + ", per 1 distance.");
-        }
+   public String getInfo(){
+        return "Type: " + name + " | Rate fuel usage: " + RATE_FUEL_USAGE;
    }
 
-   public void reFuel(double amount){
-        if(amount instanceof Number && amount > 0){
-            this.fuelAmount += amount;
-        }else{
-            System.err.println("Fuel amount" + amount + ", is invalid!");
-        }
+   public String getPos(){
+        return "Robot is at (" + xPos + "," + yPos + ")";
    }
 
-   public String getName(){
-        return name;
+   public double getXpos(){
+        return xPos;
    }
 
-   public double getFuel(){
-        return fuelAmount;
+   public double getYpos(){
+        return yPos;
    }
+
+   public void updateXpos(double xPos){
+        this.xPos = xPos;
+   }
+
+   public void updateYpos(double yPos){
+    this.yPos = yPos;
+    }
+
+    public void updateFuel(double amount){
+        this.fuelAmount = amount;
+    }
 
 }

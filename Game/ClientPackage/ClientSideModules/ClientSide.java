@@ -11,10 +11,12 @@ import java.io.*;
 
 public class ClientSide {
     
+    private static final int PORT = 1700;
+
     public static void main(String[] args) {
         System.out.println("Connecting to Server.....");
         try (
-            Socket serverSocket = new Socket("localhost", 3000);
+            Socket serverSocket = new Socket("localhost", PORT);
             DataInputStream dataFromServer = new DataInputStream(serverSocket.getInputStream());
             DataOutputStream dataToServer = new DataOutputStream(serverSocket.getOutputStream());
             ObjectInputStream ObjectFromServer = new ObjectInputStream(serverSocket.getInputStream());
@@ -66,7 +68,7 @@ public class ClientSide {
                 ObjectToServer.flush();
             }
         } catch (IOException e) {
-            System.err.println("Connection error: " + e.getMessage());
+            System.err.println("Client Connection error: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
             e.printStackTrace();

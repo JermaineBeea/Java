@@ -23,7 +23,7 @@ public class ServerSide {
                 final int clientId = clientcount;
                 ServerThread clientThread = new ServerThread(clientId, clientsocket);
                 clientThread.startThread();
-                System.out.println("Client " + clientcount + "is connected.");
+                System.out.println("Client " + clientcount + " is connected.");
             }
 
         }catch(IOException e){

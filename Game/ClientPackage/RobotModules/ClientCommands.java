@@ -7,6 +7,12 @@ public class ClientCommands {
     
     private ClientRobot clientRobot;
     private Map<String, Consumer<Double>> mapCommands = new HashMap<>();
+    private List<Direction> listDirections = Arrays.asList(
+        Direction.NORTH,
+        Direction.EAST,
+        Direction.SOUTH,
+        Direction.WEST
+    );
 
     public ClientCommands(ClientRobot instance){
         this.clientRobot = instance;
@@ -17,10 +23,10 @@ public class ClientCommands {
     }
 
     // Executes String command.
-    public void executeCommand(String strCommand, double commandQuantity){
+    public void executeCommand(String strCommand, double commandrotationQuantity){
         Consumer<Double> command = mapCommands.get(strCommand.toLowerCase());
         if (command != null) {
-            command.accept(commandQuantity);
+            command.accept(commandrotationQuantity);
         } else {
             System.err.println("Unknown command: " + strCommand);
             System.err.println("Available commands: forward, backward, right, left");
@@ -72,6 +78,20 @@ public class ClientCommands {
         clientRobot.fuelAmount = amount;
     }
 
+    // Direction methods
+    public void rotateRight(int rotationQuantity){
+        if(rotationQuantity instanceof Integer){
+            if(rotationQuantity >= 0){
+                int currentIndex = listDirections.indexOf(clientRobot.direction);
+                int index = (currentIndex + rotationQuantity) % 4;
+                clientRobot.direction = listDirections.get(index);
+            }else{
+                System.err.println("rotationQuantity cannot be less than zero");
+            }
+        }else{
+            System.err.println("rotationQuantity has to be an integer!");
+        }
+    }
 
     // Modifier methods.
     public void moveForward(double distance) {

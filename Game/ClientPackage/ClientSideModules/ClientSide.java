@@ -24,19 +24,19 @@ public class ClientSide {
             Scanner consoleIn = new Scanner(System.in);
         ) {
             System.out.println("Connected to server!");
-            System.out.println("Waiting for Server to set game up....");
 
             ClientRobot robot = new ClientRobot();
             ClientCommands clientCommand = new ClientCommands(robot);
 
-            System.out.println("Lets begin the game...");
+            System.out.println("\nLets begin the game...");
 
             // Recieve robot types from server.
             String robotTypes = dataFromServer.readUTF();
-            System.out.println(robotTypes);
-            System.out.println("Pick a robot type by selecting its number:");
-            System.out.println("Enter number");
+            System.out.println("\n"+robotTypes);
+            System.out.println("\nPick a robot type by selecting its number:");
+            System.out.print("Enter number:");
             int robotIndex = Integer.parseInt(consoleIn.nextLine());
+            
             // Send index of robot to Server
             dataToServer.writeInt(robotIndex);
 

@@ -21,7 +21,7 @@ public class ServerCommands {
 
     // Retrieval methods.
     public String viewPosition(){
-        return "Robot is at (" + robot.xPos + "," + robot.yPos + ")";
+        return "Robot is at (" + robot.xPos + "," + robot.yPos + ") facing " + robot.direction;
     }
 
     public double getXpos(){

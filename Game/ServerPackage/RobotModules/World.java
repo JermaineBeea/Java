@@ -1,9 +1,6 @@
-package Game.ServerPackage.WordModules;
+package Game.ServerPackage.RobotModules;
 
 import java.util.Set;
-
-import Game.ServerPackage.RobotModules.Robot;
-
 import java.util.HashSet;
 
 public class World {

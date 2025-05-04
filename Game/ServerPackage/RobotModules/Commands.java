@@ -8,7 +8,6 @@ public class Commands {
         this.robot = instance;
     }
 
-
     // Updater methods.
     public void updateDirection(Direction directionArg){
         robot.direction = directionArg;
@@ -27,7 +26,6 @@ public class Commands {
     }
 
     // Retrieval methods.
-
     public String getPos(){
         return "Robot is at (" + robot.xPos + "," + robot.yPos + ")";
     }

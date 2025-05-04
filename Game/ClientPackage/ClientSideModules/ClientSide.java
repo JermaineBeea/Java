@@ -1,6 +1,11 @@
-package Game.ClientPackage;
+package Game.ClientPackage.ClientSideModules;
 
 import java.util.*;
+
+import Game.ClientPackage.RobotModules.ClientCommands;
+import Game.ClientPackage.RobotModules.ClientRobot;
+import Game.ClientPackage.RobotModules.Direction;
+
 import java.net.*;
 import java.io.*;
 

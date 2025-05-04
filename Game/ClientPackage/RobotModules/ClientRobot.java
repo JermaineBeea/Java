@@ -1,4 +1,4 @@
-package Game.ClientPackage;
+package Game.ClientPackage.RobotModules;
 
 public class ClientRobot{
     

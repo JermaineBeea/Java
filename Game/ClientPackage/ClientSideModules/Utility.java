@@ -1,4 +1,4 @@
-package Game.ClientPackage;
+package Game.ClientPackage.ClientSideModules;
 
 public class Utility {
     
@@ -24,7 +24,7 @@ public class Utility {
                 System.err.println("Error: Quantity must be a numeric value");
                 return null;
             }
-            
+
             return new Object[] {command, quantity};
 
         } catch (Exception e) {

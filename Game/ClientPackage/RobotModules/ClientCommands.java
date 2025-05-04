@@ -1,4 +1,4 @@
-package Game.ClientPackage;
+package Game.ClientPackage.RobotModules;
 
 import java.util.*;
 import java.util.function.Consumer;

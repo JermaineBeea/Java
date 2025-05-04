@@ -12,18 +12,24 @@ import java.io.IOException;
 public class ServerUtility {
 
     /**
-     * Recieve integer to test connection to Socket.
+     * Receive integer to test connection to Socket.
      * @param socket The socket being tested
-     * @return True or False
+     * @return True if connection is active, False otherwise
      */
-    public static boolean recieveHandshake(Socket socket){
-        try(
-            DataInputStream toSocket = new DataInputStream(socket.getInputStream())
-        ){  
-            toSocket.readInt();
-            return true;
-        }catch(IOException e){
+    public static boolean recieveHandshake(Socket socket) {
+        if (socket == null || socket.isClosed()) {
             return false;
+        }
+        
+        DataInputStream fromSocket = null;
+        try {
+            fromSocket = new DataInputStream(socket.getInputStream());
+            fromSocket.readInt();
+            return true;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            // Don't close the stream as it would close the socket
         }
     }
     
@@ -34,17 +40,27 @@ public class ServerUtility {
      * 
      * @return The IP address string of the server
      */
-    public static String getServerIP(){
-        try(Socket tempSocket = new Socket("8.8.8.8", 100)){
+    public static String getServerIP() {
+        Socket tempSocket = null;
+        try {
+            tempSocket = new Socket("8.8.8.8", 100);
             return tempSocket.getLocalAddress().getHostAddress();
-        }catch(IOException e){
-            try{
+        } catch (IOException e) {
+            try {
                 return InetAddress.getLocalHost().getHostAddress();
-            }catch(UnknownHostException ex){
+            } catch (UnknownHostException ex) {
                 System.out.println("Unable to find Server IP: " + ex.getMessage());
                 System.out.println("Switched to 'local host'");
                 ex.printStackTrace();
                 return "localhost";
+            }
+        } finally {
+            if (tempSocket != null && !tempSocket.isClosed()) {
+                try {
+                    tempSocket.close();
+                } catch (IOException e) {
+                    // Ignore close errors
+                }
             }
         }
     }

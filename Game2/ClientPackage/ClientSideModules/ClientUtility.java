@@ -23,30 +23,37 @@ public class ClientUtility {
     }
 
     /**
-     * Test if there is still connection to socket by sending datat.
+     * Test if there is still connection to socket by sending data.
      * @param socket The socket being tested
-     * @return True or False
+     * @return True if connection is active, False otherwise
      */
-    public static boolean sendHandshake(Socket socket){
-        try(
-            DataOutputStream toSocket = new DataOutputStream(socket.getOutputStream())
-        ){  
-            toSocket.writeInt(800);
-            return true;
-        }catch(IOException e){
+    public static boolean sendHandshake(Socket socket) {
+        if (socket == null || socket.isClosed()) {
             return false;
+        }
+        
+        DataOutputStream toSocket = null;
+        try {
+            toSocket = new DataOutputStream(socket.getOutputStream());
+            toSocket.writeInt(800);
+            toSocket.flush(); // Ensure data is sent immediately
+            return true;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            // Don't close the stream as it would close the socket
         }
     }
 
     /**
-     * Delay the programs fro a specific given time.
-     * @throws Interrupted Exception
+     * Delay the program execution for a specific amount of time.
+     * @param timeMilli Time to delay in milliseconds
      */
-    public static void delayRun(int timeMilli){
-        try{
+    public static void delayRun(int timeMilli) {
+        try {
             Thread.sleep(timeMilli);
-        }catch(InterruptedException e){
-            Thread.currentThread().isInterrupted();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore the interrupted status
         }
     }
 

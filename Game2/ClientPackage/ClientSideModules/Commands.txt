@@ -1,0 +1,8 @@
+ROBOT COMMANDS
+
+rotateRight -> Rotates clockwise(right)
+rotateLeft -> Rotates anti-clockwise(left)
+forward -> Moves in same direction that robot is facing
+backward -> Moves in the opposite direction that therobot is facing
+right -> Moves in the direction clockwise of direction robot is facing
+left -> Moves in the direction anti-clockwise to direction robot is facing

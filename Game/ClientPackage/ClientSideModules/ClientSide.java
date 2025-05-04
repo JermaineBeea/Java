@@ -33,7 +33,10 @@ public class ClientSide {
             double xInitial = dataFromServer.readDouble();
             double yInitial = dataFromServer.readDouble();
             double fuelInitial = dataFromServer.readDouble();
-            Direction direction = (Direction) objectFromServer.readObject();
+            
+            // Read server direction as a string and convert it to client direction
+            String directionName = (String) objectFromServer.readObject();
+            Direction direction = Direction.valueOf(directionName);
 
             // Set up robot.
             clientCommand.setPos(xInitial, yInitial);
@@ -58,12 +61,14 @@ public class ClientSide {
                 double quantity = (double) result[1];
                 
                 clientCommand.executeCommand(command, quantity);
-                clientCommand.viewPos();
+                System.out.println(clientCommand.viewPos());
 
                 // Return state to server
                 dataToServer.writeDouble(clientCommand.getXpos());
                 dataToServer.writeDouble(clientCommand.getYpos());
-                objectToServer.writeObject(clientCommand.getDirection());
+                // Send direction as a string name
+                objectToServer.writeObject(clientCommand.getDirection().name());
+                dataToServer.writeDouble(robot.fuelAmount); // Added missing fuel data
                 dataToServer.flush();
                 objectToServer.flush();
             }

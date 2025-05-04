@@ -31,23 +31,27 @@ public class ServerThread {
                 Robot clientRobot = new Robot();
                 ServerCommands serverCommand = new ServerCommands(clientRobot);
                 
-                // Send default ste up values to client.
+                // Send default set up values to client.
                 dataToClient.writeDouble(serverCommand.getXpos());
                 dataToClient.writeDouble(serverCommand.getYpos());
                 dataToClient.writeDouble(serverCommand.getFuel());
-                objectToClient.writeObject(serverCommand.getDirection());
+                // Send direction as a string name
+                objectToClient.writeObject(serverCommand.getDirection().name());
 
                 // Begin the game.
                 while(isRunning.get() && clientsocket.isConnected()){
-                    // Recieve robot state from client.
+                    // Receive robot state from client.
                     double xPos = dataFromClient.readDouble(); // xPos
                     double yPos = dataFromClient.readDouble(); // yPos
+                    // Receive direction as a string and convert back to server Direction enum
+                    String directionName = (String) objectFromClient.readObject();
+                    Direction direction = Direction.valueOf(directionName);
                     double fuel = dataFromClient.readDouble(); // fuel amount
-                    Direction direction = (Direction) objectFromClient.readObject(); // Direction
+                    
                     // Update robot position and fuel amount.
                     serverCommand.updatePos(xPos, yPos, direction);
                     serverCommand.updateFuel(fuel);
-                    serverCommand.viewPosition();
+                    System.out.println("Client " + clientId + ": " + serverCommand.viewPosition());
                 }
 
             }catch(IOException ex){
@@ -59,7 +63,7 @@ public class ServerThread {
             System.err.println("Error running client thread: " + e.getMessage());
             System.err.println("Closing client " + clientId + " connection, and stopping thread");
             this.stopThread();
-    }
+        }
     };
 
     public void startThread(){
@@ -81,8 +85,7 @@ public class ServerThread {
                 thread.interrupt();
             }
         }catch(IOException e){
-            System.out.println("Error clsoing client onnection: " + e.getMessage());
+            System.out.println("Error closing client connection: " + e.getMessage());
         }
     }
-
 }

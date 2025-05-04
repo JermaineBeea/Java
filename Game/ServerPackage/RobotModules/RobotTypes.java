@@ -11,13 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RobotTypes {
 
     /**
-     * Test method to display available robots
-     */
-    public static void main(String[] args) {
-        System.out.println(getStrRobots());
-    }
-
-    /**
      * Thread-safe map of available robot types
      */
     private static final Map<Integer, Robot> availableRobots = new ConcurrentHashMap<>();
@@ -47,14 +40,12 @@ public class RobotTypes {
      */
     public static String getStrRobots(){
         StringBuilder sb = new StringBuilder("AVAILABLE ROBOTS\n");
-        sb.append("=================\n");
         
         for(Map.Entry<Integer, Robot> entry : availableRobots.entrySet()){
             int index = entry.getKey();
             Robot robot = entry.getValue();
             
-            sb.append(String.format("%d. %s: Fuel Usage (%.1f) per 1 distance\n", 
-                     index, robot.name, robot.rateFuelUsage));
+            sb.append(String.format("%d. %s: Fuel Usage (%.1f) per 1 distance\n", index, robot.name, robot.rateFuelUsage));
         }
 
         return sb.toString();

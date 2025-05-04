@@ -3,15 +3,15 @@ package Game.ClientPackage.ClientSideModules;
 import java.util.Scanner;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.net.Socket;
+import java.io.IOException;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-import Game.ClientPackage.RobotModules.ClientCommands;
-import Game.ClientPackage.RobotModules.ClientRobot;
-import Game.ClientPackage.RobotModules.Direction;
+import Game.ClientPackage.RobotModules.*;
 
-import java.net.*;
-import java.io.*;
-
-@SuppressWarnings("unused")
 public class ClientSide {
     
     private static final int PORT = 1700;
@@ -59,6 +59,7 @@ public class ClientSide {
             clientCommand.setPosition(xInitial, yInitial);
             clientCommand.setDirection(directionInitial);
             clientCommand.setFuel(fuelInitial);
+            clientCommand.setRateUsage(rateInitial);
 
             //Begin the game
             while (serverSocket.isConnected()) {

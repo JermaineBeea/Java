@@ -12,17 +12,26 @@ public class ClientSide {
             Socket serverSocket = new Socket("localhost", 3000);
             DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream());
             DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream());
+            ObjectInputStream ObjectFromServer = new ObjectInputStream(serverSocket.getInputStream());
+            ObjectOutputStream ObjectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
             Scanner consoleIn = new Scanner(System.in);
         ) {
             System.out.println("Connected to server!");
 
-            Position pos = new Position();
-            // Set initial position and direction
-            pos.setPos(0, 0);
-            pos.setDirection(Direction.NORTH);
-            
-            CommandProcessor commandProcessor = new CommandProcessor(pos);
-            
+            ClientRobot robot = new ClientRobot();
+            ClientCommands robotCommand = new ClientCommands(robot);
+
+            //Retriev robot default values.
+            double xInitial = fromServer.readDouble();
+            double yInitial = fromServer.readDouble();
+            double fuelInitial = fromServer.readDouble();
+            Direction direction = (Direction) ObjectFromServer.readObject();
+
+            // Set up robot.
+            robotCommand.setPos(xInitial, yInitial);
+            robotCommand.setFuel(fuelInitial);
+            robotCommand.setDirection(direction);
+                        
             while (serverSocket.isConnected()) {
                 System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                 System.out.print("Enter command: ");
@@ -33,14 +42,14 @@ public class ClientSide {
                     String command = (String) result[0];
                     double quantity = (double) result[1];
                     
-                    commandProcessor.executeCommand(command, quantity);
-                    
-                    System.out.println("New position: (" + pos.getXpos() + ", " + pos.getYpos() + ")");
+                    robotCommand.executeCommand(command, quantity);
                     
                     // Return state to server
-                    toServer.writeDouble(pos.getXpos());
-                    toServer.writeDouble(pos.getYpos());
+                    toServer.writeDouble(robotCommand.getXpos());
+                    toServer.writeDouble(robotCommand.getYpos());
+                    ObjectToServer.writeObject(robotCommand.getDirection());
                     toServer.flush();
+                    ObjectToServer.flush();
                 }
             }
         } catch (IOException e) {

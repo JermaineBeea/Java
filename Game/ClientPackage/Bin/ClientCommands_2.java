@@ -3,14 +3,14 @@ package Game.ClientPackage.Bin;
 import java.util.*;
 import java.util.function.Function;
 
-import Game.ClientPackage.Position;
+import Game.ClientPackage.ClientRobot;
 
 public class ClientCommands_2 {
 
-    private Position posInstance;
+    private ClientRobot posInstance;
     private Map<String, Function<Double, Void>> commands = new HashMap<>();
     
-    public ClientCommands_2(Position pos) {
+    public ClientCommands_2(ClientRobot pos) {
         this.posInstance = pos;
         
         // Initialize commands map with method references

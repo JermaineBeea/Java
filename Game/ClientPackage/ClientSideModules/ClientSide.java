@@ -1,18 +1,24 @@
 package Game.ClientPackage.ClientSideModules;
 
-import java.util.*;
+import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import Game.ClientPackage.RobotModules.ClientCommands;
 import Game.ClientPackage.RobotModules.ClientRobot;
-import Game.ClientPackage.RobotModules.Direction;
 
 import java.net.*;
 import java.io.*;
 
+@SuppressWarnings("unused")
 public class ClientSide {
     
     private static final int PORT = 1700;
-
+    private static final Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
+    static Runnable displayCommands = () -> {
+        System.out.println(Utility.displayTextVertically(path));
+    };
+    
     public static void main(String[] args) {
         System.out.println("Connecting to Server.....");
         try (
@@ -36,14 +42,15 @@ public class ClientSide {
             System.out.println("\nPick a robot type by selecting its number:");
             System.out.print("Enter number:");
             int robotIndex = Integer.parseInt(consoleIn.nextLine());
-            
+
             // Send index of robot to Server
             dataToServer.writeInt(robotIndex);
 
             while (serverSocket.isConnected()) {
 
                 Object result[] = {};
-                while(true){                
+                while(true){  
+                    displayCommands.run();         
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.print("Enter command: ");
                     String clientInput = consoleIn.nextLine();

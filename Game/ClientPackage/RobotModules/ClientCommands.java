@@ -16,6 +16,8 @@ public class ClientCommands {
 
     public ClientCommands(ClientRobot instance){
         this.clientRobot = instance;
+        mapCommands.put("rotateClockWise", n -> rotateClockWise(n.intValue()));
+        mapCommands.put("rotateAntiClockWise", n -> rotateAntiClockWise(n.intValue()));
         mapCommands.put("forward", this::moveForward);
         mapCommands.put("backward", this::moveBackward);  // Fixed the typo from 'backwards' to 'backward'
         mapCommands.put("right", this::moveRight);
@@ -34,7 +36,6 @@ public class ClientCommands {
     }
 
     // Retrieval methods.
-    
     public double getXpos(){
         return clientRobot.xPos;
     }
@@ -51,7 +52,6 @@ public class ClientCommands {
         return "Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ") facing " + clientRobot.direction;
     }
 
-    
     // Helper methods.
     private void changeCoordinates(double distance, int xTranslation, int yTranslation){
         double currentFuel = clientRobot.fuelAmount;
@@ -79,17 +79,35 @@ public class ClientCommands {
     }
 
     // Direction methods
-    public void rotateRight(int rotationQuantity){
+    public void rotateClockWise(int rotationQuantity){
         if(rotationQuantity instanceof Integer){
             if(rotationQuantity >= 0){
                 int currentIndex = listDirections.indexOf(clientRobot.direction);
-                int index = (currentIndex + rotationQuantity) % 4;
-                clientRobot.direction = listDirections.get(index);
+                int newIndex = (currentIndex + rotationQuantity) % 4;
+                clientRobot.direction = listDirections.get(newIndex);
             }else{
                 System.err.println("rotationQuantity cannot be less than zero");
+                return;
             }
         }else{
             System.err.println("rotationQuantity has to be an integer!");
+            return;
+        }
+    }
+
+    public void rotateAntiClockWise(int rotationQuantity){
+        if(rotationQuantity instanceof Integer){
+            if(rotationQuantity >= 0){
+                int currentIndex = listDirections.indexOf(clientRobot.direction);
+                int newIndex = 4 - (currentIndex - rotationQuantity) % 4;
+                clientRobot.direction = listDirections.get(newIndex);
+            }else{
+                System.err.println("rotationQuantity cannot be less than zero");
+                return;
+            }
+        }else{
+            System.err.println("rotationQuantity has to be an integer!");
+            return;
         }
     }
 

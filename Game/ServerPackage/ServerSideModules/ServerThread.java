@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import Game.ServerPackage.RobotModules.*;
 
+@SuppressWarnings("unused")
 public class ServerThread {
     
     private Socket clientsocket;
@@ -41,7 +42,7 @@ public class ServerThread {
                 Robot clientRobot = (Robot) RobotTypes.getAvailableRobots().get(robotIndex);
                 ServerCommands serverCommand = new ServerCommands(clientRobot);
 
-                
+
 
                 // Begin the game.
                 while(isRunning.get() && clientsocket.isConnected()){

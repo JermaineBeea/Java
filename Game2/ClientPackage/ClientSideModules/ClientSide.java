@@ -67,7 +67,7 @@ public class ClientSide {
                 //Connection test
                     connecteToServer = ClientUtility.sendHandshake(serverSocket);
                     if(!connecteToServer){
-                        System.err.println("Server Connection Error");
+                        System.err.println("\nServer Connection Error");
                         System.out.println("Shutting down Game...");
                         serverSocket.close();
                         break;
@@ -110,16 +110,16 @@ public class ClientSide {
 
                 } catch (IllegalArgumentException e) {
                     // Handle specific input parsing errors
-                    System.out.println("Input error: " + e.getMessage());
+                    System.out.println("\nInput error: " + e.getMessage());
                 } catch (Exception e) {
                     // If IO Exception break loop
-                    System.out.println("Error: " + e.getMessage());
+                    System.out.println("\nError: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
-            System.err.println("Client Connection error: " + e.getMessage());
+            System.err.println("\nClient Connection error: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
+            System.err.println("\nAn error occurred: " + e.getMessage());
             e.printStackTrace();
         }
     }

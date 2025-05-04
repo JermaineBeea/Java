@@ -5,9 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
 
+/**
+ * Main server application that listens for client connections.
+ * Creates a new thread for each connected client.
+ */
 public class ServerSide {
 
     private static final int PORT = 1700;
+    
+    /**
+     * Main entry point for the server application.
+     * Establishes a server socket and handles incoming client connections.
+     * @param args Command line arguments (not used)
+     */
     public static void main(String[] args){
 
         System.out.println("Establishing server connection...");
@@ -18,12 +28,13 @@ public class ServerSide {
 
             int clientcount = 0;
             while(true){
-                // Accept
+                // Accept new client connection
                 Socket clientsocket = serversocket.accept();
 
                 clientcount++;
                 final int clientId = clientcount;
 
+                // Create and start a new thread for the client
                 ServerThread clientThread = new ServerThread(clientId, clientsocket);
                 clientThread.startThread();
 

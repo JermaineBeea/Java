@@ -10,6 +10,10 @@ import java.io.ObjectOutputStream;
 
 import Game2.ServerPackage.RobotModules.*;
 
+/**
+ * Manages communication with a single client in a separate thread.
+ * Handles robot state synchronization between client and server.
+ */
 public class ServerThread {
     
     private Socket clientsocket;
@@ -18,11 +22,20 @@ public class ServerThread {
     private Thread thread;
     private AtomicBoolean isRunning = new AtomicBoolean(false);
 
+    /**
+     * Initializes a new server thread for a client connection.
+     * @param clientId Unique identifier for the client
+     * @param clientSocket Socket connection to the client
+     */
     public ServerThread(int clientId, Socket clientSocket){
         this.clientId = clientId;
         this.clientsocket = clientSocket;
     }
 
+    /**
+     * Runnable task for the client thread.
+     * Handles data exchange with the client and maintains robot state.
+     */
     Runnable wrapperFunction = () -> {
         try{
             try(
@@ -32,8 +45,8 @@ public class ServerThread {
                 ObjectOutputStream objectToClient = new ObjectOutputStream(clientsocket.getOutputStream());
             ){
                 // Create robot instance for client
-                Robot clientRobot = new Robot();
-                ServerCommands serverCommand = new ServerCommands(clientRobot);
+                ServerRobot serverRobot = new ServerRobot();
+                ServerCommands serverCommand = new ServerCommands(serverRobot);
 
                 // Send default values of robot properties to client.
                 dataToClient.writeDouble(serverCommand.getXpos()); // send x initial posiiton
@@ -77,6 +90,9 @@ public class ServerThread {
         }
     };
 
+    /**
+     * Starts the client thread if it's not already running.
+     */
     public void startThread(){
         if(thread != null && thread.isAlive()){
             return;
@@ -88,6 +104,9 @@ public class ServerThread {
         thread.start();
     }
 
+    /**
+     * Stops the client thread and closes the socket connection.
+     */
     public void stopThread(){
         try{
             clientsocket.close();

@@ -1,6 +1,9 @@
 package Game2.ServerPackage.RobotModules;
 
-public class Robot{
+/**
+ * Data model for the robot on the server side.
+ */
+public class ServerRobot{
 
     public String name;
     public double rateFuelUsage; 
@@ -9,12 +12,14 @@ public class Robot{
     public double xPos;
     public double yPos;
     
-    public Robot(){
-
-        this.fuelAmount = 1000;
+    /**
+     * Initializes a new robot with default values.
+     * - Position at origin (0,0)
+     * - Facing NORTH
+     */
+    public ServerRobot(){
         this.direction = Direction.NORTH;
         this.xPos = 0;
         this.yPos = 0;
     }
-
 }

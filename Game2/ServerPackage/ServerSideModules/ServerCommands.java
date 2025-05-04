@@ -2,38 +2,64 @@ package Game2.ServerPackage.ServerSideModules;
 
 import Game2.ServerPackage.RobotModules.*;
 
+/**
+ * Handles robot state management on the server side.
+ * Updates and retrieves robot properties.
+ */
 public class ServerCommands {
     
-    private Robot robot;
+    private ServerRobot robot;
 
-    public ServerCommands(Robot instance){
+    /**
+     * Initializes ServerCommands with a robot instance.
+     * @param instance The server robot to manage
+     */
+    public ServerCommands(ServerRobot instance){
         this.robot = instance;
     }
 
-    // Updater methods.
+    /**
+     * Updates the robot's position coordinates.
+     * @param xPosArg New X position
+     * @param yPosArg New Y position
+     */
     public void updatePosition(double xPosArg, double yPosArg){
         robot.xPos = xPosArg;
         robot.yPos = yPosArg;
     }
 
+    /**
+     * Updates the robot's direction.
+     * @param directionArg New direction
+     */
     public void updateDirection(Direction directionArg){
         robot.direction = directionArg;
     }
 
-
-    // Retrieval methods.
+    /**
+     * Displays the robot's current position and direction
+     */
     public void viewPosition(){
         System.out.println("Robot is at (" + robot.xPos + "," + robot.yPos + ") facing " + robot.direction);
     }
 
+    /**
+     * @return The robot's current X position
+     */
     public double getXpos(){
         return robot.xPos;
     }
 
+    /**
+     * @return The robot's current Y position
+     */
     public double getYpos(){
         return robot.yPos;
     }
 
+    /**
+     * @return The robot's current direction
+     */
     public Direction getDirection(){
         return robot.direction;
     }

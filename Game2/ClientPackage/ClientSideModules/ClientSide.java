@@ -12,12 +12,21 @@ import java.io.ObjectOutputStream;
 
 import Game2.ClientPackage.RobotModules.*;
 
+/**
+ * Main client application that connects to the server and handles user input.
+ * Manages the client-server communication and robot control.
+ */
 public class ClientSide {
     
     private static final int PORT = 1700;
     private static final Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
-    static String displayOfCommands = Utility.displayTextVertically(path);
+    static String displayOfCommands = UtilityFunctions.displayTextVertically(path);
     
+    /**
+     * Main entry point for the client application.
+     * Establishes server connection and handles user commands.
+     * @param args Command line arguments (not used)
+     */
     public static void main(String[] args) {
         System.out.println("Connecting to Server.....");
         try (
@@ -56,7 +65,7 @@ public class ClientSide {
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.print("Enter command: ");
                     String clientInput = consoleIn.nextLine();
-                    result = Utility.parseInput(clientInput);
+                    result = UtilityFunctions.parseInput(clientInput);
                     if(result != null){
                         break;
                     }

@@ -6,16 +6,16 @@ import java.net.InetAddress;
 import java.io.IOException;
 
 /**
- * Has Functions that are used primaraly in the ServerSide class.
+ * Provides utility functions for server-side operations.
  */
 public class UtilityFunctions {
     
     /**
-     * Finds the IP Address the server is connected to.
+     * Determines the IP address of the local machine.
+     * First attempts to connect to Google DNS to get local IP,
+     * falls back to localhost if that fails.
      * 
-     * @return The IP Address the server is connected to. Default is "localhost"
-     * @throws IOEXception
-     * @throws UnknownHostException
+     * @return The IP address string of the server
      */
     public static String getServerIP(){
         try(Socket tempSocket = new Socket("8.8.8.8", 100)){

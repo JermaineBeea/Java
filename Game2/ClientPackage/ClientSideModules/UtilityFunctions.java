@@ -6,13 +6,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Utility {
+/**
+ * Utility class providing helper methods for the client application.
+ */
+public class UtilityFunctions {
 
+    /**
+     * Test method to display the contents of the Commands.txt file.
+     * @param args Command line arguments (not used)
+     */
     public static void main(String[] args) {
         Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
         System.out.println(displayTextVertically(path));
     }
 
+    /**
+     * Reads a text file and returns its contents as a single string.
+     * @param path Path to the file to read
+     * @return String containing the file contents, with each line separated by a newline
+     */
     public static String displayTextVertically(Path path) {
         StringBuilder result = new StringBuilder();
 
@@ -31,7 +43,11 @@ public class Utility {
         return result.toString();
     }
 
-
+    /**
+     * Parses user input for robot commands.
+     * @param input String in format "command quantity" (e.g., "forward 3")
+     * @return Object array containing the command string and quantity value, or null if invalid
+     */
     public static Object[] parseInput(String input) {
         try {
             if (input == null || input.trim().isEmpty()) {
@@ -62,5 +78,4 @@ public class Utility {
             return null;
         }
     }
-
 }

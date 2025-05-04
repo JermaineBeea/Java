@@ -72,8 +72,9 @@ public class ServerThread {
                     // Update robot position and fuel amount.
                     serverCommand.updatePosition(xPos, yPos);
                     serverCommand.updateDirection(direction);
+
                     // View current Position of client robot.
-                    serverCommand.viewPosition();
+                    System.out.print("\nclient "+ clientId + " " + serverCommand.getPosition());
                 }
 
             }catch(IOException ex){

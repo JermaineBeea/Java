@@ -28,7 +28,7 @@ public class ClientSide {
      * @param args Command line arguments (not used)
      */
     public static void main(String[] args) {
-        System.out.println("Connecting to Server.....");
+        System.out.println("Connecting to Server...");
         try (
             Socket serverSocket = new Socket("localhost", PORT);
             DataOutputStream dataToServer = new DataOutputStream(serverSocket.getOutputStream());
@@ -60,11 +60,13 @@ public class ClientSide {
             boolean running = true;
             while (running && serverSocket.isConnected()) {
 
-                    System.out.println("\n" + displayOfCommands);        
+                    UtilityFunctions.delayRun(1300);
+                    System.out.println("\n------------------------\n" + displayOfCommands);        
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.println("Type 'exit' to quit the game");
                     System.out.print("Enter command: ");
                     String clientInput = consoleIn.nextLine();
+                    System.out.println("\n");
                 
                 try {
                     // Check for exit command

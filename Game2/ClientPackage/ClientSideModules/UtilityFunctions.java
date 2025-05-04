@@ -21,6 +21,18 @@ public class UtilityFunctions {
     }
 
     /**
+     * Delay the programs fro a specific given time.
+     * @throws Interrupted Exception
+     */
+    public static void delayRun(int timeMilli){
+        try{
+            Thread.sleep(timeMilli);
+        }catch(InterruptedException e){
+            Thread.currentThread().isInterrupted();
+        }
+    }
+
+    /**
      * Reads a text file and returns its contents as a single string.
      * @param path Path to the file to read
      * @return String containing the file contents, with each line separated by a newline

@@ -26,10 +26,10 @@ public class ServerSide {
         try(ServerSocket serversocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
 
             System.out.println("Connection established to " + UtilityFunctions.getServerIP() + ":" + PORT);
-            System.out.println("Waiting for clients...");
 
             int clientcount = 0;
             while(true){
+                System.out.println("\nWaiting for client" + (clientcount + 1) + "...");
                 // Accept new client connection
                 Socket clientsocket = serversocket.accept();
 

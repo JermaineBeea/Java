@@ -85,7 +85,7 @@ public class ClientCommands {
      * @param yTranslation Y component of movement vector
      */
     private void changeCoordinates(double distance, int xTranslation, int yTranslation){
-            if(distance > 0){
+            if(distance >= 0){
                 clientRobot.xPos += distance * xTranslation;
                 clientRobot.yPos += distance * yTranslation;
             }else{

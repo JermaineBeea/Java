@@ -39,8 +39,8 @@ public class ServerCommands {
     /**
      * Displays the robot's current position and direction
      */
-    public void viewPosition(){
-        System.out.println("Robot is at (" + robot.xPos + "," + robot.yPos + ") facing " + robot.direction);
+    public String getPosition(){
+        return "Robot is at (" + robot.xPos + "," + robot.yPos + ") facing " + robot.direction;
     }
 
     /**

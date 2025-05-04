@@ -8,7 +8,7 @@ public class Robot{
     public double xPos;
     public double yPos;
     
-    Robot(String name, double rateFuelUsage){
+    Robot(){
         this.RATE_FUEL_USAGE = 10;
         this.fuelAmount = 1000;
         this.direction = Direction.NORTH;

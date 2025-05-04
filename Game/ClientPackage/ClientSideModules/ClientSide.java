@@ -15,8 +15,8 @@ public class ClientSide {
         System.out.println("Connecting to Server.....");
         try (
             Socket serverSocket = new Socket("localhost", 3000);
-            DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream());
-            DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream());
+            DataInputStream dataFromServer = new DataInputStream(serverSocket.getInputStream());
+            DataOutputStream dataToServer = new DataOutputStream(serverSocket.getOutputStream());
             ObjectInputStream ObjectFromServer = new ObjectInputStream(serverSocket.getInputStream());
             ObjectOutputStream ObjectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
             Scanner consoleIn = new Scanner(System.in);
@@ -28,9 +28,9 @@ public class ClientSide {
             ClientCommands robotCommand = new ClientCommands(robot);
 
             //Retrieve robot default values.
-            double xInitial = fromServer.readDouble();
-            double yInitial = fromServer.readDouble();
-            double fuelInitial = fromServer.readDouble();
+            double xInitial = dataFromServer.readDouble();
+            double yInitial = dataFromServer.readDouble();
+            double fuelInitial = dataFromServer.readDouble();
             Direction direction = (Direction) ObjectFromServer.readObject();
 
             // Set up robot.
@@ -57,10 +57,10 @@ public class ClientSide {
                 robotCommand.executeCommand(command, quantity);
                 
                 // Return state to server
-                toServer.writeDouble(robotCommand.getXpos());
-                toServer.writeDouble(robotCommand.getYpos());
+                dataToServer.writeDouble(robotCommand.getXpos());
+                dataToServer.writeDouble(robotCommand.getYpos());
                 ObjectToServer.writeObject(robotCommand.getDirection());
-                toServer.flush();
+                dataToServer.flush();
                 ObjectToServer.flush();
             }
         } catch (IOException e) {

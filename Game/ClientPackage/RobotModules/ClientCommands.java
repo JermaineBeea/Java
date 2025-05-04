@@ -11,18 +11,23 @@ public class ClientCommands {
     public ClientCommands(ClientRobot instance){
         this.clientRobot = instance;
         mapCommands.put("forward", this::moveForward);
-        mapCommands.put("backwards", this:: moveBackward);
+        mapCommands.put("backward", this::moveBackward);  // Fixed the typo from 'backwards' to 'backward'
         mapCommands.put("right", this::moveRight);
-        mapCommands.put("left",this::moveLeft);
+        mapCommands.put("left", this::moveLeft);
     }
 
     // Executes String command.
     public void executeCommand(String strCommand, double commandQuantity){
-        Consumer<Double> command = mapCommands.get(strCommand);
-        command.accept(commandQuantity);
+        Consumer<Double> command = mapCommands.get(strCommand.toLowerCase());
+        if (command != null) {
+            command.accept(commandQuantity);
+        } else {
+            System.err.println("Unknown command: " + strCommand);
+            System.err.println("Available commands: forward, backward, right, left");
+        }
     }
 
-    // Retireval methods.
+    // Retrieval methods.
     
     public double getXpos(){
         return clientRobot.xPos;
@@ -37,7 +42,7 @@ public class ClientCommands {
     }
 
     public String viewPos(){
-        return "Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ")";
+        return "Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ") facing " + clientRobot.direction;
     }
 
     
@@ -78,5 +83,4 @@ public class ClientCommands {
     public void moveRight(double distance){
         changeCoordinates(distance, clientRobot.direction.yUnitChange, -clientRobot.direction.xUnitChange);
     }
-
 }

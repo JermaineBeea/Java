@@ -17,10 +17,10 @@ public class ClientSide {
         System.out.println("Connecting to Server.....");
         try (
             Socket serverSocket = new Socket("localhost", PORT);
-            DataInputStream dataFromServer = new DataInputStream(serverSocket.getInputStream());
             DataOutputStream dataToServer = new DataOutputStream(serverSocket.getOutputStream());
-            ObjectInputStream ObjectFromServer = new ObjectInputStream(serverSocket.getInputStream());
-            ObjectOutputStream ObjectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
+            DataInputStream dataFromServer = new DataInputStream(serverSocket.getInputStream());
+            ObjectOutputStream objectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
+            ObjectInputStream objectFromServer = new ObjectInputStream(serverSocket.getInputStream());
             Scanner consoleIn = new Scanner(System.in);
         ) {
             System.out.println("Connected to server!");
@@ -33,7 +33,7 @@ public class ClientSide {
             double xInitial = dataFromServer.readDouble();
             double yInitial = dataFromServer.readDouble();
             double fuelInitial = dataFromServer.readDouble();
-            Direction direction = (Direction) ObjectFromServer.readObject();
+            Direction direction = (Direction) objectFromServer.readObject();
 
             // Set up robot.
             clientCommand.setPos(xInitial, yInitial);
@@ -63,9 +63,9 @@ public class ClientSide {
                 // Return state to server
                 dataToServer.writeDouble(clientCommand.getXpos());
                 dataToServer.writeDouble(clientCommand.getYpos());
-                ObjectToServer.writeObject(clientCommand.getDirection());
+                objectToServer.writeObject(clientCommand.getDirection());
                 dataToServer.flush();
-                ObjectToServer.flush();
+                objectToServer.flush();
             }
         } catch (IOException e) {
             System.err.println("Client Connection error: " + e.getMessage());

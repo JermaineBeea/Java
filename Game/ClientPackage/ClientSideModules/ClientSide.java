@@ -25,7 +25,7 @@ public class ClientSide {
             System.out.println("Lets begin game!, waiting for Server to set game up....");
 
             ClientRobot robot = new ClientRobot();
-            ClientCommands robotCommand = new ClientCommands(robot);
+            ClientCommands clientCommand = new ClientCommands(robot);
 
             //Retrieve robot default values.
             double xInitial = dataFromServer.readDouble();
@@ -34,9 +34,9 @@ public class ClientSide {
             Direction direction = (Direction) ObjectFromServer.readObject();
 
             // Set up robot.
-            robotCommand.setPos(xInitial, yInitial);
-            robotCommand.setFuel(fuelInitial);
-            robotCommand.setDirection(direction);
+            clientCommand.setPos(xInitial, yInitial);
+            clientCommand.setFuel(fuelInitial);
+            clientCommand.setDirection(direction);
             
             System.out.println("Lets begin the game...");
             while (serverSocket.isConnected()) {
@@ -55,12 +55,13 @@ public class ClientSide {
                 String command = (String) result[0];
                 double quantity = (double) result[1];
                 
-                robotCommand.executeCommand(command, quantity);
-                
+                clientCommand.executeCommand(command, quantity);
+                clientCommand.viewPos();
+
                 // Return state to server
-                dataToServer.writeDouble(robotCommand.getXpos());
-                dataToServer.writeDouble(robotCommand.getYpos());
-                ObjectToServer.writeObject(robotCommand.getDirection());
+                dataToServer.writeDouble(clientCommand.getXpos());
+                dataToServer.writeDouble(clientCommand.getYpos());
+                ObjectToServer.writeObject(clientCommand.getDirection());
                 dataToServer.flush();
                 ObjectToServer.flush();
             }

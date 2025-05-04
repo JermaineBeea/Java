@@ -1,24 +1,18 @@
 package Game.ServerPackage.RobotModules;
 
-public class Commands {
+public class ServerCommands {
     
     private Robot robot;
 
-    public Commands(Robot instance){
+    public ServerCommands(Robot instance){
         this.robot = instance;
     }
 
     // Updater methods.
-    public void updateDirection(Direction directionArg){
-        robot.direction = directionArg;
-    }
-
-    public void updateXpos(double xPosArg){
+    public void updatePos(double xPosArg, double yPosArg, Direction directionArg){
         robot.xPos = xPosArg;
-    }
-
-    public void updateYpos(double yPosArg){
-    robot.yPos = yPosArg;
+        robot.yPos = yPosArg;
+        robot.direction = directionArg;
     }
 
     public void updateFuel(double amountArg){
@@ -26,7 +20,7 @@ public class Commands {
     }
 
     // Retrieval methods.
-    public String getPos(){
+    public String viewPosition(){
         return "Robot is at (" + robot.xPos + "," + robot.yPos + ")";
     }
 

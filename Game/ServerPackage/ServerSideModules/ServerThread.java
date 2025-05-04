@@ -29,21 +29,25 @@ public class ServerThread {
             ){
                 // Create robot instance for client
                 Robot clientRobot = new Robot();
-                Commands command = new Commands(clientRobot);
+                ServerCommands serverCommand = new ServerCommands(clientRobot);
                 
                 // Send default ste up values to client.
-                dataToClient.writeDouble(command.getXpos());
-                dataToClient.writeDouble(command.getYpos());
-                dataToClient.writeDouble(command.getFuel());
-                objectToClient.writeObject(command.getDirection());
+                dataToClient.writeDouble(serverCommand.getXpos());
+                dataToClient.writeDouble(serverCommand.getYpos());
+                dataToClient.writeDouble(serverCommand.getFuel());
+                objectToClient.writeObject(serverCommand.getDirection());
 
                 // Begin the game.
                 while(isRunning.get() && clientsocket.isConnected()){
-                // Recieve robot state from client and update locally.
-                    dataFromClient.readDouble(); // xPos
-                    dataFromClient.readDouble(); // yPos
-                    dataFromClient.readDouble(); // fuel amount
-                    objectFromClient.readObject(); // Direction
+                    // Recieve robot state from client.
+                    double xPos = dataFromClient.readDouble(); // xPos
+                    double yPos = dataFromClient.readDouble(); // yPos
+                    double fuel = dataFromClient.readDouble(); // fuel amount
+                    Direction direction = (Direction) objectFromClient.readObject(); // Direction
+                    // Update robot position and fuel amount.
+                    serverCommand.updatePos(xPos, yPos, direction);
+                    serverCommand.updateFuel(fuel);
+                    serverCommand.viewPosition();
                 }
 
             }catch(IOException ex){

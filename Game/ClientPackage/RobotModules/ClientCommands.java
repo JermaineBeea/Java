@@ -23,6 +23,7 @@ public class ClientCommands {
     }
 
     // Retireval methods.
+    
     public double getXpos(){
         return clientRobot.xPos;
     }
@@ -34,6 +35,11 @@ public class ClientCommands {
     public Direction getDirection(){
         return clientRobot.direction;
     }
+
+    public String viewPos(){
+        return "Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ")";
+    }
+
     
     // Helper methods.
     private void changeCoordinates(double distance, int xTranslation, int yTranslation){

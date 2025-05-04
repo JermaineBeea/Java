@@ -5,14 +5,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
 
+
+
 /**
  * Main server application that listens for client connections.
  * Creates a new thread for each connected client.
  */
 public class ServerSide {
 
-    private static final int PORT = 1700;
-    
+    private static final int PORT = 1900;
     /**
      * Main entry point for the server application.
      * Establishes a server socket and handles incoming client connections.
@@ -23,7 +24,8 @@ public class ServerSide {
         System.out.println("Establishing server connection...");
 
         try(ServerSocket serversocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
-            System.out.println("Connection established!");
+
+            System.out.println("Connection established to " + UtilityFunctions.getServerIP() + ":" + PORT);
             System.out.println("Waiting for clients...");
 
             int clientcount = 0;

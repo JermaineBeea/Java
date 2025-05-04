@@ -18,7 +18,7 @@ import Game2.ClientPackage.RobotModules.*;
  */
 public class ClientSide {
     
-    private static final int PORT = 1700;
+    private static final int PORT = 1900;
     private static final Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
     static String displayOfCommands = UtilityFunctions.displayTextVertically(path);
     
@@ -88,7 +88,7 @@ public class ClientSide {
                 }catch(Exception e){
                     System.out.println("ERROR: " + e.getMessage());
                 }
-    
+                
             }
         } catch (IOException e) {
             System.err.println("Client Connection error: " + e.getMessage());

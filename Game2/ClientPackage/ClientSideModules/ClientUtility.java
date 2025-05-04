@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Utility class providing helper methods for the client application.
  */
-public class UtilityFunctions {
+public class ClientUtility {
 
     /**
      * Test method to display the contents of the Commands.txt file.
@@ -23,15 +23,15 @@ public class UtilityFunctions {
     }
 
     /**
-     * Test if there is still connection to socket.
+     * Test if there is still connection to socket by sending datat.
      * @param socket The socket being tested
      * @return True or False
      */
-    public static boolean testConnection(Socket socket){
+    public static boolean sendHandshake(Socket socket){
         try(
             DataOutputStream toSocket = new DataOutputStream(socket.getOutputStream())
-        ){
-            toSocket.writeInt(0);
+        ){  
+            toSocket.writeInt(800);
             return true;
         }catch(IOException e){
             return false;

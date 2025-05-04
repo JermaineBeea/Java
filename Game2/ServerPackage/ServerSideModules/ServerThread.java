@@ -60,7 +60,19 @@ public class ServerThread {
                 objectToClient.flush();
 
                 // Begin the game.
+                boolean clientConnected;
                 while(isRunning.get() && clientsocket.isConnected()){
+                    
+                    // Test connection to client
+                    clientConnected = ServerUtility.recieveHandshake(clientsocket);
+                    if(!clientConnected){
+                        System.err.println("Client Connection Error");
+                        System.err.println("Closing client " + clientId + " connection, and stopping thread");
+                        clientsocket.close();
+                        this.stopThread();
+                        break;
+                    }
+                    
                     // Receive robot state from client.
                     double xPos = dataFromClient.readDouble(); // xPos
                     double yPos = dataFromClient.readDouble(); // yPos

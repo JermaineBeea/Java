@@ -20,7 +20,7 @@ public class ClientSide {
     
     private static final int PORT = 1900;
     private static final Path path = Paths.get("Game", "ClientPackage", "ClientSideModules", "Commands.txt");
-    static String displayOfCommands = UtilityFunctions.displayTextVertically(path);
+    static String displayOfCommands = ClientUtility.displayTextVertically(path);
     
     /**
      * Main entry point for the client application.
@@ -58,19 +58,19 @@ public class ClientSide {
 
             //Begin the game
             boolean running = true;
-            boolean isConnected = true;
+            boolean connecteToServer;
             while (running && serverSocket.isConnected()) {
 
                 //Connection test
-                    isConnected = UtilityFunctions.testConnection(serverSocket);
-                    if(!isConnected){
-                        System.err.println("Connection Error");
+                    connecteToServer = ClientUtility.sendHandshake(serverSocket);
+                    if(!connecteToServer){
+                        System.err.println("Server Connection Error");
                         System.out.println("Shutting down Game...");
                         serverSocket.close();
                         break;
                     }
 
-                    UtilityFunctions.delayRun(1300);
+                    ClientUtility.delayRun(1300);
                     System.out.println("\n------------------------\n" + displayOfCommands);        
                     System.out.println("\nEnter command separated by a space. E.g 'forward 3'");
                     System.out.println("Type 'exit' to quit the game");
@@ -86,7 +86,7 @@ public class ClientSide {
                         continue;
                     }
                     
-                    Object[] result = UtilityFunctions.parseInput(clientInput);
+                    Object[] result = ClientUtility.parseInput(clientInput);
                     String command = (String) result[0];
                     double quantity = (double) result[1];
 

@@ -37,7 +37,8 @@ public class ClientSide {
             robotCommand.setPos(xInitial, yInitial);
             robotCommand.setFuel(fuelInitial);
             robotCommand.setDirection(direction);
-                        
+            
+            System.out.println("Lets begin the game...");
             while (serverSocket.isConnected()) {
 
                 Object result[] = {};

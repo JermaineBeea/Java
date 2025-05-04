@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ServerPackage.RobotModules.Robot;
+import Game.ServerPackage.RobotModules.*;
 
 public class ServerThread {
     
@@ -25,23 +25,37 @@ public class ServerThread {
                 DataInputStream dataFromClient = new DataInputStream(clientsocket.getInputStream());
                 DataOutputStream dataToClient = new DataOutputStream(clientsocket.getOutputStream());
                 ObjectInputStream objectFromClient = new ObjectInputStream(clientsocket.getInputStream());
-                ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientsocket.getOutputStream());
+                ObjectOutputStream objectToClient = new ObjectOutputStream(clientsocket.getOutputStream());
             ){
                 // Create robot instance for client
                 Robot clientRobot = new Robot();
                 Commands command = new Commands(clientRobot);
                 
-                // Send default values to client
+                // Send default ste up values to client.
                 dataToClient.writeDouble(command.getXpos());
                 dataToClient.writeDouble(command.getYpos());
-                ObjectToClient.writeDouble(command.getDirection());
+                dataToClient.writeDouble(command.getFuel());
+                objectToClient.writeObject(command.getDirection());
+
+                // Begin the game.
+                while(isRunning.get() && clientsocket.isConnected()){
+                // Recieve robot state from client and update locally.
+                    dataFromClient.readDouble(); // xPos
+                    dataFromClient.readDouble(); // yPos
+                    dataFromClient.readDouble(); // fuel amount
+                    objectFromClient.readObject(); // Direction
+                }
 
             }catch(IOException ex){
                 System.err.println("Server Error: " + ex.getMessage());
+                System.err.println("Closing client " + clientId + " connection, and stopping thread");
+                this.stopThread();
             }
         }catch(Exception e){
             System.err.println("Error running client thread: " + e.getMessage());
-        }
+            System.err.println("Closing client " + clientId + " connection, and stopping thread");
+            this.stopThread();
+    }
     };
 
     public void startThread(){
@@ -54,4 +68,17 @@ public class ServerThread {
         thread = new Thread(wrapperFunction);
         thread.start();
     }
+
+    public void stopThread(){
+        try{
+            clientsocket.close();
+            if(thread != null){
+                isRunning.set(false);
+                thread.interrupt();
+            }
+        }catch(IOException e){
+            System.out.println("Error clsoing client onnection: " + e.getMessage());
+        }
+    }
+
 }

@@ -48,8 +48,14 @@ public class ClientCommands {
     
     // Helper methods.
     private void changeCoordinates(double distance, int xTranslation, int yTranslation){
-        clientRobot.xPos += distance * xTranslation;
-        clientRobot.yPos += distance * yTranslation;
+        double currentFuel = clientRobot.fuelAmount;
+        if(currentFuel >= clientRobot.rateFuelUsage * distance){
+            clientRobot.xPos += distance * xTranslation;
+            clientRobot.yPos += distance * yTranslation;
+            clientRobot.fuelAmount -= clientRobot.rateFuelUsage * distance;
+        }else{
+            System.out.println("Not enough fuel to go distance " + distance);
+        }
     }
 
     // Setter methods.

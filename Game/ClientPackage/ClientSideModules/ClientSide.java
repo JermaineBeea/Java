@@ -24,26 +24,22 @@ public class ClientSide {
             Scanner consoleIn = new Scanner(System.in);
         ) {
             System.out.println("Connected to server!");
-            System.out.println("Lets begin game!, waiting for Server to set game up....");
+            System.out.println("Waiting for Server to set game up....");
 
             ClientRobot robot = new ClientRobot();
             ClientCommands clientCommand = new ClientCommands(robot);
 
-            //Retrieve robot default values.
-            double xInitial = dataFromServer.readDouble();
-            double yInitial = dataFromServer.readDouble();
-            double fuelInitial = dataFromServer.readDouble();
-            
-            // Read server direction as a string and convert it to client direction
-            String directionName = (String) objectFromServer.readObject();
-            Direction direction = Direction.valueOf(directionName);
-
-            // Set up robot.
-            clientCommand.setPos(xInitial, yInitial);
-            clientCommand.setFuel(fuelInitial);
-            clientCommand.setDirection(direction);
-            
             System.out.println("Lets begin the game...");
+
+            // Recieve robot types from server.
+            String robotTypes = dataFromServer.readUTF();
+            System.out.println(robotTypes);
+            System.out.println("Pick a robot type by selecting its number:");
+            System.out.println("Enter number");
+            int robotIndex = Integer.parseInt(consoleIn.nextLine());
+            // Send index of robot to Server
+            dataToServer.writeInt(robotIndex);
+
             while (serverSocket.isConnected()) {
 
                 Object result[] = {};

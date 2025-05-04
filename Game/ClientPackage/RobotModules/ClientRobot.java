@@ -2,10 +2,11 @@ package Game.ClientPackage.RobotModules;
 
 public class ClientRobot{
     
-    // Field initial vales to be sent by server.
+    public String name;
+    public double rateFuelUsage; 
+    public double fuelAmount; 
+    public Direction direction;
     public double xPos;
     public double yPos;
-    public Direction direction;
-    public double fuelAmount;
 
 }

@@ -28,15 +28,20 @@ public class ServerThread {
                 ObjectOutputStream objectToClient = new ObjectOutputStream(clientsocket.getOutputStream());
             ){
                 // Create robot instance for client
-                Robot clientRobot = new Robot();
+                // Send client robot types.
+                String robotTypes = RobotTypes.getStrRobots();
+                dataToClient.writeUTF(robotTypes);
+                dataToClient.flush();
+
+                // Recieve response from client
+                int robotIndex = dataFromClient.readInt();
+                System.out.println("Client selected robot type number: " + robotIndex);
+
+                // Get robot type from client
+                Robot clientRobot = (Robot) RobotTypes.getAvailableRobots().get(robotIndex);
                 ServerCommands serverCommand = new ServerCommands(clientRobot);
+
                 
-                // Send default set up values to client.
-                dataToClient.writeDouble(serverCommand.getXpos());
-                dataToClient.writeDouble(serverCommand.getYpos());
-                dataToClient.writeDouble(serverCommand.getFuel());
-                // Send direction as a string name
-                objectToClient.writeObject(serverCommand.getDirection().name());
 
                 // Begin the game.
                 while(isRunning.get() && clientsocket.isConnected()){

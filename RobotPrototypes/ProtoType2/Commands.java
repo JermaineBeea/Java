@@ -1,20 +1,16 @@
-import java.util.Hashtable;
 
 public class Commands {
     
     private Position posInstance;
     private int xUnitChange;
     private int yUnitChange;
-    private Hashtable<Direction, Integer> setDirection = new Hashtable<>();
+    private int indexDirection;
 
     Commands(Position  instance){
         this.posInstance = instance;
-        xUnitChange = instance.getDirection().getXunitChange();
-        yUnitChange = instance.getDirection().getYunitChange();
-        setDirection.put(Direction.EAST, 0);
-        setDirection.put(Direction.SOUTH, 1);
-        setDirection.put(Direction.WEST, 2);
-        setDirection.put(Direction.NORTH, 3);
+        this.xUnitChange = instance.getDirection().getXunitChange();
+        this.yUnitChange = instance.getDirection().getYunitChange();
+        this.indexDirection = instance.getDirection().getRotationIndex();
     }
 
     // Helper functions
@@ -23,11 +19,28 @@ public class Commands {
         posInstance.setY(posInstance.getY() + yUnitChange * distance);
     }
 
-    private void rotate(int quantity){
-        int index = setDirection.get(posInstance.getDirection());
+    private Direction getDirection(int index){
+        return switch(index){
+            case 0 -> Direction.EAST;
+            case 1 -> Direction.SOUTH;
+            case 2 -> Direction.WEST;
+            case 3 -> Direction.NORTH;
+            default -> Direction.NORTH;
+        };
     }
 
     // Delta functions.
+    public void rotateRight(int rotation){
+        int newIndex = (indexDirection + rotation) % 4;
+        posInstance.setDirection(getDirection(newIndex));
+    }
+
+    public void rotateLeft(int rotation){
+        int newIndex = (4 + indexDirection + rotation) % 4;
+        posInstance.setDirection(getDirection(newIndex));
+    }
+
+
     public void forward(double distance){
         move(distance, xUnitChange, yUnitChange);
     }

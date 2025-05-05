@@ -27,7 +27,8 @@ public class Commands {
             case 3 -> Direction.NORTH;
             default -> Direction.NORTH;
         };
-    }
+    } 
+    
 
     // Delta functions.
     public void rotateRight(int rotation){
@@ -39,7 +40,6 @@ public class Commands {
         int newIndex = (4 + indexDirection + rotation) % 4;
         posInstance.setDirection(getDirection(newIndex));
     }
-
 
     public void forward(double distance){
         move(distance, xUnitChange, yUnitChange);
@@ -56,5 +56,6 @@ public class Commands {
     public void left(double distance){
         move(distance, -yUnitChange, xUnitChange);
     }
+    //
 
 }

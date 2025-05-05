@@ -1,10 +1,10 @@
 public class Robot {
     
     private String buildType;
-    private final Position posInstance;
+    private Commands robotCommands;
 
     public Robot(Position instance){
-        this.posInstance = instance;
+        robotCommands = new Commands(instance);
     }
 
     // Assignment methods.
@@ -17,8 +17,8 @@ public class Robot {
         return buildType;
     }
 
-    public Position position(){
-        return posInstance;
+    public Commands command(){
+        return robotCommands;
     }
 
 }

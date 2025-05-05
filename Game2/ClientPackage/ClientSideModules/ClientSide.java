@@ -96,7 +96,7 @@ public class ClientSide {
                     clientCommand.executeCommand(command, quantity);
 
                     // View current Position.
-                    clientCommand.viewPosition();
+                    System.out.println(clientCommand.getPosition());
 
                     // Return state to server
                     dataToServer.writeDouble(clientCommand.getXpos());

@@ -77,8 +77,8 @@ public class ClientCommands {
     /**
      * Displays the robot's current position and direction
      */
-    public void viewPosition() {
-        System.out.println("Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ") facing " + clientRobot.direction);
+    public String getPosition() {
+        return "Robot is at (" + clientRobot.xPos + ", " + clientRobot.yPos + ") facing " + clientRobot.direction;
     }
 
     /**

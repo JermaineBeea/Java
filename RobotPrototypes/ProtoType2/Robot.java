@@ -1,20 +1,15 @@
 public class Robot {
     
-    private String buildType;
+    private Position posInstance;
     private Commands robotCommands;
 
-    public Robot(Position instance){
-        robotCommands = new Commands(instance);
+    public Robot(){
+        this.posInstance = new Position();        
+        this.robotCommands = new Commands(posInstance);
     }
 
-    // Assignment methods.
-    public void setBuildType(String buildTypeArg){
-        this.buildType = buildTypeArg;
-    }
-
-    // Retrieval methods.
-    public String getBuildType(){
-        return buildType;
+    public Position position(){
+        return posInstance;
     }
 
     public Commands command(){

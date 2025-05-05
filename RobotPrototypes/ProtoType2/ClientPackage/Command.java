@@ -1,23 +1,14 @@
-package ServerPackage;
+package ClientPackage;
 
 public class Command{
     
-    private Robot robotInstance;
-    private double fuelAmount;
-    private double fuelRate;
-
     private Position robotPosition;
     private int xUnitChange;
     private int yUnitChange;
     private int indexDirection;
 
-    Command(Robot  instance){
-        this.robotInstance = instance;
-        this.fuelAmount = instance.getFuelAmount();
-        this.fuelRate = instance.getRate();
-        this.robotPosition = instance.position();
-
-        // Fetch variables from robot position.
+    Command(Position  position){
+        this.robotPosition = position;
         this.xUnitChange = robotPosition.getDirection().getXunitChange();
         this.yUnitChange = robotPosition.getDirection().getYunitChange();
         this.indexDirection = robotPosition.getDirection().getRotationIndex();
@@ -27,7 +18,6 @@ public class Command{
     private void move(double distance, int xUnitChange, int yUnitChange){
         robotPosition.setX(robotPosition.getX() + xUnitChange * distance);
         robotPosition.setY(robotPosition.getY() + yUnitChange * distance);
-        robotInstance.setFuelamount(fuelAmount - (fuelRate * distance));
     }
 
     private Direction getDirection(int index){

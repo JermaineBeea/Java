@@ -10,10 +10,10 @@ public class MainRun {
 
         robotPosition.setX(1);
         robotPosition.setY(3);
-        robotCommand.backward(-6);
-        robotCommand.rotateLeft(6);
+        robotCommand.backward(6);
+        robotCommand.rotateLeft(1);
 
-        // System.out.println("robot is at (" + robot.position().getX() + "," + robot.position().getY() + ")");
-        // System.out.println("Robot is facing " + robot.position().getDirection());
+        System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
+        System.out.println("Robot is facing " + robotPosition.getDirection());
     }
 }

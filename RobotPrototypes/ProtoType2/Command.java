@@ -29,7 +29,6 @@ public class Command{
         };
     } 
     
-
     // Delta functions.
     public void rotateRight(int rotation){
         int newIndex = (indexDirection + rotation) % 4;

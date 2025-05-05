@@ -66,6 +66,5 @@ public class Command{
     public void left(double distance){
         move(distance, -yUnitChange, xUnitChange);
     }
-    //
 
 }

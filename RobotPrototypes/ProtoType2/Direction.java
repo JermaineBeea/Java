@@ -1,10 +1,15 @@
 public enum Direction{
-    NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
+     EAST(0, 1, 0), 
+     SOUTH(1, 0, -1), 
+     WEST(2, -1, 0), 
+     NORTH(3, 0, 1);
     
     private final int xUnitChange;
     private final int yUnitChange;
+    private final int rotationIndex;
 
-    Direction(int xUnitChange, int yUnitChange) {
+    Direction(int rotationIndex, int xUnitChange, int yUnitChange) {
+        this.rotationIndex = rotationIndex;
         this.xUnitChange = xUnitChange;
         this.yUnitChange = yUnitChange;
     }
@@ -15,5 +20,9 @@ public enum Direction{
 
     public int getYunitChange(){
         return yUnitChange;
+    }
+
+    public int getRotationIndex(){
+        return rotationIndex;
     }
 }

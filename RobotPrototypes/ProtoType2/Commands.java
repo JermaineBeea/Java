@@ -6,8 +6,8 @@ public class Commands {
 
     Commands(Position  instance){
         this.posInstance = instance;
-        xUnitChange = posInstance.getDirection().getXunitChange();
-        yUnitChange = posInstance.getDirection().getYunitChange();
+        xUnitChange = instance.getDirection().getXunitChange();
+        yUnitChange = instance.getDirection().getYunitChange();
     }
 
     // Helper functions

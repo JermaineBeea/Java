@@ -1,3 +1,4 @@
+package ServerPackage;
 public class Robot {
     
     private Position posInstance;

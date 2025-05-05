@@ -1,3 +1,4 @@
+package ServerPackage;
 public class Position {
     
     private double xPos;

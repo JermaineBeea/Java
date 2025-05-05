@@ -1,3 +1,4 @@
+package ServerPackage;
 public enum Direction{
      EAST(0, 1, 0), 
      SOUTH(1, 0, -1), 

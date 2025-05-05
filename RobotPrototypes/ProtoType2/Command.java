@@ -1,12 +1,12 @@
 
-public class Commands {
+public class Command{
     
     private Position posInstance;
     private int xUnitChange;
     private int yUnitChange;
     private int indexDirection;
 
-    Commands(Position  instance){
+    Command(Position  instance){
         this.posInstance = instance;
         this.xUnitChange = instance.getDirection().getXunitChange();
         this.yUnitChange = instance.getDirection().getYunitChange();

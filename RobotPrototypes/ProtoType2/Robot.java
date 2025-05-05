@@ -1,18 +1,18 @@
 public class Robot {
     
     private Position posInstance;
-    private Commands robotCommands;
+    private Command robotCommands;
 
     public Robot(){
         this.posInstance = new Position();        
-        this.robotCommands = new Commands(posInstance);
+        this.robotCommands = new Command(posInstance);
     }
 
     public Position position(){
         return posInstance;
     }
 
-    public Commands command(){
+    public Command command(){
         return robotCommands;
     }
 

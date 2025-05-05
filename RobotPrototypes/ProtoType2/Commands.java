@@ -1,8 +1,8 @@
 public class Commands {
     
     private Position posInstance;
-    int xUnitChange;
-    int yUnitChange;
+    private int xUnitChange;
+    private int yUnitChange;
 
     Commands(Position  instance){
         this.posInstance = instance;

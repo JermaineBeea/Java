@@ -4,6 +4,11 @@ public class Position {
     private double yPos;
     private Direction direction;
 
+    public Position(double xPosArg, double yPosArg, Direction directionArg){
+        this.xPos = xPosArg;
+        this.yPos = yPosArg;
+        this.direction = directionArg;
+    }
     
     // Reassignment methods.
     public void setX(double xArg){

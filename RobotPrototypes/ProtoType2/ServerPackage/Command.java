@@ -15,10 +15,10 @@ public class Command{
         this.robotInstance = instance;
         this.fuelAmount = instance.getFuelAmount();
         this.fuelRate = instance.getRate();
-        this.posInstance = instance.getPosInstance();
-        this.xUnitChange = instance.getPosInstance().getDirection().getXunitChange();
-        this.yUnitChange = instance.getPosInstance().getDirection().getYunitChange();
-        this.indexDirection = instance.getPosInstance().getDirection().getRotationIndex();
+        this.posInstance = instance.position();
+        this.xUnitChange = instance.position().getDirection().getXunitChange();
+        this.yUnitChange = instance.position().getDirection().getYunitChange();
+        this.indexDirection = instance.position().getDirection().getRotationIndex();
     }
 
     // Helper functions

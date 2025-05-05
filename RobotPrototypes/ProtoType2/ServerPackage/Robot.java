@@ -11,7 +11,7 @@ public class Robot {
     public Robot(){
         this.fuelRate = 10;
         this.fuelAmount = 1000;
-        this.posInstance = new Position();        
+        this.posInstance = new Position();   
     }
 
     // Re-assignmnet methods.
@@ -19,7 +19,7 @@ public class Robot {
         this.fuelAmount = amount;
     }
 
-    public Position getPosInstance(){
+    public Position position(){
         return posInstance;
     }
 

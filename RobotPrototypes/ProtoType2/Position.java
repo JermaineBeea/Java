@@ -3,6 +3,7 @@ public class Position {
     private double xPos;
     private double yPos;
     private Direction direction;
+
     
     // Reassignment methods.
     public void setX(double xArg){
@@ -29,6 +30,5 @@ public class Position {
     public Direction getDirection(){
         return direction;
     }
-    
     
 }

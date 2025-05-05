@@ -1,25 +1,13 @@
-import java.util.function.Consumer;
-import java.util.Set;
-import java.util.HashSet;
-
 public class PositionalCommands {
     
-    private static Set<Consumer<Double>> positionCommands = new HashSet<>();
+    private Position posInstance;
 
-    static
-    {
-        positionCommands.add(PositionalCommands::forward);
-        positionCommands.add(PositionalCommands::backward);
-        positionCommands.add(PositionalCommands::right);
-        positionCommands.add(PositionalCommands::left);
-    }
-
-    public static Set<Consumer<Double>> getVoidFunctions(){
-        return positionCommands;
+    PositionalCommands(Position  instance){
+        this.posInstance = instance;
     }
     
     private static void forward(double distance){
-
+        posInstance.setX(posInstance.getX() + distance);
     }
     private static void backward(double distance){
 

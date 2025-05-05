@@ -1,4 +1,4 @@
-package Game2.ServerPackage.RobotModules;
+package ProtoType1.ClientPackage.RobotModules;
 
 import java.io.Serializable;
 

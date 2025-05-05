@@ -1,14 +1,15 @@
-package Game2.ServerPackage.ServerSideModules;
+package ProtoType1.ServerPackage.ServerSideModules;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import ProtoType1.ServerPackage.RobotModules.*;
+
 import java.net.Socket;
 import java.io.IOException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import Game2.ServerPackage.RobotModules.*;
 
 /**
  * Manages communication with a single client in a separate thread.

@@ -1,4 +1,4 @@
-package Game2.ServerPackage.ServerSideModules;
+package ProtoType1.ServerPackage.ServerSideModules;
 
 import java.net.Socket;
 import java.net.UnknownHostException;

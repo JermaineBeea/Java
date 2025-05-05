@@ -1,4 +1,4 @@
-package Game2.ServerPackage.RobotModules;
+package ProtoType1.ServerPackage.RobotModules;
 
 /**
  * Data model for the robot on the server side.

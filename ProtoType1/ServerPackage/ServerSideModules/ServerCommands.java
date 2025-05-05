@@ -1,6 +1,6 @@
-package Game2.ServerPackage.ServerSideModules;
+package ProtoType1.ServerPackage.ServerSideModules;
 
-import Game2.ServerPackage.RobotModules.*;
+import ProtoType1.ServerPackage.RobotModules.*;
 
 /**
  * Handles robot state management on the server side.

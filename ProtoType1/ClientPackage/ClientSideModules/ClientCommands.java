@@ -1,4 +1,4 @@
-package Game2.ClientPackage.ClientSideModules;
+package ProtoType1.ClientPackage.ClientSideModules;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-import Game2.ClientPackage.RobotModules.*;
+import ProtoType1.ClientPackage.RobotModules.*;
 
 /**
  * Handles command execution and robot state management on the client side.

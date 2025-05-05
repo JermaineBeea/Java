@@ -1,6 +1,9 @@
-package Game2.ClientPackage.ClientSideModules;
+package ProtoType1.ClientPackage.ClientSideModules;
 
 import java.util.Scanner;
+
+import ProtoType1.ClientPackage.RobotModules.*;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.net.Socket;
@@ -9,8 +12,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import Game2.ClientPackage.RobotModules.*;
 
 /**
  * Main client application that connects to the server and handles user input.

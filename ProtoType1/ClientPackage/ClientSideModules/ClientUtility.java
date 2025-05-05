@@ -1,4 +1,4 @@
-package Game2.ClientPackage.ClientSideModules;
+package ProtoType1.ClientPackage.ClientSideModules;
 
 import java.net.Socket;
 import java.io.DataOutputStream;

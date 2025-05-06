@@ -1,6 +1,6 @@
 package ServerPackage;
 
-public class MainRun {
+public class ServerTest {
     
     public static void main(String[] args) {
 
@@ -15,5 +15,6 @@ public class MainRun {
 
         System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
         System.out.println("Robot is facing " + robotPosition.getDirection());
+        System.out.println("Fuel amount is " + robot.getFuelAmount());
     }
 }

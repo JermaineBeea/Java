@@ -1,6 +1,6 @@
 package ServerPackage;
 
-public class Command{
+ class Command{
     
     private Position position;
     private Robot robot;

@@ -1,4 +1,4 @@
-package ServerPackage;
+package ClientPackage;
 
 import java.util.Set;
 

@@ -33,13 +33,18 @@ public class Game {
                     String userInput = consoleIn.nextLine();
                     if(userInput.trim().toLowerCase().equalsIgnoreCase(EXIT_FLAG)){
                         isRunning = false;
+                        serverConnection.close();
                     }
                     inputParser = new ParseInput(userInput);
                     String command = inputParser.getCommand();
                     Double quantity = inputParser.getQuantity();
 
                     // Send data to server.
-                    
+                    strToServer.println(command);
+                    dataToServer.writeDouble(quantity);
+
+                    // Wait to reciever server status message.
+
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }

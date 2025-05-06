@@ -15,7 +15,7 @@ public class Command{
         // Fetch variables from robot position.
         this.xUnitChange = position.getDirection().getXunitChange();
         this.yUnitChange = position.getDirection().getYunitChange();
-        this.indexDirection = position.getDirection().getRotationIndex();
+        this.indexDirection = position.getDirection().getDirectionIndex();
     }
 
     // Helper functions
@@ -23,6 +23,7 @@ public class Command{
         position.move(distance, xUnitChange, yUnitChange);
         robot.consumeFuel(distance);
     }
+    
 
     // Delta functions.
     public void rotateRight(int rotation){

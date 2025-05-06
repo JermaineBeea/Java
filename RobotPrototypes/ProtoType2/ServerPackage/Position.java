@@ -31,7 +31,7 @@ public class Position {
     }
 
     public void rotate(int indexDirection){
-        this.direction = direction.getDirection(indexDirection);
+        this.direction = direction.getIndexDirection(indexDirection);
     }
 
     // Retrieval methods.

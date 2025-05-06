@@ -20,7 +20,16 @@ public class CommandProcessor extends Command{
     }
    
     public void executeCommand(String strCommand, Double argQuantity){
-        Consumer<Double> function = mapCommands.get(strCommand);
-        function.accept(argQuantity);
+        if(isPositive(argQuantity)){
+            Consumer<Double> function = mapCommands.get(strCommand);
+            function.accept(argQuantity);
+        }else{
+            throw new IllegalArgumentException("Quantity of commmand cannot be negative!");
+        }
     }    
+
+    // Validator for each method.
+    private boolean isPositive(Number quantityArg){
+        return (Double) quantityArg >= 0.0;
+    }
 }

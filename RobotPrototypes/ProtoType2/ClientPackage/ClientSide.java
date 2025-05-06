@@ -9,7 +9,6 @@ public class ClientSide {
     private static final String SERVER_IP = "localhost";
 
     public static void runConnection(){
-
         System.out.println("Establishing connection to " + SERVER_IP + ":" + SERVER_PORT);
 
         try(Socket serverConnection = new Socket(SERVER_IP, SERVER_PORT);){
@@ -18,5 +17,4 @@ public class ClientSide {
             System.out.println("Error connecting to server: " + e.getMessage());
         }
     }
-    
 }

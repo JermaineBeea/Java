@@ -14,6 +14,7 @@ public enum Direction{
         this.xUnitChange = xUnitChange;
         this.yUnitChange = yUnitChange;
     }
+    
 
     public int getXunitChange(){
         return xUnitChange;

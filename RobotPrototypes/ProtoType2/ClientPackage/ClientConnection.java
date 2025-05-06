@@ -28,14 +28,14 @@ public class ClientConnection {
             dataFromServer = new DataInputStream(serverconnection.getInputStream());
             strToServer = new PrintWriter(serverconnection.getOutputStream(), true);
             strFromServer = new BufferedReader(new InputStreamReader(serverconnection.getInputStream()));
-            System.out.println("Connected successfully");     
+            System.out.println("Connected successfully"); 
+            newGame = new Game(this);    
         }catch(IOException e){
             System.out.println("\nError connectiong to server: " + e.getMessage());
         }
-        newGame = new Game(this);
     }
     
-    public static void runGame(){
+    public void runGame(){
         try{
             newGame.run();
         }catch(Exception e){

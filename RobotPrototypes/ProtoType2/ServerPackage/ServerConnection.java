@@ -1,6 +1,5 @@
 package ServerPackage;
 
-
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.net.InetAddress;
@@ -11,14 +10,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 // import java.io.PrintWriter;
 
-public class SeverConnection {
+public class ServerConnection {
     private static final int PORT = 1700;
 
     public void runConnection(){
         try(ServerSocket serverconnection = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
-            System.out.println("\nEstablishing connection to Port " + PORT + "...");
+            System.out.println("Connection to Port " + PORT );
+            System.out.println("Waiting for clients...");
             Socket clientconnection = serverconnection.accept();
-            System.out.println("Client connected, starting game...");
+            System.out.println("\nClient connected, starting game...");
             
             // Set up input-output resources
             DataInputStream dataFromClient = new DataInputStream(clientconnection.getInputStream());

@@ -20,23 +20,22 @@ public class ClientConnection {
     public PrintWriter strToServer;
     public BufferedReader strFromServer;
 
-    {  
+    public void runConnection(){  
+        System.out.println("\nEstablishing connection to " + SERVER_IP + ":" + SERVER_PORT + "...");
         try{
             serverconnection = new Socket(SERVER_IP, SERVER_PORT);
             dataToServer = new DataOutputStream(serverconnection.getOutputStream());
             dataFromServer = new DataInputStream(serverconnection.getInputStream());
             strToServer = new PrintWriter(serverconnection.getOutputStream(), true);
             strFromServer = new BufferedReader(new InputStreamReader(serverconnection.getInputStream()));
-        
+            System.out.println("Connected successfully");     
         }catch(IOException e){
             System.out.println("\nError connectiong to server: " + e.getMessage());
         }
-        
         newGame = new Game(this);
     }
     
-    public static void runConnection(){
-        System.out.println("\nEstablishing connection to " + SERVER_IP + ":" + SERVER_PORT);
+    public static void runGame(){
         try{
             newGame.run();
         }catch(Exception e){

@@ -33,6 +33,8 @@ public class Game {
                     // Send data to server.
                     connection.strToServer.println(command);
                     connection.dataToServer.writeDouble(quantity);
+                    connection.strToServer.flush();
+                    connection.dataToServer.flush();
 
                     //Wait to for server status message code.
                     connection.dataFromServer.readInt();

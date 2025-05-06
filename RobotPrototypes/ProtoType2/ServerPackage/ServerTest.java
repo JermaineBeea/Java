@@ -10,7 +10,7 @@ public class ServerTest {
 
         robotPosition.setX(1);
         robotPosition.setY(3);
-        robotCommand.backward(6);
+        robotCommand.moveBackward(6);
         robotCommand.rotateLeft(1);
 
         System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");

@@ -1,6 +1,6 @@
 package ServerPackage;
 
-public class Command{
+public class Command extends CommandProcessor{
     
     private Position position;
     private Robot robot;
@@ -25,29 +25,34 @@ public class Command{
     }
 
     // Delta functions.
+    @Override
     public void rotateRight(int rotation){
         int newIndex = (indexDirection + rotation) % 4;
         position.rotate(newIndex);
     }
-
+    @Override
     public void rotateLeft(int rotation){
         int newIndex = (4 + indexDirection + rotation) % 4;
         position.rotate(newIndex);
     }
 
-    public void forward(double distance){
+    @Override
+    public void moveForward(double distance){
         move(distance, xUnitChange, yUnitChange);
     }
 
-    public void backward(double distance){
+    @Override
+    public void moveBackward(double distance){
         move(distance, -xUnitChange, -yUnitChange);
     }
 
-    public void right(double distance){
+    @Override
+    public void moveRight(double distance){
         move(distance, yUnitChange, -xUnitChange);
     }
 
-    public void left(double distance){
+    @Override
+    public void moveLeft(double distance){
         move(distance, -yUnitChange, xUnitChange);
     }
 

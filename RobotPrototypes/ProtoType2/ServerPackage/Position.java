@@ -24,9 +24,15 @@ public class Position {
         this.direction = directionArg;
     }
 
+    // Detlta methods.
+
     public void move(double distance, int xUnitChange, int yUnitChange){
         this.xPos += xUnitChange * distance;
         this.yPos += yUnitChange * distance;
+    }
+
+    public void rotate(int indexDirection){
+        this.direction = direction.getDirection(indexDirection);
     }
 
     // Retrieval methods.

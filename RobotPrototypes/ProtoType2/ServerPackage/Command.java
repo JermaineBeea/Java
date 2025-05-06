@@ -24,25 +24,16 @@ public class Command{
         robot.consumeFuel(distance);
     }
 
-    private Direction getDirection(int index){
-        return switch(index){
-            case 0 -> Direction.EAST;
-            case 1 -> Direction.SOUTH;
-            case 2 -> Direction.WEST;
-            case 3 -> Direction.NORTH;
-            default -> null;
-        };
-    } 
-    
+
     // Delta functions.
     public void rotateRight(int rotation){
         int newIndex = (indexDirection + rotation) % 4;
-        position.setDirection(getDirection(newIndex));
+        position.rotate(newIndex);
     }
 
     public void rotateLeft(int rotation){
         int newIndex = (4 + indexDirection + rotation) % 4;
-        position.setDirection(getDirection(newIndex));
+        position.rotate(newIndex);
     }
 
     public void forward(double distance){

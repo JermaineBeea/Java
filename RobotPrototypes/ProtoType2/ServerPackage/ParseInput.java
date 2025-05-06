@@ -4,56 +4,41 @@ import java.util.Set;
 
 public class ParseInput {
     
-    private final String strInput;
-    private String strCommand;
-    private Double quantity;
-    private final String DELIMITER = "\\s+"; // Fixed typo and escaped backslash for regex
-    private final Set<String> validCommands = Set.of(
+    private final String command;
+    private final Double quantity;
+    private static final Set<String> VALID_COMMANDS = Set.of(
         "leftturn", "rightturn", "right", 
         "left", "forward", "backward"
     );
 
-    public ParseInput(String input) throws IllegalArgumentException {
+    public ParseInput(String input) {
         if (input == null || input.trim().isEmpty()) {
             throw new IllegalArgumentException("Input cannot be null or empty");
         }
-        this.strInput = input;
+        
+        String[] parts = input.split("\\s+");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Input must contain a command and quantity");
+        }
+        
+        String cmd = parts[0].toLowerCase();
+        if (!VALID_COMMANDS.contains(cmd)) {
+            throw new IllegalArgumentException("Invalid command! Valid options: " + VALID_COMMANDS);
+        }
+        this.command = cmd;
+        
         try {
-            this.splitInput();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            this.quantity = Double.parseDouble(parts[1]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Quantity must be a number");
         }
     }
 
     public String getCommand() {
-        return strCommand;
+        return command;
     }
 
     public Double getQuantity() {
         return quantity;
-    }
-
-    private boolean isValidCommand() {
-        return validCommands.contains(this.strCommand.toLowerCase());
-    }
-
-    private void splitInput() throws Exception {
-        String[] splitInput = this.strInput.split(DELIMITER);
-        if (splitInput.length != 2) {
-            throw new Exception("Incorrect Format");
-        }
-
-        this.strCommand = splitInput[0].toLowerCase(); // Convert to lowercase for case-insensitive comparison
-
-        if (!isValidCommand()) {
-            throw new Exception("Invalid command! Enter one of " + validCommands);
-        }
-
-        String strQuantity = splitInput[1];
-        try {
-            this.quantity = Double.parseDouble(strQuantity);
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Quantity must be a number! " + e.getMessage());
-        }
     }
 }

@@ -5,8 +5,8 @@ public class ServerTest {
     public static void main(String[] args) {
 
         Robot robot = new Robot();
-        Position robotPosition = robot.position();
-        Command robotCommand = new Command(robot);
+        Position robotPosition = robot.getPosition();
+        Command robotCommand = robot.getCommand();
 
         robotPosition.setX(1);
         robotPosition.setY(3);

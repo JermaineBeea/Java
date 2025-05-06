@@ -14,8 +14,17 @@ public enum Direction{
         this.xUnitChange = xUnitChange;
         this.yUnitChange = yUnitChange;
     }
-    
 
+    public Direction getDirection(int index){
+        return switch(index){
+            case 0 -> Direction.EAST;
+            case 1 -> Direction.SOUTH;
+            case 2 -> Direction.WEST;
+            case 3 -> Direction.NORTH;
+            default -> null;
+        };
+    } 
+    
     public int getXunitChange(){
         return xUnitChange;
     }

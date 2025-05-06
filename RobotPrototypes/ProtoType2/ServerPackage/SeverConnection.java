@@ -9,7 +9,7 @@ import java.io.DataOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+// import java.io.PrintWriter;
 
 public class SeverConnection {
     private static final int PORT = 1700;
@@ -18,17 +18,35 @@ public class SeverConnection {
         try(ServerSocket serverconnection = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
             System.out.println("\nEstablishing connection to Port " + PORT + "...");
             Socket clientconnection = serverconnection.accept();
-
+            System.out.println("Client connected, starting game...");
+            
             // Set up input-output resources
-            DataInputStream dataFromServer = new DataInputStream(clientconnection.getInputStream());
-            DataOutputStream dataToServer = new DataOutputStream(clientconnection.getOutputStream());
-            BufferedReader strFromServer  = new BufferedReader(new InputStreamReader(clientconnection.getInputStream()));
-            PrintWriter strToServer = new PrintWriter(clientconnection.getOutputStream(), true);
+            DataInputStream dataFromClient = new DataInputStream(clientconnection.getInputStream());
+            DataOutputStream dataToClient = new DataOutputStream(clientconnection.getOutputStream());
+            BufferedReader strFromClient  = new BufferedReader(new InputStreamReader(clientconnection.getInputStream()));
+            // PrintWriter strToClient = new PrintWriter(clientconnection.getOutputStream(), true);
 
+            // Create robot for client.
+            Robot robot = new Robot();
+            Position robotPosition = robot.getPosition();
+            CommandProcessor commandProcessor = new CommandProcessor(robot);
+
+            while (true) {
             // Recieve data from server
-            String command = strFromServer.readLine();
-            double quantity = dataFromServer.readDouble();
+            String command = strFromClient.readLine();
+            double quantity = dataFromClient.readDouble();
 
+            commandProcessor.executeCommand(command, quantity);
+
+            // Send status code to client.
+            dataToClient.writeInt(200);
+
+            // Display robot status.
+            System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
+            System.out.println("Robot is facing " + robotPosition.getDirection());
+            System.out.println("Fuel amount is " + robot.getFuelAmount());
+        
+            }
             
         }catch(IOException e){
             System.out.println("Error establlishing connection: " + e.getMessage());

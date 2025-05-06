@@ -25,7 +25,6 @@ public class Position {
     }
 
     // Detlta methods.
-
     public void move(double distance, int xUnitChange, int yUnitChange){
         this.xPos += xUnitChange * distance;
         this.yPos += yUnitChange * distance;

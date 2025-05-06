@@ -24,7 +24,6 @@ public class Command{
         robot.consumeFuel(distance);
     }
 
-
     // Delta functions.
     public void rotateRight(int rotation){
         int newIndex = (indexDirection + rotation) % 4;

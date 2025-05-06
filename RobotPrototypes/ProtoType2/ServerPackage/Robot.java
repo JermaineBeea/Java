@@ -1,4 +1,4 @@
-package ClientPackage;
+package ServerPackage;
 public class Robot {
     
     // Local fields.

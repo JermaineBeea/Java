@@ -1,5 +1,4 @@
-package Serverpackage;
-
+package ServerPackage;
 public enum Direction{
      EAST(0, 1, 0), 
      SOUTH(1, 0, -1), 
@@ -16,6 +15,16 @@ public enum Direction{
         this.yUnitChange = yUnitChange;
     }
 
+    public Direction getDirection(int index){
+        return switch(index){
+            case 0 -> Direction.EAST;
+            case 1 -> Direction.SOUTH;
+            case 2 -> Direction.WEST;
+            case 3 -> Direction.NORTH;
+            default -> null;
+        };
+    } 
+    
     public int getXunitChange(){
         return xUnitChange;
     }

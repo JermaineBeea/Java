@@ -1,30 +1,24 @@
 package ClientPackage;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Scanner;
 
 public class Game {
     
     Boolean isRunning;
-    private Socket serverConnection;
     private final String EXIT_FLAG = "exit";
     private ParseInput inputParser;
+    private ClientConnection connection;
 
-    Game(ClientConnection connection){
+    Game(ClientConnection instance){
+        this.connection = instance;
         this.isRunning = false;
     }
 
     public void run(){
         System.out.println("\nWelcome to the game, lets begin!");
         boolean isRunning = true;
-        try(
-            Scanner consoleIn = new Scanner(System.in);
-            DataOutputStream dataToServer = new DataOutputStream(this.serverConnection.getOutputStream());
-            PrintWriter strToServer = new PrintWriter(serverConnection.getOutputStream(), true)
-            ){
+        try(Scanner consoleIn = new Scanner(System.in)){
             while(isRunning){
                 try{
                     System.out.println("\nEnter a command seperated by a space, e.g 'Right 4'");
@@ -38,17 +32,17 @@ public class Game {
                     Double quantity = inputParser.getQuantity();
 
                     // Send data to server.
-                    strToServer.println(command);
-                    dataToServer.writeDouble(quantity);
+                    connection.strToServer.println(command);
+                    connection.dataToServer.writeDouble(quantity);
 
-                    // Wait to
+                    //Wait to for server status message code.
+                    connection.dataFromServer.readInt();
 
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }
             }
-        }catch(IOException e){
-            System.out.println("Erro runnning game: " + e.getMessage());
         }
     }
 }
+

@@ -1,28 +1,23 @@
-package ServerPackage;
+package Serverpackage;
 
 public class Command{
     
-    private Position position;
-    private Robot robot;
+    private Position robotPosition;
     private int xUnitChange;
     private int yUnitChange;
     private int indexDirection;
 
-    Command(Robot  instance){
-        this.robot = instance;
-        this.position = instance.getPosition();
-
-        // Fetch variables from robot position.
-        this.xUnitChange = position.getDirection().getXunitChange();
-        this.yUnitChange = position.getDirection().getYunitChange();
-        this.indexDirection = position.getDirection().getRotationIndex();
+    Command(Position  position){
+        this.robotPosition = position;
+        this.xUnitChange = robotPosition.getDirection().getXunitChange();
+        this.yUnitChange = robotPosition.getDirection().getYunitChange();
+        this.indexDirection = robotPosition.getDirection().getRotationIndex();
     }
 
     // Helper functions
     private void move(double distance, int xUnitChange, int yUnitChange){
-        position.setX(position.getX() + xUnitChange * distance);
-        position.setY(position.getY() + yUnitChange * distance);
-        robot.consumeFuel(distance);
+        robotPosition.setX(robotPosition.getX() + xUnitChange * distance);
+        robotPosition.setY(robotPosition.getY() + yUnitChange * distance);
     }
 
     private Direction getDirection(int index){
@@ -38,12 +33,12 @@ public class Command{
     // Delta functions.
     public void rotateRight(int rotation){
         int newIndex = (indexDirection + rotation) % 4;
-        position.setDirection(getDirection(newIndex));
+        robotPosition.setDirection(getDirection(newIndex));
     }
 
     public void rotateLeft(int rotation){
         int newIndex = (4 + indexDirection + rotation) % 4;
-        position.setDirection(getDirection(newIndex));
+        robotPosition.setDirection(getDirection(newIndex));
     }
 
     public void forward(double distance){
@@ -61,5 +56,6 @@ public class Command{
     public void left(double distance){
         move(distance, -yUnitChange, xUnitChange);
     }
+    //
 
 }

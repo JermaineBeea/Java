@@ -18,5 +18,7 @@ public class ServerTest {
         System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
         System.out.println("Robot is facing " + robotPosition.getDirection());
         System.out.println("Fuel amount is " + robot.getFuelAmount());
+
+        
     }
 }

@@ -25,6 +25,10 @@ public class Robot {
     }
 
     // Retrieval methods.
+    public boolean canMove(double distance){
+        return fuelAmount >= fuelRate * distance;
+    }
+
     public double getRate(){
         return fuelRate;
     }

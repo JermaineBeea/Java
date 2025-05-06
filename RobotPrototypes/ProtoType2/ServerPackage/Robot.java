@@ -19,10 +19,12 @@ public class Robot {
         this.fuelAmount = amount;
     }
 
+    // Delta methods.
     public void consumeFuel(double distance){
         this.fuelAmount -= fuelRate * distance;
     }
 
+    // Retrieval methods.
     public double getRate(){
         return fuelRate;
     }

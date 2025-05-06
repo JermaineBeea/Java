@@ -6,14 +6,12 @@ public class ServerTest {
 
         Robot robot = new Robot();
         Position robotPosition = robot.getPosition();
-        Command robotCommand = new Command(robot);
         CommandProcessor commandProcessor = new CommandProcessor(robot);
 
         robotPosition.setX(1);
         robotPosition.setY(3);
-        robotCommand.moveBackward(6);
-        robotCommand.rotateLeft(1);
         commandProcessor.executeCommand("left", 8.0);
+        commandProcessor.executeCommand("rotate", null);
 
         System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
         System.out.println("Robot is facing " + robotPosition.getDirection());

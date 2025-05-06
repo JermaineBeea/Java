@@ -21,7 +21,7 @@ public class ParseInput {
             throw new IllegalArgumentException("Input must contain a command and quantity");
         }
         
-        String cmd = parts[0].toLowerCase();
+        String cmd = parts[0].trim().toLowerCase();
         if (!VALID_COMMANDS.contains(cmd)) {
             throw new IllegalArgumentException("Invalid command! Valid options: " + VALID_COMMANDS);
         }

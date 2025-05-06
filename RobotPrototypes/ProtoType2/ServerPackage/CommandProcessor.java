@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 
-public abstract class CommandProcessor extends Command{
+public class CommandProcessor extends Command{
 
     private Map<String, Consumer<Double>> mapCommands = new HashMap<>();
     

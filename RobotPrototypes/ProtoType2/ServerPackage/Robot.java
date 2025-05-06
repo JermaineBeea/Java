@@ -15,12 +15,12 @@ public class Robot {
     }
 
     // Re-assignmnet methods.
-    public void setFuelamount(double amount){
+    public void setFuelAmount(double amount){
         this.fuelAmount = amount;
     }
 
     public void consumeFuel(double distance){
-        this.fuelAmount += fuelRate * distance;
+        this.fuelAmount -= fuelRate * distance;
     }
 
     public double getRate(){

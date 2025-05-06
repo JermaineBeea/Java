@@ -7,18 +7,20 @@ public class Robot {
 
     // Inherited fields.
     private Position posInstance;
-    private  Command commandInstance;
 
     public Robot(){
         this.fuelRate = 10;
         this.fuelAmount = 1000;
         this.posInstance = new Position();
-        this.commandInstance  = new Command(posInstance);   
     }
 
     // Re-assignmnet methods.
     public void setFuelamount(double amount){
         this.fuelAmount = amount;
+    }
+
+    public void consumeFuel(double distance){
+        this.fuelAmount += fuelRate * distance;
     }
 
     public double getRate(){
@@ -33,7 +35,4 @@ public class Robot {
         return posInstance;
     }
 
-    public Command getCommand(){
-        return commandInstance;
-    }
 }

@@ -3,12 +3,14 @@ package ServerPackage;
 public class Command{
     
     private Position position;
+    private Robot robot;
     private int xUnitChange;
     private int yUnitChange;
     private int indexDirection;
 
-    Command(Position  instance){
-        this.position = instance;
+    Command(Robot  instance){
+        this.robot = instance;
+        this.position = instance.getPosition();
 
         // Fetch variables from robot position.
         this.xUnitChange = position.getDirection().getXunitChange();
@@ -20,6 +22,7 @@ public class Command{
     private void move(double distance, int xUnitChange, int yUnitChange){
         position.setX(position.getX() + xUnitChange * distance);
         position.setY(position.getY() + yUnitChange * distance);
+        robot.consumeFuel(distance);
     }
 
     private Direction getDirection(int index){

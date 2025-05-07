@@ -1,6 +1,7 @@
 package ServerPackage;
 
 import java.net.Socket;
+
 import java.net.ServerSocket;
 import java.net.InetAddress;
 import java.io.DataInputStream;
@@ -81,6 +82,7 @@ public class ServerConnection {
             // If we get here, client is still connected
             dataToClient.writeInt(ServerStatus.HANDSHAKE_RESPONSE.code);
             dataToClient.flush(); // Ensure the int is sent immediately
+            System.out.println("Handshake sent: " + ServerStatus.HANDSHAKE_RESPONSE.code);
             
             return true;
         } catch (IOException e) {

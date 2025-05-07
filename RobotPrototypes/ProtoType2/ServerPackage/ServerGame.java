@@ -20,7 +20,14 @@ public class ServerGame {
         System.out.println("Robot game has begun...");
         isRunning = true;
 
+        // Create robot for client.
+        Robot robot = new Robot();
+        Position robotPosition = robot.getPosition();
+        CommandProcessor commandProcessor = new CommandProcessor(robot);
+
+
         while(isConnected && isRunning){
+            /* TODO Refactor
             System.out.println("\nPerforming handshake with client...");
             isRunning = connection.handshake();
             
@@ -28,30 +35,27 @@ public class ServerGame {
                 System.out.println("Handshake failed. Exiting game.");
                 break;
             }
+            */
+            
             
             try{
                 // Receive status code from client.
-                System.out.println("Waiting for client status...");
+                System.out.println("\nWaiting for client status...");
                 int clientStatus = connection.dataFromClient.readInt();
                 System.out.println("RECEIVED CLIENT STATUS: " + clientStatus);
 
                 if(clientStatus == CLIENT_OK){   
-                    // Create robot for client.
-                    Robot robot = new Robot();
-                    Position robotPosition = robot.getPosition();
-                    CommandProcessor commandProcessor = new CommandProcessor(robot);
 
-                    // Receive command from client.
-                    System.out.println("Waiting for command string...");
-                    String command = connection.strFromClient.readLine();
-                    if (command == null) {
-                        throw new IOException("Received null command - client likely disconnected");
-                    }
-                    System.out.println("STRING RECEIVED: " + command);
-                    
-                    System.out.println("Waiting for quantity double...");
+                    // Recieve command value
+                    System.out.println("\nWaiting for quantity double...");
                     double quantity = connection.dataFromClient.readDouble(); 
                     System.out.println("DOUBLE RECEIVED: " + quantity);   
+                    
+                    // Receive command from client.
+                    System.out.println("\nWaiting for command string...");
+                    String command = connection.strFromClient.readLine();
+                    System.out.println("STRING RECEIVED: " + command);
+                    
                     
                     // Execute command.
                     System.out.println("Executing command: " + command + " " + quantity);

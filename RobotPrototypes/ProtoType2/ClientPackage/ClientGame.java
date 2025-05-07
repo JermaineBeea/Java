@@ -25,13 +25,15 @@ public class ClientGame {
         
         try(Scanner consoleIn = new Scanner(System.in)){
             while(isRunning && isConnected){
-                System.out.println("\nPerforming handshake with server...");
+                /* TODO Refactor
+                /*System.out.println("\nPerforming handshake with server...");
                 isRunning = connection.handshake();
                 
                 if (!isRunning) {
-                    System.out.println("Handshake failed. Exiting game.");
-                    break;
-                }
+                     System.out.println("Handshake failed. Exiting game.");
+                     break;
+                 }
+                */
                 
                 try{
                     System.out.println("\nEnter a command separated by a space, e.g 'right 4'");
@@ -40,7 +42,7 @@ public class ClientGame {
                     
                     String userInput = consoleIn.nextLine().trim();
                     if(userInput.toLowerCase().equals(EXIT_FLAG)){
-                        System.out.println("Sending exit status to server...");
+                        System.out.println("\nSending exit status to server...");
                         // Send status to server.
                         connection.dataToServer.writeInt(ClientStatus.STATUS_EXIT.code);
                         connection.dataToServer.flush();
@@ -50,43 +52,42 @@ public class ClientGame {
                         continue;
                     }
 
+                    connection.dataToServer.writeInt(ClientStatus.STATUS_OK.code);
+
+                    // Send status to server
+                    System.out.println("\nSending OK status to server...");
+                    connection.dataToServer.flush();
+                    System.out.println("SENT CLIENT STATUS: " + ClientStatus.STATUS_OK.code);
+                     
                     // Parse input before sending anything to server
-                    try {
-                        inputParser = new ParseInput(userInput);
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Invalid input: " + e.getMessage());
-                        continue; // Skip the rest of this iteration and get new input
-                    }
-                    
+                    inputParser = new ParseInput(userInput);
+                   
                     String command = inputParser.getCommand();
                     double quantity = inputParser.getQuantity();
                     System.out.println("Parsed command: " + command + ", quantity: " + quantity);
 
-                    // Send status to server
-                    System.out.println("Sending OK status to server...");
-                    connection.dataToServer.writeInt(ClientStatus.STATUS_OK.code);
+                  
+                    // Send command value to server
+                    System.out.println("\nSending quantity to server: " + quantity);
+                    connection.dataToServer.writeDouble(quantity);
                     connection.dataToServer.flush();
-                    System.out.println("SENT CLIENT STATUS: " + ClientStatus.STATUS_OK.code);
+                    System.out.println("DOUBLE SENT");
                     
-                    // Send data to server
-                    System.out.println("Sending command string to server: " + command);
+                    // Send command string to server
+                    System.out.println("\nSending command string to server: " + command);
                     connection.strToServer.println(command);
                     // No need to flush here because PrintWriter was created with autoFlush=true
                     System.out.println("STRING SENT");
                     
-                    System.out.println("Sending quantity to server: " + quantity);
-                    connection.dataToServer.writeDouble(quantity);
-                    connection.dataToServer.flush();
-                    System.out.println("DOUBLE SENT");
 
                     // Wait for server response
-                    System.out.println("Waiting for server status response...");
+                    System.out.println("\nWaiting for server status response...");
                     int serverStatus = connection.dataFromServer.readInt();
                     System.out.println("Received server status: " + serverStatus);
 
                     if (serverStatus == SERVER_OK) {
                         // Receive robot state from server.
-                        System.out.println("Reading robot position data...");
+                        System.out.println("\nReading robot position data...");
                         double xPos = connection.dataFromServer.readDouble();
                         double yPos = connection.dataFromServer.readDouble();
                         int directionIndex = connection.dataFromServer.readInt();
@@ -110,7 +111,7 @@ public class ClientGame {
                     isConnected = false;
                 } catch (Exception e) {
                     System.out.println("\nUnexpected error: " + e.getMessage());
-                    e.printStackTrace();
+                    continue;
                 }
             }
         }

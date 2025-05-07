@@ -25,6 +25,8 @@ public class CommandProcessor extends Command{
         if(isPositive(argQuantity)){
             Consumer<Double> function = mapCommands.get(strCommand.toLowerCase());
             if (function == null) {
+                System.out.println("TEST STRING IS " + strCommand + (strCommand instanceof String));
+                System.out.println("TEST " + mapCommands.get(strCommand));
                 throw new IllegalArgumentException("Unknown command: " + strCommand);
             }
             

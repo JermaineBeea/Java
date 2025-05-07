@@ -72,6 +72,7 @@ public class ClientConnection {
             // If we get here, client is still connected
             dataToServer.writeInt(ClientStatus.HANDSHAKE_RESPONSE.code);
             dataToServer.flush(); // Ensure the int is sent immediately
+            System.out.println("Handshake sent: " + ClientStatus.HANDSHAKE_RESPONSE.code);
 
             // Attempts to read from client - will throw IOException if client disconnected
             int response = dataFromServer.readInt();

@@ -31,7 +31,8 @@ public class ClientConnection {
             System.out.println("Connected successfully"); 
             newGame = new Game(this);    
         }catch(IOException e){
-            System.out.println("\nError connectiong to server: " + e.getMessage());
+            System.out.println("\nError connecting to server: " + e.getMessage());
+            closeConnection();
         }
     }
     
@@ -39,7 +40,21 @@ public class ClientConnection {
         try{
             newGame.run();
         }catch(Exception e){
-            System.out.println("\nError connecting to server: " + e.getMessage());
+            System.out.println("\nError during game execution: " + e.getMessage());
+        }finally{
+            closeConnection();
+        }
+    }
+    
+    private void closeConnection(){
+        try {
+            if(strFromServer != null) strFromServer.close();
+            if(strToServer != null) strToServer.close();
+            if(dataFromServer != null) dataFromServer.close();
+            if(dataToServer != null) dataToServer.close();
+            if(serverconnection != null) serverconnection.close();
+        } catch (IOException e) {
+            System.out.println("Error closing resources: " + e.getMessage());
         }
     }
 }

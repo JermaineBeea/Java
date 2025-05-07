@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Game {
     
-    Boolean isRunning;
+    private boolean isRunning;
     private final String EXIT_FLAG = "exit";
     private ParseInput inputParser;
     private ClientConnection connection;
@@ -15,42 +15,46 @@ public class Game {
     }
 
     public void run(){
-        System.out.println("\nWelcome to the game, lets begin!");
-        boolean isRunning = true;
+        System.out.println("\nWelcome to the robot control game, let's begin!");
+        isRunning = true;
+        
         try(Scanner consoleIn = new Scanner(System.in)){
             while(isRunning){
                 try{
-                    System.out.println("\nEnter a command seperated by a space, e.g 'Right 4'");
+                    System.out.println("\nEnter a command separated by a space, e.g 'right 4'");
+                    System.out.println("Valid commands: rotateleft, rotateright, forward, backward, left, right");
                     System.out.println("Type 'exit' to exit game");
-                    String userInput = consoleIn.nextLine();
-                    if(userInput.trim().toLowerCase().equalsIgnoreCase(EXIT_FLAG)){
+                    
+                    String userInput = consoleIn.nextLine().trim();
+                    if(userInput.toLowerCase().equals(EXIT_FLAG)){
+                        System.out.println("Exiting game...");
                         isRunning = false;
+                        continue;
                     }
+                    
                     inputParser = new ParseInput(userInput);
                     String command = inputParser.getCommand();
                     Double quantity = inputParser.getQuantity();
 
-                    // Send data to server.
+                    // Send data to server
                     connection.strToServer.println(command);
                     connection.dataToServer.writeDouble(quantity);
                     connection.strToServer.flush();
                     connection.dataToServer.flush();
 
-                    //Wait to for server status message code.
+                    // Wait for server status message code
                     int serverStatus = connection.dataFromServer.readInt();
                     if (serverStatus == 200){
-                        continue;
-                    }else if(serverStatus == 500){
+                        System.out.println("Command executed successfully");
+                    } else if(serverStatus == 500){
                         String exceptionMessage = connection.strFromServer.readLine();
-                        System.out.println(exceptionMessage);
-                        continue;
+                        System.out.println("Error: " + exceptionMessage);
                     }
 
-                }catch(Exception e){
-                    System.out.println(e.getMessage());
+                } catch(Exception e){
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         }
     }
 }
-

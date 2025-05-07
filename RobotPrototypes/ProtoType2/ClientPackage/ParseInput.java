@@ -7,7 +7,7 @@ public class ParseInput {
     private final String command;
     private final Double quantity;
     private static final Set<String> VALID_COMMANDS = Set.of(
-        "leftturn", "rightturn", "right", 
+        "rotateleft", "rotateright", "right", 
         "left", "forward", "backward"
     );
 

@@ -24,14 +24,14 @@ public class Position {
         this.direction = directionArg;
     }
 
-    // Detlta methods.
+    // Delta methods.
     public void move(double distance, int xUnitChange, int yUnitChange){
         this.xPos += xUnitChange * distance;
         this.yPos += yUnitChange * distance;
     }
 
     public void rotate(int indexDirection){
-        this.direction = direction.getIndexDirection(indexDirection);
+        this.direction = Direction.getIndexDirection(indexDirection);
     }
 
     // Retrieval methods.

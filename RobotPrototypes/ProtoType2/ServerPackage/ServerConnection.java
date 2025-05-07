@@ -8,7 +8,7 @@ import java.io.DataOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-// import java.io.PrintWriter;
+import java.io.PrintWriter;
 
 public class ServerConnection {
     private static final int PORT = 1700;
@@ -24,7 +24,7 @@ public class ServerConnection {
             DataInputStream dataFromClient = new DataInputStream(clientconnection.getInputStream());
             DataOutputStream dataToClient = new DataOutputStream(clientconnection.getOutputStream());
             BufferedReader strFromClient  = new BufferedReader(new InputStreamReader(clientconnection.getInputStream()));
-            // PrintWriter strToClient = new PrintWriter(clientconnection.getOutputStream(), true);
+            PrintWriter strToClient = new PrintWriter(clientconnection.getOutputStream(), true);
 
             // Create robot for client.
             Robot robot = new Robot();
@@ -32,20 +32,25 @@ public class ServerConnection {
             CommandProcessor commandProcessor = new CommandProcessor(robot);
 
             while (true) {
-            // Recieve data from server
-            String command = strFromClient.readLine();
-            double quantity = dataFromClient.readDouble();
+                    try{
+                    // Recieve data from client
+                    String command = strFromClient.readLine();
+                    double quantity = dataFromClient.readDouble();
 
-            commandProcessor.executeCommand(command, quantity);
+                    commandProcessor.executeCommand(command, quantity);
 
-            // Send status code to client.
-            dataToClient.writeInt(200);
+                    // Send status code to client.
+                    dataToClient.writeInt(200);
 
-            // Display robot status.
-            System.out.println("robot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
-            System.out.println("Robot is facing " + robotPosition.getDirection());
-            System.out.println("Fuel amount is " + robot.getFuelAmount());
-        
+                    // Display robot status.
+                    System.out.println("\nrobot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
+                    System.out.println("Robot is facing " + robotPosition.getDirection());
+                    System.out.println("Fuel amount is " + robot.getFuelAmount());
+                }catch(Exception e){
+                    System.out.println("Client input error: " + e.getMessage());
+                    dataToClient.writeInt(500);
+                    strToClient.println(e.getMessage());
+                }
             }
             
         }catch(IOException e){

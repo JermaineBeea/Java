@@ -37,7 +37,14 @@ public class Game {
                     connection.dataToServer.flush();
 
                     //Wait to for server status message code.
-                    connection.dataFromServer.readInt();
+                    int serverStatus = connection.dataFromServer.readInt();
+                    if (serverStatus == 200){
+                        continue;
+                    }else if(serverStatus == 500){
+                        String exceptionMessage = connection.strFromServer.readLine();
+                        System.out.println(exceptionMessage);
+                        continue;
+                    }
 
                 }catch(Exception e){
                     System.out.println(e.getMessage());

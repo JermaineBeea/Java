@@ -40,11 +40,12 @@ public class ClientGame {
                         continue;
                     }
 
+                    // Send status to server
                     connection.dataToServer.writeInt(ClientStatus.STATUS_OK.code);
                     
                     inputParser = new ParseInput(userInput);
                     String command = inputParser.getCommand();
-                    Double quantity = inputParser.getQuantity();
+                    double quantity = inputParser.getQuantity();
 
                     // Send data to server
                     connection.strToServer.println(command);
@@ -54,16 +55,23 @@ public class ClientGame {
 
                     // Wait for server status message code
                     int serverStatus = connection.dataFromServer.readInt();
+
                         if (serverStatus == SERVER_OK) {
+                            // Recieve robot state from server.
                             double x = connection.dataFromServer.readDouble();
                             double y = connection.dataFromServer.readDouble();
                             int direction = connection.dataFromServer.readInt();
                             double fuel = connection.dataFromServer.readDouble();
+
                             System.out.printf("\nRobot at position (%.2f, %.2f), facing %s, fuel: %.2f%n", x, y, Direction.getDirectionName(direction), fuel);                    
                         } else if(serverStatus == SERVER_ERROR){
                         String exceptionMessage = connection.strFromServer.readLine();
                         System.out.println("\nError: " + exceptionMessage);
-                    }
+                        }else{
+                            System.out.println("SERVER ERROR: Unknown server status, closing Game");
+                            isRunning = false;
+                            connection.closeConnection();
+                        }
 
                 } catch(Exception e){
                     System.out.println("\nError: " + e.getMessage());

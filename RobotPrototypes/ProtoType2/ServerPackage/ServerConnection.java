@@ -29,12 +29,15 @@ public class ServerConnection {
         try{
         serverSocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
         clientSocket = serverSocket.accept();
+        
         dataFromClient = new DataInputStream(clientSocket.getInputStream());
         dataToClient = new DataOutputStream(clientSocket.getOutputStream());
         strFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         strToClient = new PrintWriter(clientSocket.getOutputStream(), true);
+        
         isConnected = true;
         newGame = new ServerGame(this);
+        this.runGame();
         }catch(IOException e){
             System.out.println();
         }

@@ -22,9 +22,7 @@ public class CommandProcessor extends Command{
     }
    
     public void executeCommand(String strCommand, Double argQuantity){
-        
         if(isPositive(argQuantity)){
-
             Consumer<Double> function = mapCommands.get(strCommand.toLowerCase());
             if (function == null) {
                 throw new IllegalArgumentException("Unknown command: " + strCommand);
@@ -36,7 +34,6 @@ public class CommandProcessor extends Command{
                 !robot.canMove(argQuantity)) {
                 throw new IllegalStateException("Not enough fuel for this movement!");
             }
-            
             function.accept(argQuantity);
         }else{
             throw new IllegalArgumentException("Quantity of command cannot be negative!");

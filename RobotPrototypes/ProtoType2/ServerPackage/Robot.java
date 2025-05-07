@@ -30,7 +30,6 @@ public class Robot {
         return fuelAmount >= fuelRate * distance;
     }
 
-
     public double getRate(){
         return fuelRate;
     }

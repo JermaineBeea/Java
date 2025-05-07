@@ -2,7 +2,6 @@ package ServerPackage;
 
 public class ServerUtility {
     
-
     public static String getStatusString(Robot instance) {
         StringBuilder status = new StringBuilder();
         Position position = instance.getPosition();

@@ -42,16 +42,24 @@ public class ClientGame {
 
                     // Send status to server
                     connection.dataToServer.writeInt(ClientStatus.STATUS_OK.code);
+                    System.out.println("\nSENT CLIENT STATUS: " + ClientStatus.STATUS_OK.code);
                     
                     inputParser = new ParseInput(userInput);
                     String command = inputParser.getCommand();
                     double quantity = inputParser.getQuantity();
 
+                    System.out.println("\nPARSER COMPLETE");
+
                     // Send data to server
                     connection.strToServer.println(command);
+                    System.out.println("\nSTRING SENT");
                     connection.dataToServer.writeDouble(quantity);
+                    System.out.println("DOUBLE SENT");
                     connection.strToServer.flush();
+                    System.out.println("STRING FLUSHED");
                     connection.dataToServer.flush();
+                    System.out.println("DOUBLE FLUSHED");
+
 
                     // recieve server status message code
                     int serverStatus = connection.dataFromServer.readInt();

@@ -27,6 +27,7 @@ public class ServerGame {
                 int clientStatus = connection.dataFromClient.readInt();
 
                 if(clientStatus == CLIENT_OK){   
+                    System.out.println("\nRECIEVED CLIENT STATUS: " + clientStatus);
                     // Create robot for client.
                     Robot robot = new Robot();
                     Position robotPosition = robot.getPosition();
@@ -34,7 +35,9 @@ public class ServerGame {
 
                     // Recieve command from client.
                     String command = connection.strFromClient.readLine();
-                    double quantity = connection.dataFromClient.readInt();    
+                    System.out.println("STRING RECIEVED");
+                    double quantity = connection.dataFromClient.readDouble(); 
+                    System.out.println("DOUBLE RECIEVED");   
                     
                     // Execute command.
                     commandProcessor.executeCommand(command, quantity);
@@ -59,6 +62,7 @@ public class ServerGame {
                     System.out.println("\nClient has exited the game!\nClosing game...");
                     isRunning = false;
                     connection.closeConnection();
+                    break;
                 }else{
                     System.out.println("\nSERVER ERROR: Unknown server status, closing Game");
                     isRunning = false;
@@ -72,6 +76,8 @@ public class ServerGame {
                 // Send exception to client
                 connection.dataToClient.writeInt(ServerStatus.STATUS_ERROR.code);
                 connection.strToClient.write(ex.getMessage());
+                connection.dataToClient.flush();
+                connection.strToClient.flush();
                 }catch(IOException m){
                     System.out.println("Connection Error: " + m.getMessage());
                 }

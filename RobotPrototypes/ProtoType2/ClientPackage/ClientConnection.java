@@ -26,10 +26,12 @@ public class ClientConnection {
         System.out.println("\nEstablishing connection to " + SERVER_IP + ":" + SERVER_PORT + "...");
         try{
             serverSocket = new Socket(SERVER_IP, SERVER_PORT);
+            
             dataToServer = new DataOutputStream(serverSocket.getOutputStream());
             dataFromServer = new DataInputStream(serverSocket.getInputStream());
             strToServer = new PrintWriter(serverSocket.getOutputStream(), true);
             strFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            
             isConnected = true;
             newGame = new ClientGame(this);   
             System.out.println("Connected successfully"); 

@@ -12,9 +12,6 @@ import java.io.PrintWriter;
 
 public class ServerConnection {
     private static final int PORT = 1700;
-    // Added constants for status codes, replacing the unused ServerStatus enum
-    private static final int STATUS_OK = 200;
-    private static final int STATUS_ERROR = 500;
 
     public void runConnection(){
         try(ServerSocket serverconnection = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
@@ -44,7 +41,13 @@ public class ServerConnection {
                         commandProcessor.executeCommand(command, quantity);
 
                         // Send status code to client.
-                        dataToClient.writeInt(STATUS_OK);
+                        dataToClient.writeInt(ServerStatus.STATUS_OK.code);
+
+                        // Send robot status to client.
+                        dataToClient.writeDouble(robotPosition.getX());
+                        dataToClient.writeDouble(robotPosition.getY());
+                        dataToClient.writeInt(robotPosition.getDirection().getIndex());
+                        dataToClient.writeDouble(robot.getFuelAmount());
 
                         // Display robot status.
                         System.out.println("\nRobot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
@@ -52,7 +55,7 @@ public class ServerConnection {
                         System.out.println("Fuel amount is " + robot.getFuelAmount());
                     } catch(Exception e){
                         System.out.println("Client input error: " + e.getMessage());
-                        dataToClient.writeInt(STATUS_ERROR);
+                        dataToClient.writeInt(ServerStatus.STATUS_ERROR.code);
                         strToClient.println(e.getMessage());
                     }
                 }

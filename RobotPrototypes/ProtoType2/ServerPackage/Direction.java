@@ -16,7 +16,7 @@ public enum Direction{
         this.yUnitChange = yUnitChange;
     }
 
-    public static Direction getIndexDirection(int index){
+    public static Direction getDirectionName(int index){
         return switch(index){
             case 0 -> Direction.EAST;
             case 1 -> Direction.SOUTH;
@@ -34,7 +34,7 @@ public enum Direction{
         return yUnitChange;
     }
 
-    public int getDirectionIndex(){
+    public int getIndex(){
         return rotationIndex;
     }
 

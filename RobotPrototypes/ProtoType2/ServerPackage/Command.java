@@ -15,7 +15,7 @@ package ServerPackage;
         // Fetch variables from robot position.
         this.xUnitChange = position.getDirection().getXunitChange();
         this.yUnitChange = position.getDirection().getYunitChange();
-        this.indexDirection = position.getDirection().getDirectionIndex();
+        this.indexDirection = position.getDirection().getIndex();
     }
 
     // Helper functions

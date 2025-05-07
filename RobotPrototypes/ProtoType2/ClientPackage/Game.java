@@ -44,17 +44,22 @@ public class Game {
 
                     // Wait for server status message code
                     int serverStatus = connection.dataFromServer.readInt();
-                    if (serverStatus == 200){
-                        System.out.println("Command executed successfully");
-                    } else if(serverStatus == 500){
+                        if (serverStatus == 200) {
+                            double x = connection.dataFromServer.readDouble();
+                            double y = connection.dataFromServer.readDouble();
+                            int direction = connection.dataFromServer.readInt();
+                            double fuel = connection.dataFromServer.readDouble();
+                            System.out.printf("\nRobot at position (%.2f, %.2f), facing %s, fuel: %.2f%n", x, y, Direction.getDirectionName(direction), fuel);                    
+                        } else if(serverStatus == 300){
                         String exceptionMessage = connection.strFromServer.readLine();
-                        System.out.println("Error: " + exceptionMessage);
+                        System.out.println("\nError: " + exceptionMessage);
                     }
 
                 } catch(Exception e){
-                    System.out.println("Error: " + e.getMessage());
+                    System.out.println("\nError: " + e.getMessage());
                 }
             }
         }
     }
 }
+

@@ -1,12 +1,10 @@
 package ServerPackage;
 
 public enum ServerStatus {
-    
-    EXCEPTION(300), CONTINUE(200);
+    STATUS_ERROR(300), STATUS_OK(200);
 
-    int statusCode;
-
-    ServerStatus(int  code){
-        this.statusCode = code;
+    int code;
+    ServerStatus(int  statuscode){
+        this.code = statuscode;
     }
 }

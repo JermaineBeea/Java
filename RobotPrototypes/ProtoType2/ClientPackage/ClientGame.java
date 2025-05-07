@@ -53,17 +53,18 @@ public class ClientGame {
                     connection.strToServer.flush();
                     connection.dataToServer.flush();
 
-                    // Wait for server status message code
+                    // recieve server status message code
                     int serverStatus = connection.dataFromServer.readInt();
 
                         if (serverStatus == SERVER_OK) {
                             // Recieve robot state from server.
-                            double x = connection.dataFromServer.readDouble();
-                            double y = connection.dataFromServer.readDouble();
-                            int direction = connection.dataFromServer.readInt();
+                            double xPos = connection.dataFromServer.readDouble();
+                            double yPos = connection.dataFromServer.readDouble();
+                            int directionIndex = connection.dataFromServer.readInt();
                             double fuel = connection.dataFromServer.readDouble();
 
-                            System.out.printf("\nRobot at position (%.2f, %.2f), facing %s, fuel: %.2f%n", x, y, Direction.getDirectionName(direction), fuel);                    
+                            System.out.printf("\nRobot at position (%.2f, %.2f), facing %s, fuel: %.2f%n", xPos, yPos, Direction.getDirectionName(directionIndex), fuel);                    
+                        
                         } else if(serverStatus == SERVER_ERROR){
                         String exceptionMessage = connection.strFromServer.readLine();
                         System.out.println("\nError: " + exceptionMessage);

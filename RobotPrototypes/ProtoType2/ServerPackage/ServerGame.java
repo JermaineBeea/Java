@@ -2,8 +2,6 @@ package ServerPackage;
 
 import java.io.IOException;
 
-import ClientPackage.ClientStatus;
-
 public class ServerGame {
     
     private boolean isRunning;
@@ -30,9 +28,9 @@ public class ServerGame {
 
                 if(clientStatus == CLIENT_OK){   
                     // Create robot for client.
-                    Robot clientRobot = new Robot();
-                    Position robotPosition = clientRobot.getPosition();
-                    CommandProcessor commandProcessor = new CommandProcessor(clientRobot);
+                    Robot robot = new Robot();
+                    Position robotPosition = robot.getPosition();
+                    CommandProcessor commandProcessor = new CommandProcessor(robot);
 
                     // Recieve command from client.
                     String command = connection.strFromClient.readLine();
@@ -41,29 +39,36 @@ public class ServerGame {
                     // Execute command.
                     commandProcessor.executeCommand(command, quantity);
 
+                    double xPos = robotPosition.getX();
+                    double yPos = robotPosition.getY();
+                    Direction direction = robotPosition.getDirection();
+                    double fuel = robot.getFuelAmount();
+
+                    System.out.printf("\nRobot at position (%.2f, %.2f), facing %s, fuel: %.2f%n", xPos, yPos, direction, fuel);                    
+
                     // Send server status message.
                     connection.dataToClient.writeInt(ServerStatus.STATUS_OK.code);
 
                     // Send robot status to client.
-                    connection.dataToClient.writeDouble(robotPosition.getX());
-                    connection.dataToClient.writeDouble(robotPosition.getY());
-                    connection.dataToClient.writeInt(robotPosition.getDirection().getIndex());
-                    connection.dataToClient.writeDouble(clientRobot.getFuelAmount());
+                    connection.dataToClient.writeDouble(xPos); // Send X position.
+                    connection.dataToClient.writeDouble(yPos); // send Y position.
+                    connection.dataToClient.writeInt(direction.getIndex()); // Send direction index.
+                    connection.dataToClient.writeDouble(fuel); // Send fuel amount.
                     
                 }else if(clientStatus == CLIENT_EXIT){
-                    System.out.println("Client has exited the game!\nClosing game...");
+                    System.out.println("\nClient has exited the game!\nClosing game...");
                     isRunning = false;
                     connection.closeConnection();
                 }else{
-                    System.out.println("SERVER ERROR: Unknown server status, closing Game");
+                    System.out.println("\nSERVER ERROR: Unknown server status, closing Game");
                     isRunning = false;
                     connection.closeConnection();
                 }
             }catch(IOException e){
-                System.out.println("Connection Error: " + e.getMessage());
+                System.out.println("\nConnection Error: " + e.getMessage());
             }catch(Exception ex){
                 try{
-                System.out.println("Client Input Exception Error" + ex.getMessage());
+                System.out.println("\nClient Input Exception Error" + ex.getMessage());
                 // Send exception to client
                 connection.dataToClient.writeInt(ServerStatus.STATUS_ERROR.code);
                 connection.strToClient.write(ex.getMessage());

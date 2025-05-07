@@ -1,4 +1,4 @@
-package ClientPackage;
+package ClientPackage.Modules;
 
 import java.util.Set;
 

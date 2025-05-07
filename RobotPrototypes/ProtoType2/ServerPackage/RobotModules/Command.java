@@ -1,6 +1,6 @@
-package ServerPackage;
+package ServerPackage.RobotModules;
 
- class Command{
+class Command{
     
     private Position position;
     private Robot robot;

@@ -1,5 +1,7 @@
 package ServerPackage;
 
+import ServerPackage.RobotModules.*;
+
 public class ServerUtility {
     
     public static String getStatusString(Robot instance) {

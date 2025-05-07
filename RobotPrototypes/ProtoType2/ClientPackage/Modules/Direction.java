@@ -1,4 +1,4 @@
-package ClientPackage;
+package ClientPackage.Modules;
 
 public enum Direction{
      EAST, SOUTH, WEST, NORTH;

@@ -1,4 +1,4 @@
-package ClientPackage;
+package ClientPackage.App;
 
 public enum ClientStatus {
     STATUS_EXIT(500), STATUS_OK(200), HANDSHAKE_RESPONSE(700);

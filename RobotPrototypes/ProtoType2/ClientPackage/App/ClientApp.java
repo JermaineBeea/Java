@@ -1,4 +1,4 @@
-package ClientPackage;
+package ClientPackage.App;
 
 public class ClientApp {
     public static void main(String[] args) {

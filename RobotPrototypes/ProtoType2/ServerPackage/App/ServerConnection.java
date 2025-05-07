@@ -1,7 +1,6 @@
-package ServerPackage;
+package ServerPackage.App;
 
 import java.net.Socket;
-
 import java.net.ServerSocket;
 import java.net.InetAddress;
 import java.io.DataInputStream;

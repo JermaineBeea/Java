@@ -1,4 +1,4 @@
-package ServerPackage;
+package ServerPackage.App;
 
 public class ServerApp {
     

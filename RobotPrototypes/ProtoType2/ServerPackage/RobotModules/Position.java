@@ -1,4 +1,5 @@
-package ServerPackage;
+package ServerPackage.RobotModules;
+
 public class Position {
     
     private double xPos;

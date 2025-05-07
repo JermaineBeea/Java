@@ -1,4 +1,4 @@
-package ServerPackage;
+package ServerPackage.RobotModules;
 
 import java.util.function.Consumer;
 import java.util.Map;

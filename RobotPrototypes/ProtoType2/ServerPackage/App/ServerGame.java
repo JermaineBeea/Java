@@ -1,6 +1,8 @@
-package ServerPackage;
+package ServerPackage.App;
 
 import java.io.IOException;
+
+import ServerPackage.RobotModules.*;
 
 public class ServerGame {
     

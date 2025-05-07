@@ -1,4 +1,4 @@
-package ServerPackage;
+package ServerPackage.App;
 
 public enum ServerStatus {
     STATUS_ERROR(300), STATUS_OK(200), HANDSHAKE_RESPONSE(700);

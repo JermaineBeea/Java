@@ -1,6 +1,10 @@
-package ClientPackage;
+package ClientPackage.App;
 
 import java.util.Scanner;
+
+import ClientPackage.Modules.Direction;
+import ClientPackage.Modules.ParseInput;
+
 import java.io.IOException;
 
 public class ClientGame {

@@ -1,5 +1,7 @@
 package ServerPackage;
 
+import ServerPackage.RobotModules.*;
+
 public class ServerTest {
     
     public static void main(String[] args) {

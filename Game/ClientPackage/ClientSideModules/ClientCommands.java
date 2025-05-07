@@ -71,7 +71,7 @@ public class ClientCommands {
         }
     }
 
-    public void rotate(int rotationQuantity, int newIndex){
+    public void rotate(Integer rotationQuantity, int newIndex){
         if(rotationQuantity instanceof Integer){
             if(rotationQuantity >= 0){
                 clientRobot.direction = listDirections.get(newIndex);

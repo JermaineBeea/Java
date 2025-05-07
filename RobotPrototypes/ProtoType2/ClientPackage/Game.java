@@ -10,10 +10,10 @@ public class Game {
     private ParseInput inputParser;
     private ClientConnection connection;
 
-    Game(ClientConnection server){
-        this.connection = server;
+    Game(ClientConnection instance){
+        this.connection = instance;
         this.isRunning = false;
-        this.isConnected = server.isConnected;
+        this.isConnected = instance.isConnected;
     }
 
     public void run(){

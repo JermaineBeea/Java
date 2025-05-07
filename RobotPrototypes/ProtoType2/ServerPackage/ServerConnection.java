@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 
 public class ServerConnection {
     private static final int PORT = 1700;
+    private Game newGame;
 
     public boolean isConnected = false;
     public ServerSocket serverSocket;
@@ -32,6 +33,7 @@ public class ServerConnection {
         strFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         strToClient = new PrintWriter(clientSocket.getOutputStream(), true);
         isConnected = true;
+        newGame = new Game(this);
         }catch(IOException e){
             System.out.println();
         }
@@ -39,7 +41,7 @@ public class ServerConnection {
 
     public void runGame(){
         try{
-            runGame();
+            newGame.run();
         }catch(Exception e){
             System.out.println("nError during game execution: " + e.getMessage());
         }finally{

@@ -29,8 +29,8 @@ public class ClientConnection {
             dataFromServer = new DataInputStream(serverSocket.getInputStream());
             strToServer = new PrintWriter(serverSocket.getOutputStream(), true);
             strFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-            newGame = new Game(this);   
             isConnected = true;
+            newGame = new Game(this);   
             System.out.println("Connected successfully"); 
         }catch(IOException e){
             System.out.println("\nError connecting to server: " + e.getMessage());

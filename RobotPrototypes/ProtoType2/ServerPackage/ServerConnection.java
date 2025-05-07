@@ -12,7 +12,8 @@ import java.io.PrintWriter;
 
 public class ServerConnection {
     private static final int PORT = 1700;
-    private Game newGame;
+    private ServerGame newGame;
+    
 
     public boolean isConnected = false;
     public ServerSocket serverSocket;
@@ -33,7 +34,7 @@ public class ServerConnection {
         strFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         strToClient = new PrintWriter(clientSocket.getOutputStream(), true);
         isConnected = true;
-        newGame = new Game(this);
+        newGame = new ServerGame(this);
         }catch(IOException e){
             System.out.println();
         }
@@ -45,13 +46,14 @@ public class ServerConnection {
         }catch(Exception e){
             System.out.println("nError during game execution: " + e.getMessage());
         }finally{
-            closeConnections();
+            closeConnection();
         }
     }
 
-    private void closeConnections(){
+    public void closeConnection(){
         try{
             if(serverSocket != null) serverSocket.close();
+            if(clientSocket != null) clientSocket.close();
             if(strFromClient != null) strFromClient.close();
             if(strToClient != null) strToClient.close();
             if(dataFromClient != null) dataFromClient.close();
@@ -60,5 +62,21 @@ public class ServerConnection {
         }catch(IOException e){
             System.out.println("Error closing resources: ");
         } finally{}
+    }
+
+    public boolean handshake() {
+        try {
+            // Attempts to read from server - will throw IOException if client disconnected
+            dataFromClient.readInt();
+            
+            // If we get here, server is still connected
+            dataToClient.writeInt(ServerStatus.HANDSHAKE_RESPONSE.code);
+            dataToClient.flush();
+            
+            return true;
+        } catch (IOException e) {
+            System.err.println("Handshake Response Error: Client likely disconnected: " + e.getMessage());
+            return false;
+        }
     }
 }

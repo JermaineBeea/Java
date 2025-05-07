@@ -2,15 +2,17 @@ package ClientPackage;
 
 import java.util.Scanner;
 
-public class Game {
+public class ClientGame {
     
     private boolean isRunning;
     private boolean isConnected;
     private final String EXIT_FLAG = "exit";
+    private final int SERVER_OK = 200;
+    private final int SERVER_ERROR = 300;
     private ParseInput inputParser;
     private ClientConnection connection;
 
-    Game(ClientConnection instance){
+    ClientGame(ClientConnection instance){
         this.connection = instance;
         this.isRunning = false;
         this.isConnected = instance.isConnected;
@@ -22,6 +24,7 @@ public class Game {
         
         try(Scanner consoleIn = new Scanner(System.in)){
             while(isRunning && isConnected){
+                isRunning = connection.handshake();
                 try{
                     System.out.println("\nEnter a command separated by a space, e.g 'right 4'");
                     System.out.println("Valid commands: rotateleft, rotateright, forward, backward, left, right");
@@ -36,6 +39,8 @@ public class Game {
                         isConnected = false;
                         continue;
                     }
+
+                    connection.dataToServer.writeInt(ClientStatus.STATUS_OK.code);
                     
                     inputParser = new ParseInput(userInput);
                     String command = inputParser.getCommand();
@@ -49,13 +54,13 @@ public class Game {
 
                     // Wait for server status message code
                     int serverStatus = connection.dataFromServer.readInt();
-                        if (serverStatus == 200) {
+                        if (serverStatus == SERVER_OK) {
                             double x = connection.dataFromServer.readDouble();
                             double y = connection.dataFromServer.readDouble();
                             int direction = connection.dataFromServer.readInt();
                             double fuel = connection.dataFromServer.readDouble();
                             System.out.printf("\nRobot at position (%.2f, %.2f), facing %s, fuel: %.2f%n", x, y, Direction.getDirectionName(direction), fuel);                    
-                        } else if(serverStatus == 300){
+                        } else if(serverStatus == SERVER_ERROR){
                         String exceptionMessage = connection.strFromServer.readLine();
                         System.out.println("\nError: " + exceptionMessage);
                     }

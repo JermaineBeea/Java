@@ -10,11 +10,12 @@ import java.io.IOException;
 
 public class ClientConnection {
 
-    private static Game newGame;
     private static final int SERVER_PORT = 1700;
     private static final String SERVER_IP = "localhost";
+    private static Game newGame;
 
-    public Socket serverconnection;
+    public boolean isConnected = false;
+    public Socket serverSocket;
     public DataOutputStream dataToServer;
     public DataInputStream dataFromServer;
     public PrintWriter strToServer;
@@ -23,13 +24,14 @@ public class ClientConnection {
     public void runConnection(){  
         System.out.println("\nEstablishing connection to " + SERVER_IP + ":" + SERVER_PORT + "...");
         try{
-            serverconnection = new Socket(SERVER_IP, SERVER_PORT);
-            dataToServer = new DataOutputStream(serverconnection.getOutputStream());
-            dataFromServer = new DataInputStream(serverconnection.getInputStream());
-            strToServer = new PrintWriter(serverconnection.getOutputStream(), true);
-            strFromServer = new BufferedReader(new InputStreamReader(serverconnection.getInputStream()));
+            serverSocket = new Socket(SERVER_IP, SERVER_PORT);
+            dataToServer = new DataOutputStream(serverSocket.getOutputStream());
+            dataFromServer = new DataInputStream(serverSocket.getInputStream());
+            strToServer = new PrintWriter(serverSocket.getOutputStream(), true);
+            strFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            newGame = new Game(this);   
+            isConnected = true;
             System.out.println("Connected successfully"); 
-            newGame = new Game(this);    
         }catch(IOException e){
             System.out.println("\nError connecting to server: " + e.getMessage());
             closeConnection();
@@ -52,7 +54,7 @@ public class ClientConnection {
             if(strToServer != null) strToServer.close();
             if(dataFromServer != null) dataFromServer.close();
             if(dataToServer != null) dataToServer.close();
-            if(serverconnection != null) serverconnection.close();
+            if(serverSocket != null) serverSocket.close();
         } catch (IOException e) {
             System.out.println("Error closing resources: " + e.getMessage());
         }

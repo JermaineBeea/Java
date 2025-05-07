@@ -13,55 +13,50 @@ import java.io.PrintWriter;
 public class ServerConnection {
     private static final int PORT = 1700;
 
+    public boolean isConnected = false;
+    public ServerSocket serverSocket;
+    public Socket clientSocket;
+    public DataOutputStream dataToClient;
+    public DataInputStream dataFromClient;
+    public PrintWriter strToClient;
+    public BufferedReader strFromClient;
+
+
     public void runConnection(){
-        try(ServerSocket serverconnection = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"))){
-            System.out.println("Connection to Port " + PORT );
-            System.out.println("Waiting for clients...");
-            
-            // Using try-with-resources for proper resource management
-            try (Socket clientconnection = serverconnection.accept();
-                 DataInputStream dataFromClient = new DataInputStream(clientconnection.getInputStream());
-                 DataOutputStream dataToClient = new DataOutputStream(clientconnection.getOutputStream());
-                 BufferedReader strFromClient = new BufferedReader(new InputStreamReader(clientconnection.getInputStream()));
-                 PrintWriter strToClient = new PrintWriter(clientconnection.getOutputStream(), true)) {
-                
-                System.out.println("\nClient connected, starting game...");
-                
-                // Create robot for client.
-                Robot robot = new Robot();
-                Position robotPosition = robot.getPosition();
-                CommandProcessor commandProcessor = new CommandProcessor(robot);
-
-                while (true) {
-                    try{
-                        // Receive data from client
-                        String command = strFromClient.readLine();
-                        double quantity = dataFromClient.readDouble();
-
-                        commandProcessor.executeCommand(command, quantity);
-
-                        // Send status code to client.
-                        dataToClient.writeInt(ServerStatus.STATUS_OK.code);
-
-                        // Send robot status to client.
-                        dataToClient.writeDouble(robotPosition.getX());
-                        dataToClient.writeDouble(robotPosition.getY());
-                        dataToClient.writeInt(robotPosition.getDirection().getIndex());
-                        dataToClient.writeDouble(robot.getFuelAmount());
-
-                        // Display robot status.
-                        System.out.println("\nRobot is at (" + robotPosition.getX() + "," + robotPosition.getY() + ")");
-                        System.out.println("Robot is facing " + robotPosition.getDirection());
-                        System.out.println("Fuel amount is " + robot.getFuelAmount());
-                    } catch(Exception e){
-                        System.out.println("Client input error: " + e.getMessage());
-                        dataToClient.writeInt(ServerStatus.STATUS_ERROR.code);
-                        strToClient.println(e.getMessage());
-                    }
-                }
-            }
-        } catch(IOException e){
-            System.out.println("Error establishing connection: " + e.getMessage());
+        System.out.println("\nEstablishing connection to "+ PORT + "...");
+        try{
+        serverSocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
+        clientSocket = serverSocket.accept();
+        dataFromClient = new DataInputStream(clientSocket.getInputStream());
+        dataToClient = new DataOutputStream(clientSocket.getOutputStream());
+        strFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        strToClient = new PrintWriter(clientSocket.getOutputStream(), true);
+        isConnected = true;
+        }catch(IOException e){
+            System.out.println();
         }
+    }
+
+    public void runGame(){
+        try{
+            runGame();
+        }catch(Exception e){
+            System.out.println("nError during game execution: " + e.getMessage());
+        }finally{
+            closeConnections();
+        }
+    }
+
+    private void closeConnections(){
+        try{
+            if(serverSocket != null) serverSocket.close();
+            if(strFromClient != null) strFromClient.close();
+            if(strToClient != null) strToClient.close();
+            if(dataFromClient != null) dataFromClient.close();
+            if(dataToClient != null) dataToClient.close();
+            if(clientSocket != null) clientSocket.close();
+        }catch(IOException e){
+            System.out.println("Error closing resources: ");
+        } finally{}
     }
 }

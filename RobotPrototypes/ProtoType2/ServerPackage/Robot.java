@@ -1,7 +1,5 @@
 package ServerPackage;
 
-import java.util.Set;
-
 public class Robot {
     
     // Local fields.
@@ -32,9 +30,6 @@ public class Robot {
         return fuelAmount >= fuelRate * distance;
     }
 
-    public Set<Number> getStatus(){
-        return Set.of(posInstance.getX(), posInstance.getY(), posInstance.getDirection().getIndex());
-    }
 
     public double getRate(){
         return fuelRate;

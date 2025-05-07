@@ -5,13 +5,15 @@ import java.util.Scanner;
 public class Game {
     
     private boolean isRunning;
+    private boolean isConnected;
     private final String EXIT_FLAG = "exit";
     private ParseInput inputParser;
     private ClientConnection connection;
 
-    Game(ClientConnection instance){
-        this.connection = instance;
+    Game(ClientConnection server){
+        this.connection = server;
         this.isRunning = false;
+        this.isConnected = server.isConnected;
     }
 
     public void run(){
@@ -19,7 +21,7 @@ public class Game {
         isRunning = true;
         
         try(Scanner consoleIn = new Scanner(System.in)){
-            while(isRunning){
+            while(isRunning && isConnected){
                 try{
                     System.out.println("\nEnter a command separated by a space, e.g 'right 4'");
                     System.out.println("Valid commands: rotateleft, rotateright, forward, backward, left, right");
@@ -27,8 +29,11 @@ public class Game {
                     
                     String userInput = consoleIn.nextLine().trim();
                     if(userInput.toLowerCase().equals(EXIT_FLAG)){
+                        // Send status to server.
+                        connection.dataToServer.writeInt(ClientStatus.STATUS_EXIT.code);
                         System.out.println("Exiting game...");
                         isRunning = false;
+                        isConnected = false;
                         continue;
                     }
                     

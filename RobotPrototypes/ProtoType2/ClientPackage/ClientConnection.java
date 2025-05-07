@@ -27,8 +27,11 @@ public class ClientConnection {
         try{
             serverSocket = new Socket(SERVER_IP, SERVER_PORT);
             
+            // Create streams in proper order and ensure flushing is enabled
             dataToServer = new DataOutputStream(serverSocket.getOutputStream());
             dataFromServer = new DataInputStream(serverSocket.getInputStream());
+            
+            // Important: auto-flush is true for PrintWriter
             strToServer = new PrintWriter(serverSocket.getOutputStream(), true);
             strFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
             
@@ -53,7 +56,7 @@ public class ClientConnection {
     
     public void closeConnection(){
         try {
-            if(serverSocket != null) serverSocket.close();
+            // Close streams in proper order
             if(strFromServer != null) strFromServer.close();
             if(strToServer != null) strToServer.close();
             if(dataFromServer != null) dataFromServer.close();
@@ -68,10 +71,11 @@ public class ClientConnection {
         try {
             // If we get here, client is still connected
             dataToServer.writeInt(ClientStatus.HANDSHAKE_RESPONSE.code);
-            dataToServer.flush();
+            dataToServer.flush(); // Ensure the int is sent immediately
 
             // Attempts to read from client - will throw IOException if client disconnected
-            dataFromServer.readInt();
+            int response = dataFromServer.readInt();
+            System.out.println("Handshake response received: " + response);
 
             return true;
         } catch (IOException e) {

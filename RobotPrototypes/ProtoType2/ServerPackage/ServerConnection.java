@@ -14,7 +14,6 @@ public class ServerConnection {
     private static final int PORT = 1700;
     private ServerGame newGame;
     
-
     public boolean isConnected = false;
     public ServerSocket serverSocket;
     public Socket clientSocket;
@@ -23,23 +22,28 @@ public class ServerConnection {
     public PrintWriter strToClient;
     public BufferedReader strFromClient;
 
-
     public void runConnection(){
         System.out.println("\nEstablishing connection to "+ PORT + "...");
         try{
-        serverSocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
-        clientSocket = serverSocket.accept();
-        
-        dataFromClient = new DataInputStream(clientSocket.getInputStream());
-        dataToClient = new DataOutputStream(clientSocket.getOutputStream());
-        strFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        strToClient = new PrintWriter(clientSocket.getOutputStream(), true);
-        
-        isConnected = true;
-        newGame = new ServerGame(this);
-        this.runGame();
+            serverSocket = new ServerSocket(PORT, 50, InetAddress.getByName("0.0.0.0"));
+            System.out.println("Server socket created. Waiting for client connection...");
+            clientSocket = serverSocket.accept();
+            System.out.println("Client connected from: " + clientSocket.getInetAddress());
+            
+            // Create streams in the proper order
+            dataFromClient = new DataInputStream(clientSocket.getInputStream());
+            dataToClient = new DataOutputStream(clientSocket.getOutputStream());
+            
+            // Important: auto-flush is true for PrintWriter
+            strFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            strToClient = new PrintWriter(clientSocket.getOutputStream(), true);
+            
+            isConnected = true;
+            newGame = new ServerGame(this);
+            System.out.println("Server ready, starting game...");
         }catch(IOException e){
-            System.out.println();
+            System.out.println("Error establishing connection: " + e.getMessage());
+            closeConnection();
         }
     }
 
@@ -47,7 +51,8 @@ public class ServerConnection {
         try{
             newGame.run();
         }catch(Exception e){
-            System.out.println("nError during game execution: " + e.getMessage());
+            System.out.println("\nError during game execution: " + e.getMessage());
+            e.printStackTrace();
         }finally{
             closeConnection();
         }
@@ -55,26 +60,27 @@ public class ServerConnection {
 
     public void closeConnection(){
         try{
-            if(serverSocket != null) serverSocket.close();
-            if(clientSocket != null) clientSocket.close();
+            // Close streams in proper order
             if(strFromClient != null) strFromClient.close();
             if(strToClient != null) strToClient.close();
             if(dataFromClient != null) dataFromClient.close();
             if(dataToClient != null) dataToClient.close();
             if(clientSocket != null) clientSocket.close();
+            if(serverSocket != null) serverSocket.close();
         }catch(IOException e){
-            System.out.println("Error closing resources: ");
-        } finally{}
+            System.out.println("Error closing resources: " + e.getMessage());
+        }
     }
 
     public boolean handshake() {
         try {
-            // Attempts to read from server - will throw IOException if client disconnected
-            dataFromClient.readInt();
+            // Attempts to read from client - will throw IOException if client disconnected
+            int clientResponse = dataFromClient.readInt();
+            System.out.println("Handshake request received: " + clientResponse);
             
-            // If we get here, server is still connected
+            // If we get here, client is still connected
             dataToClient.writeInt(ServerStatus.HANDSHAKE_RESPONSE.code);
-            dataToClient.flush();
+            dataToClient.flush(); // Ensure the int is sent immediately
             
             return true;
         } catch (IOException e) {

@@ -1,4 +1,4 @@
-package ServerPackage.RobotModules;
+package ServerPackage.Modules;
 
 class Command{
     

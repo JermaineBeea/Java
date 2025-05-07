@@ -1,8 +1,6 @@
-package ServerPackage;
+package ServerPackage.Modules;
 
-import ServerPackage.RobotModules.*;
-
-public class ServerUtility {
+public class Utility {
     
     public static String getStatusString(Robot instance) {
         StringBuilder status = new StringBuilder();

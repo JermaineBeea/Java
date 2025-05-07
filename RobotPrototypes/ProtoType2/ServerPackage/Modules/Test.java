@@ -1,8 +1,6 @@
-package ServerPackage;
+package ServerPackage.Modules;
 
-import ServerPackage.RobotModules.*;
-
-public class ServerTest {
+public class Test {
     
     public static void main(String[] args) {
         // Create test instance

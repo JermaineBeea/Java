@@ -1,4 +1,4 @@
-package ServerPackage.RobotModules;
+package ServerPackage.Modules;
 
 public enum Direction{
      EAST(0, 1, 0), 

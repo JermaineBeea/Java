@@ -49,6 +49,7 @@ public class Robot {
     }
 
     // Fuel-related helper methods
+
     public void repair() {
         // Implement repair logic
     }
@@ -62,6 +63,7 @@ public class Robot {
     }
 
     // Assignment Methods
+
     public void setName(String nameArg) {
         this.name = nameArg;
     }
@@ -75,6 +77,7 @@ public class Robot {
     }
 
     // Access Methods
+    
     public Position getPosition() {
         return position;
     }

@@ -1,34 +1,55 @@
 public class Robot{
 
-    private Position position;
     private String name;
+
+    // Imutable once set.
+    private final int FUEL_AMOUNT = 1000;
     private String buildType;
+    private int rateFuelUsage;
+    private Position robotPosition;
+
+    // Mutable properties.
     private int durability;
     private int maxShots;
     private int fuelAmount;
-    private int rateFuelUsage;
+
 
     public Robot(String buildArg, int durabilityArg, int maxShotsArg, int rateArg){
         this.name  = "";
-        this.fuelAmount = 10000;
-        this.buildType = buildArg;
+        this.fuelAmount = FUEL_AMOUNT; // All robots have intial fuel amount
+        this.robotPosition = new Position(0, 0, Direction.NORTH);
+
+        this.buildType =  buildArg;
         this.durability = durabilityArg;
         this.maxShots = maxShotsArg;
         this.rateFuelUsage = rateArg;
-        this.position = new Position(0, 0, Direction.NORTH);
 
     }
 
     // Assignment Methods.
+    
     public void setName(String nameArg){
         this.name = nameArg;
     }
 
-    public void setFuel(){
+    public void setFuel(int amount){
+        this.fuelAmount = amount;
+    }
 
+    public void setDurability(int durability){
+        this.durability = durability;
+    }
+
+    public void setFuelAmount(int amount){
+        this.fuelAmount = amount;
     }
 
     // Access Methods.
+
+    public Position position(){
+        return robotPosition;
+    }
+
     public String getName(){
         return name;
     }
@@ -45,9 +66,12 @@ public class Robot{
         return maxShots;
     }
 
-    // Delta Methods.
-    public void moveForward(){
+    public int getFuelAmount(){
+        return fuelAmount;
+    }
 
+    public int getRate(){
+        return rateFuelUsage;
     }
 
 }

@@ -11,12 +11,12 @@ public class Position {
     }
 
     // Assignment  Methods.
-    
+
     public void setX(int xArg){
         this.xPos = xArg;
     }
 
-    public void setT(int yArg){
+    public void setY(int yArg){
         this.xPos = yArg;
     }
 

@@ -1,8 +1,8 @@
-public class Robot{
+public class Robot {
 
     private String name;
 
-    // Imutable once set.
+    // Immutable once set.
     private final int FUEL_AMOUNT = 1000;
     private String buildType;
     private int rateFuelUsage;
@@ -11,81 +11,95 @@ public class Robot{
     private int durability;
     private int maxShots;
     private int fuelAmount;
-    private Position robotPosition;
+    private Position position;
 
-    public Robot(String buildArg, int durabilityArg, int maxShotsArg, int rateArg){
-        this.name  = "";
-        this.fuelAmount = FUEL_AMOUNT; // All robots have intial fuel amount
-        this.robotPosition = new Position(0, 0, Direction.NORTH);
+    public Robot(String buildArg, int durabilityArg, int maxShotsArg, int rateArg) {
+        this.name = "";
+        this.fuelAmount = FUEL_AMOUNT; // All robots have initial fuel amount
+        this.position = new Position(0, 0, Direction.NORTH);
 
-        this.buildType =  buildArg;
+        this.buildType = buildArg;
         this.durability = durabilityArg;
         this.maxShots = maxShotsArg;
         this.rateFuelUsage = rateArg;
-
     }
-    // Delta Methods.
-
-    public void repair(){
-
-    }
-
-    public void refuel(){
-
-    }
-
-    public void shoot(){
-        
-    }
-
-    // Assignment Methods.
     
-    public void setName(String nameArg){
+    // Movement methods that delegate to Position
+
+    public void rotateRight(int quantity) {
+        position.rotateRight(quantity);
+    }
+
+    public void rotateLeft(int quantity) {
+        position.rotateleft(quantity); 
+    }
+
+    public void moveForward(int distance) {
+        if (fuelAmount >= rateFuelUsage * distance) {
+            position.moveForward(distance);
+            fuelAmount += rateFuelUsage * distance;
+        }
+    }
+
+    public void moveBackward(int distance) {
+        if (fuelAmount >= rateFuelUsage * distance) {
+            position.moveBackward(distance);
+            fuelAmount += rateFuelUsage * distance;
+        }
+    }
+
+    // Fuel-related helper methods
+    public void repair() {
+        // Implement repair logic
+    }
+
+    public void refuel() {
+        // Implement refuel logic
+    }
+
+    public void shoot() {
+        // Implement shooting logic
+    }
+
+    // Assignment Methods
+    public void setName(String nameArg) {
         this.name = nameArg;
     }
 
-    public void setFuel(int amount){
-        this.fuelAmount = amount;
-    }
-
-    public void setDurability(int durability){
+    public void setDurability(int durability) {
         this.durability = durability;
     }
 
-    public void setFuelAmount(int amount){
+    public void setFuelAmount(int amount) {
         this.fuelAmount = amount;
     }
 
-    // Access Methods.
-
-    public Position position(){
-        return robotPosition;
+    // Access Methods
+    public Position getPosition() {
+        return position;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getBuild(){
+    public String getBuild() {
         return buildType;
     }
 
-    public int getDurability(){
+    public int getDurability() {
         return durability;
     }
 
-    public int getMaxShots(){
+    public int getMaxShots() {
         return maxShots;
     }
 
-    public int getFuelAmount(){
+    public int getFuelAmount() {
         return fuelAmount;
     }
 
-    public int getRate(){
+    public int getRate() {
         return rateFuelUsage;
     }
-
-    
-
 }

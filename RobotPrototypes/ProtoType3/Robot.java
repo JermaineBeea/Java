@@ -6,13 +6,12 @@ public class Robot{
     private final int FUEL_AMOUNT = 1000;
     private String buildType;
     private int rateFuelUsage;
-    private Position robotPosition;
 
     // Mutable properties.
     private int durability;
     private int maxShots;
     private int fuelAmount;
-
+    private Position robotPosition;
 
     public Robot(String buildArg, int durabilityArg, int maxShotsArg, int rateArg){
         this.name  = "";
@@ -24,6 +23,19 @@ public class Robot{
         this.maxShots = maxShotsArg;
         this.rateFuelUsage = rateArg;
 
+    }
+    // Delta Methods.
+
+    public void repair(){
+
+    }
+
+    public void refuel(){
+
+    }
+
+    public void shoot(){
+        
     }
 
     // Assignment Methods.
@@ -73,5 +85,7 @@ public class Robot{
     public int getRate(){
         return rateFuelUsage;
     }
+
+    
 
 }

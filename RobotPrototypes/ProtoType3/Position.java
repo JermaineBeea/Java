@@ -11,6 +11,7 @@ public class Position {
     }
 
     // Assignment  Methods.
+    
     public void setX(int xArg){
         this.xPos = xArg;
     }

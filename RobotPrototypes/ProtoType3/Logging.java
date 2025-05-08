@@ -2,49 +2,40 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.logging.Handler;
 
-public class Logging {
+public class Logging{
 
-    private final Logger logger;
-    private boolean enable;
+    private Logger logger;
+    private boolean logEnabled;
+    private Logger rootLogger;
 
-    public Logging(Class<?> classObject) {
-        this.logger = Logger.getLogger(classObject.getName());
-        this.enable = true;
-        this.logger.setLevel(Level.ALL);
-        // Fix: Using the correct logger name instead of "null"
-        Logger rootLogger = Logger.getLogger("");
-        for (Handler handler : rootLogger.getHandlers()) {
-            handler.setLevel(Level.ALL);
-        }
+    public Logging(Class<?> classObject){
+        logEnabled = true;
+        logger = Logger.getLogger(classObject.getName());
+        rootLogger = Logger.getLogger("");
+        setLevel(Level.ALL);
     }
 
     public Logger getLogger(){
         return logger;
     }
 
-    public void enableLog(boolean enableArg) {
-        if (enableArg && enable) {
-            System.out.println("Logging is already enabled!");
-        } else if (!enableArg) { // Fix: Logic was inverted here
-            setLevel(Level.OFF);
-            this.enable = false;
-        } else {
-            // Fix: This should handle when logging is disabled and we want to enable it
+    public void enableLogging(boolean enableArg){
+        if(enableArg && logEnabled){
+            System.out.println("Logging has already been enabled");
+        }else if (enableArg){
             setLevel(Level.ALL);
-            this.enable = true;
-            System.out.println("Logging has been enabled!");
+            logEnabled = true;
+        }else if(!enableArg){
+            setLevel(Level.OFF);
+            logEnabled = false;
         }
     }
 
-    public void setLevel(Level logLevel) {
-        if (enable) {
-            logger.setLevel(logLevel);
-            Logger rootLogger = Logger.getLogger("");
-            for (Handler handler : rootLogger.getHandlers()) {
-                handler.setLevel(logLevel);
-            }
-        } else {
-            System.out.println("Logging has been set to off!\nTurn on to set Level");
+    public void setLevel(Level logLevel){
+        logEnabled = true;
+        logger.setLevel(logLevel);
+        for(Handler handler : rootLogger.getHandlers()){
+            handler.setLevel(logLevel);
         }
     }
 }

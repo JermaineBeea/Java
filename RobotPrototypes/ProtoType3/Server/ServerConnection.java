@@ -41,13 +41,13 @@ public class ServerConnection {
         }
     }
 
-    public DataOutputStream toClient(){
-        return dataToClient;
-    }
+    // public DataOutputStream toClient(){
+    //     return dataToClient;
+    // }
 
-    public DataInputStream fromClient(){
-        return dataFromClient;
-    }
+    // public DataInputStream fromClient(){
+    //     return dataFromClient;
+    // }
 
     public void closeConnection() throws IOException{
         if(serverSocket != null) serverSocket.close();

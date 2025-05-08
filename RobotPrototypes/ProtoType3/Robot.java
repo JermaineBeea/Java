@@ -37,14 +37,14 @@ public class Robot {
     public void moveForward(int distance) {
         if (fuelAmount >= rateFuelUsage * distance) {
             position.moveForward(distance);
-            fuelAmount += rateFuelUsage * distance;
+            fuelAmount -= rateFuelUsage * distance;
         }
     }
 
     public void moveBackward(int distance) {
         if (fuelAmount >= rateFuelUsage * distance) {
             position.moveBackward(distance);
-            fuelAmount += rateFuelUsage * distance;
+            fuelAmount -= rateFuelUsage * distance;
         }
     }
 
@@ -77,7 +77,7 @@ public class Robot {
     }
 
     // Access Methods
-    
+
     public Position getPosition() {
         return position;
     }

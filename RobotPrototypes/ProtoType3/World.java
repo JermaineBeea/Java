@@ -3,22 +3,21 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class World {
+    private static final Set<Robot> setRobots = Collections.synchronizedSet(new HashSet<>());
     
-   private static final Set<Robot> setRobots = Collections.synchronizedSet(new HashSet<>());
-
-   public Set<Robot> getsetRobots(){
+    public Set<Robot> getsetRobots(){
         synchronized(setRobots){
             return new HashSet<>(setRobots);
         }
-   }
+    }
 
-   public void addRobot(Robot robot){
+    public void addRobot(Robot robot){
         setRobots.add(robot);
-   }
+    }
 
-   public void removeRobot(Robot robot){
+    public void removeRobot(Robot robot){
         setRobots.remove(robot);
-   }
+    }
 }
 
 /*

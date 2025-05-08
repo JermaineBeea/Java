@@ -24,6 +24,7 @@ public class Position {
     }
 
     // Access Methods.
+    
     public int getX(){
         return xPos;
     }
@@ -34,6 +35,28 @@ public class Position {
 
     public Direction getDirection(){
         return direction;
+    }
+
+    // Delta Methods.
+
+    public void rotateRight(int quantity){
+        int newIndex = (direction.getIndex() + quantity) % 4;
+        this.direction = Direction.getDirectionName(newIndex);
+    }
+
+    public void rotateleft(int quantity){
+        int newIndex = (4 + direction.getIndex() + quantity) % 4;
+        this.direction = Direction.getDirectionName(newIndex);
+    }
+
+    public void moveForward(int distance){
+        this.xPos += distance * direction.getXunitChange();
+        this.yPos += distance * direction.getYunitChange();
+    }
+
+    public void moveBackward(int distance){
+        this.xPos -= distance * direction.getXunitChange();
+        this.yPos -= distance * direction.getYunitChange();
     }
 
 

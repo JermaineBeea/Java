@@ -5,37 +5,56 @@ import java.util.logging.Handler;
 public class Logging{
 
     private Logger logger;
-    private boolean logEnabled;
     private Logger rootLogger;
+    private Level logLevel;
+    private boolean printStack;
 
     public Logging(Class<?> classObject){
-        logEnabled = true;
-        logger = Logger.getLogger(classObject.getName());
-        rootLogger = Logger.getLogger("");
-        setLevel(Level.ALL);
+        this.printStack = true;
+        this.logLevel = Level.ALL;
+        this.logger = Logger.getLogger(classObject.getName());
+        this.rootLogger = Logger.getLogger("");
+        this.setLogLevel(Level.ALL);
     }
 
     public Logger getLogger(){
         return logger;
     }
 
-    public void enableLogging(boolean enableArg){
-        if(enableArg && logEnabled){
-            System.out.println("Logging has already been enabled");
-        }else if (enableArg){
-            setLevel(Level.ALL);
-            logEnabled = true;
-        }else if(!enableArg){
-            setLevel(Level.OFF);
-            logEnabled = false;
-        }
+    public boolean loggingEnabled(){
+        return logLevel == Level.OFF;
     }
 
-    public void setLevel(Level logLevel){
-        logEnabled = true;
+    public void printStackTrace(Exception ex){
+        if(printStack){
+            ex.printStackTrace();
+        }return;
+    }
+
+    public void setLogLevel(Level level){
+        logLevel = level;
         logger.setLevel(logLevel);
         for(Handler handler : rootLogger.getHandlers()){
             handler.setLevel(logLevel);
         }
     }
+
+    public void enablePrintStack(boolean enableArg){
+        if(printStack == enableArg){
+           System.out.println("Print-Stack-Trace has already been set to: " + enableArg);
+        }else{
+            printStack = enableArg;
+        }
+    }
+
+    public void enableLogging(boolean enableArg){
+        if(enableArg == loggingEnabled()){
+            System.out.println("Logging has already been enabled  to: " + enableArg);
+        }else if (enableArg){
+            setLogLevel(Level.ALL);
+        }else if(!enableArg){
+            setLogLevel(Level.OFF);
+        }
+    }
+
 }

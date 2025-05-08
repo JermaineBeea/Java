@@ -1,3 +1,5 @@
+import java.util.function.Consumer;
+
 public class Robot {
 
     private String name;
@@ -34,32 +36,45 @@ public class Robot {
         position.rotateleft(quantity); 
     }
 
-    public void moveForward(int distance) {
+    // Helper method used in methods to move robot position.
+
+    public void moveRobot(int distance, Consumer<Integer> function){
         if (fuelAmount >= rateFuelUsage * distance) {
-            position.moveForward(distance);
+            function.accept(distance);
             fuelAmount -= rateFuelUsage * distance;
-        }
+        }    
+    }
+
+    // Methods to change position of robot.
+
+    public void moveForward(int distance) {
+        moveRobot(distance, position::moveForward);
     }
 
     public void moveBackward(int distance) {
-        if (fuelAmount >= rateFuelUsage * distance) {
-            position.moveBackward(distance);
-            fuelAmount -= rateFuelUsage * distance;
-        }
+        moveRobot(distance, position::moveBackward);
+    }
+
+    public void moveRight(int distance){
+        moveRobot(distance, position::moveRight);
+    }
+
+    public void moveLeft(int distance){
+        moveRobot(distance, position::moveLeft);
     }
 
     // Fuel-related helper methods
 
     public void repair() {
-        // Implement repair logic
+        //TODO implement repair logic
     }
 
     public void refuel() {
-        // Implement refuel logic
+        // TODO Implement refuel logic
     }
 
     public void shoot() {
-        // Implement shooting logic
+        // TODO Implement shooting logic
     }
 
     // Assignment Methods

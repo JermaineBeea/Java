@@ -1,5 +1,3 @@
-
-
 public enum ClientCodes {
     STATUS_OK(300), 
     STATUS_ERROR(700),

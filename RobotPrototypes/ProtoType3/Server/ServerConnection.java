@@ -1,9 +1,13 @@
+package Server;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Utility.HandShake;
+import Utility.LogModule;
 
 public class ServerConnection {
     private final LogModule logMod = new LogModule(ServerConnection.class);

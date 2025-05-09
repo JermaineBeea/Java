@@ -1,6 +1,11 @@
+package Client;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Utility.HandShake;
+import Utility.LogModule;
+
 import java.net.Socket;
 import java.io.IOException;
 
@@ -35,7 +40,7 @@ public class ClientConnection {
         logger.info("Establishing connection to server at " + SERVER_IP + ":" + SERVER_PORT + "\n");
         try{
             this.serverSocket = new Socket(SERVER_IP, SERVER_PORT);
-            talkToserver();
+            establishConnection();
         }catch(IOException e){
             closeConnection();
             logger.log(Level.SEVERE, "Connection error", e);
@@ -43,7 +48,7 @@ public class ClientConnection {
         }
     }
 
-    private void talkToserver() throws IOException{
+    private void establishConnection() throws IOException{
         logger.info("Successfully connected from: " + 
                     serverSocket.getInetAddress() + ":" + serverSocket.getPort() + "\n");
         logger.info("Connection Test: Recieve and send handshake from server...\n");
@@ -52,6 +57,9 @@ public class ClientConnection {
         HandShake handShake = new HandShake(serverSocket);
         handShake.recieveHandshake();
         logger.info("Connection Test: Hanshake sent!\n");
+
+        // Begin onboarding process of client.
+        new serverHandler(serverSocket);
     }
 
        /**

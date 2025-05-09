@@ -1,20 +1,21 @@
+package Utility;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.logging.Handler;
 
-public class Logging{
+public class LogModule{
 
     private Logger logger;
     private Logger rootLogger;
     private Level logLevel;
     private boolean printStack;
 
-    public Logging(Class<?> classObject){
-        this.printStack = true;
-        this.logLevel = Level.ALL;
+    public LogModule(Class<?> classObject){
+        this.printStack = false;
+        this.logLevel = Level.OFF;
         this.logger = Logger.getLogger(classObject.getName());
         this.rootLogger = Logger.getLogger("");
-        this.setLogLevel(Level.ALL);
+        this.setLogLevel(logLevel);
     }
 
     public Logger getLogger(){
@@ -22,7 +23,7 @@ public class Logging{
     }
 
     public boolean loggingEnabled(){
-        return logLevel == Level.OFF;
+        return !(logLevel == Level.OFF);
     }
 
     public void printStackTrace(Exception ex){
@@ -41,7 +42,7 @@ public class Logging{
 
     public void enablePrintStack(boolean enableArg){
         if(printStack == enableArg){
-           System.out.println("Print-Stack-Trace has already been set to: " + enableArg);
+           logger.info("Print-Stack-Trace has already been set to: " + enableArg);
         }else{
             printStack = enableArg;
         }
@@ -49,7 +50,7 @@ public class Logging{
 
     public void enableLogging(boolean enableArg){
         if(enableArg == loggingEnabled()){
-            System.out.println("Logging has already been enabled  to: " + enableArg);
+            logger.info("\nLogging has already been enabled  to: " + enableArg);
         }else if (enableArg){
             setLogLevel(Level.ALL);
         }else if(!enableArg){

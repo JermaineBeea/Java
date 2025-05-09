@@ -1,6 +1,10 @@
+package Utility;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Server.ServerCodes;
+
 import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

@@ -1,3 +1,4 @@
+package Server;
 import java.net.Socket;
 import java.net.ServerSocket;
 // import java.io.DataInputStream;
@@ -8,6 +9,8 @@ import java.net.ServerSocket;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Utility.LogModule;
 
 public class ClientThread {
     private final LogModule logMod = new LogModule(ClientThread.class);
@@ -25,6 +28,7 @@ public class ClientThread {
         wrapperFunction = ()-> {
            try{
                 if(threadRunning.get() && !clientSocket.isClosed() && !serverSocket.isClosed()){
+                    // Begin onboarding of new clients.
                     new ClientHandler(clientId, clientSocket, serverSocket);
                 }else{
                     throw new Exception("Error creating client thread");

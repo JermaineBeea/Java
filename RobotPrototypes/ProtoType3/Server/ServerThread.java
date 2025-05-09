@@ -27,7 +27,7 @@ public class ServerThread {
            try{
                 if(threadRunning.get() && !clientSocket.isClosed() && !serverSocket.isClosed()){
                     // Begin onboarding of new clients.
-                    new ServerHandler(clientId, clientSocket, serverSocket);
+                    new ServerSession(clientId, clientSocket, serverSocket);
                 }else{
                     throw new Exception("Error creating client thread");
                 }

@@ -53,7 +53,7 @@ public class ClientConnection {
         logger.info("Connection Test: Hanshake sent!\n");
 
         // Begin onboarding process of client.
-        new ClientHandler(serverSocket);
+        new ClientSession(serverSocket);
     }
 
        /**

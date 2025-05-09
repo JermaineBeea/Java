@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Utility.LogModule;
@@ -11,7 +13,7 @@ import Utility.LogModule;
 public class ClientSession {
     private LogModule logMod = new LogModule(ClientSession.class).launchLog(false, false);
     private Logger logger = logMod.getLogger();
-    
+
     private static Socket serverSocket;
 
     public ClientSession(Socket serverSocketArg){
@@ -20,11 +22,13 @@ public class ClientSession {
     }
 
     private void runSession(){
-        // Begin onborading by recieving name from client.
         try(
             DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream());
             DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream());
+            ObjectOutputStream ObjectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
+            ObjectInputStream ObjectFromServer = new ObjectInputStream(serverSocket.getInputStream());
         ){
+        // Begin onborading by recieving name from client.
 
         }catch(IOException e){
 

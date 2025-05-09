@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import Utility.LogModule;
 
@@ -24,13 +26,15 @@ public class ServerSession {
     }
 
     private void runSession(){
-        // Begin onborading by recieving name from client.
         try(
-            DataInputStream fromClient = new DataInputStream(clientSocket.getInputStream());
-            DataOutputStream toClient = new DataOutputStream(clientSocket.getOutputStream());
+            DataInputStream datafromClient = new DataInputStream(clientSocket.getInputStream());
+            DataOutputStream datatoClient = new DataOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream ObjectFromClient = new ObjectInputStream(clientSocket.getInputStream());
+            ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
         ){
-
-        }catch(IOException e){
+        // Begin onborading by recieving name from client.
+        
+    }catch(IOException e){
             
         }
 

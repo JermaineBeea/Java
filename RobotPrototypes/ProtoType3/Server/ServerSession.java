@@ -1,5 +1,6 @@
 package Server;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.net.Socket;
 import java.io.DataInputStream;
@@ -16,12 +17,12 @@ public class ServerSession {
 
     private final int clientId;
     private final Socket clientSocket;
-    private final Thread serveThread;
+    private final Thread serverThread;
     
     public ServerSession(int clientIdArg, Socket clientSocketArg, Thread serverThreadArg){
         this.clientId = clientIdArg;
         this.clientSocket = clientSocketArg;
-        this.serveThread = serverThreadArg;
+        this.serverThread = serverThreadArg;
         runSession();
     }
 
@@ -33,10 +34,15 @@ public class ServerSession {
             ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
         ){
         // Begin onborading by recieving name from client.
-        
-    }catch(IOException e){
-            
-        }
+        System.out.println();
+        logger.info("Waiting flor client to send name...\n");
 
+        String clientName = datafromClient.readUTF();
+        logger.info("Recieved client name: " + clientName);
+
+        }catch(IOException e){
+            logger.log(Level.SEVERE , "Server Session Error", e);
+            logMod.printStackTrace(e);
+        }
     }
 }

@@ -1,6 +1,8 @@
 package Client;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Scanner;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,15 +25,22 @@ public class ClientSession {
 
     private void runSession(){
         try(
-            DataOutputStream toServer = new DataOutputStream(serverSocket.getOutputStream());
-            DataInputStream fromServer = new DataInputStream(serverSocket.getInputStream());
-            ObjectOutputStream ObjectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
-            ObjectInputStream ObjectFromServer = new ObjectInputStream(serverSocket.getInputStream());
+            Scanner consoleIn = new Scanner(System.in);
+            DataOutputStream dataToServer = new DataOutputStream(serverSocket.getOutputStream());
+            DataInputStream dataFromServer = new DataInputStream(serverSocket.getInputStream());
+            ObjectOutputStream ObjectdataToServer = new ObjectOutputStream(serverSocket.getOutputStream());
+            ObjectInputStream ObjectdataFromServer = new ObjectInputStream(serverSocket.getInputStream());
         ){
         // Begin onborading by recieving name from client.
+        System.out.print("Please enter your name: ");
+        String clientName = consoleIn.nextLine();
+
+        // Send name to server.
+        dataToServer.writeUTF(clientName);
 
         }catch(IOException e){
-
+            logger.log(Level.SEVERE , "Client Session Error", e);
+            logMod.printStackTrace(e);
         }
     }
 }

@@ -2,10 +2,13 @@ package Server;
 
 import java.net.Socket;
 
+import RobotModules.Robot;
+
 public class Client {
 
     private String name;
     private int ID;
+    private Robot robot;
     private Socket clientSocket;
     private Thread thread;
     

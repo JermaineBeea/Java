@@ -10,18 +10,13 @@ import Utility.HandShake;
 import Utility.LogModule;
 
 public class ServerConnection {
-    private final LogModule logMod = new LogModule(ServerConnection.class);
-    private final Logger logger = logMod.getLogger();
+    private LogModule logMod = new LogModule(ServerHandler.class);
+    private Logger logger = logMod.launchLog(false, false);
 
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private final int PORT;
     private final int BACKLOG;
-
-    {
-        logMod.enableLogging(true);
-        logMod.enablePrintStack(true);
-    }
 
     /**
      * Initialise server connection.
@@ -69,7 +64,7 @@ public class ServerConnection {
             // Run thread.
             clientCount++;
             final int clientId = clientCount;
-            ClientThread clientThread = new ClientThread(clientId, clientSocket, serverSocket);
+            ServerThread clientThread = new ServerThread(clientId, clientSocket, serverSocket);
             clientThread.startThread();
         }
     }

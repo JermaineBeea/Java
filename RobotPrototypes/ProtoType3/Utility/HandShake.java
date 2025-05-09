@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Server.ServerCodes;
+import Server.ServerHandler;
 
 import java.net.Socket;
 import java.io.DataInputStream;
@@ -11,14 +12,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class HandShake {
-    private LogModule logMod = new LogModule(HandShake.class);
-    private Logger logger = logMod.getLogger();
+    private LogModule logMod = new LogModule(ServerHandler.class);
+    private Logger logger = logMod.launchLog(false, false);
+    
     private DataInputStream fromPartner;
     private DataOutputStream toPartner;
-    {
-        logMod.enableLogging(true);
-        logMod.enablePrintStack(true);
-    }
+   
 
     public HandShake(Socket partnerSocket){
         try{

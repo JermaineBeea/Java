@@ -3,6 +3,7 @@ package Client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Server.ServerHandler;
 import Utility.HandShake;
 import Utility.LogModule;
 
@@ -10,18 +11,13 @@ import java.net.Socket;
 import java.io.IOException;
 
 public class ClientConnection {
-    private final LogModule logMod = new LogModule(ClientConnection.class);
-    private final Logger logger = logMod.getLogger();
+    private LogModule logMod = new LogModule(ServerHandler.class);
+    private Logger logger = logMod.launchLog(false, false);
 
     private Socket serverSocket;
     private final String SERVER_IP;
     private final int SERVER_PORT;
 
-    {
-        logMod.enableLogging(true);
-        logMod.enablePrintStack(true);
-    }  
-    
     /**
      * Initialise client connection to server.
      * @param serverIP
@@ -59,7 +55,7 @@ public class ClientConnection {
         logger.info("Connection Test: Hanshake sent!\n");
 
         // Begin onboarding process of client.
-        new serverHandler(serverSocket);
+        new ClientHandler(serverSocket);
     }
 
        /**

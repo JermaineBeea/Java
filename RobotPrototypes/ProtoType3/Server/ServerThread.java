@@ -12,24 +12,22 @@ import java.util.logging.Logger;
 
 import Utility.LogModule;
 
-public class ClientThread {
-    private final LogModule logMod = new LogModule(ClientThread.class);
-    private final Logger logger = logMod.getLogger();
+public class ServerThread {
+    private LogModule logMod = new LogModule(ServerHandler.class);
+    private Logger logger = logMod.launchLog(false, false);
+    
     private Thread thread;
     private AtomicBoolean threadRunning = new AtomicBoolean(false);
     private Runnable wrapperFunction;
 
-    {
-        logMod.enableLogging(true);
-        logMod.enablePrintStack(true);
-    }
+
     
-    public ClientThread(int clientId, Socket clientSocket, ServerSocket serverSocket){
+    public ServerThread(int clientId, Socket clientSocket, ServerSocket serverSocket){
         wrapperFunction = ()-> {
            try{
                 if(threadRunning.get() && !clientSocket.isClosed() && !serverSocket.isClosed()){
                     // Begin onboarding of new clients.
-                    new ClientHandler(clientId, clientSocket, serverSocket);
+                    new ServerHandler(clientId, clientSocket, serverSocket);
                 }else{
                     throw new Exception("Error creating client thread");
                 }

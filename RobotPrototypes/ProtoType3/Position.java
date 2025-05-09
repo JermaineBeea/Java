@@ -21,7 +21,7 @@ public class Position {
     }
 
     public void setY(int yArg){
-        this.xPos = yArg;
+        this.yPos = yArg;
     }
 
     public void setDirection(Direction directionArg){

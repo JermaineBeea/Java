@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.io.IOException;
 
 public class ClientConnection {
-    private final LogModule logMod = new LogModule(ServerConnection.class);
+    private final LogModule logMod = new LogModule(ClientConnection.class);
     private final Logger logger = logMod.getLogger();
 
     private Socket serverSocket;

@@ -22,7 +22,7 @@ public class LogModule{
     }
 
     public boolean loggingEnabled(){
-        return logLevel == Level.OFF;
+        return !(logLevel == Level.OFF);
     }
 
     public void printStackTrace(Exception ex){

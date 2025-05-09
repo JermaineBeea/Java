@@ -41,7 +41,7 @@ public class LogModule{
 
     public void enablePrintStack(boolean enableArg){
         if(printStack == enableArg){
-           logger.info("\nPrint-Stack-Trace has already been set to: " + enableArg);
+           logger.info("Print-Stack-Trace has already been set to: " + enableArg);
         }else{
             printStack = enableArg;
         }

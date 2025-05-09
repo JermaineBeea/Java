@@ -13,9 +13,8 @@ import java.net.Socket;
 import Utility.LogModule;
 
 public class ClientSession {
-    private LogModule logMod = new LogModule(ClientSession.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(ClientSession.class).launchLog(true, true);
     private Logger logger = logMod.getLogger();
-
     private static Socket serverSocket;
 
     public ClientSession(Socket serverSocketArg){

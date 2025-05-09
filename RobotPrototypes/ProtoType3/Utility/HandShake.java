@@ -11,7 +11,7 @@ import Server.ServerCodes;
 
 
 public class HandShake {
-    private LogModule logMod = new LogModule(HandShake.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(HandShake.class).launchLog(true, true);
     private Logger logger = logMod.getLogger();
     
     private DataInputStream fromPartner;

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import Utility.LogModule;
 
 public class ServerThread {
-    private LogModule logMod = new LogModule(ServerThread.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(ServerThread.class).launchLog(true, true);
     private Logger logger = logMod.getLogger();
     
     private Thread thread;

@@ -10,7 +10,7 @@ import Utility.HandShake;
 import Utility.LogModule;
 
 public class ServerConnection {
-    private LogModule logMod = new LogModule(ServerSession.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(ServerConnection.class).launchLog(true, true);
     private Logger logger = logMod.getLogger();
 
     private ServerSocket serverSocket;
@@ -26,6 +26,7 @@ public class ServerConnection {
     public ServerConnection(int serverPort, int backlog){
        this.PORT = serverPort;
        this.BACKLOG = backlog;
+       runConnection();
     }
 
     /**

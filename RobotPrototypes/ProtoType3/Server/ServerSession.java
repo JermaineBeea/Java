@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 import Utility.LogModule;
 
 public class ServerSession {
-    private LogModule logMod = new LogModule(ServerSession.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(ServerSession.class).launchLog(true, true);
     private Logger logger = logMod.getLogger();
 
     private final int clientId;

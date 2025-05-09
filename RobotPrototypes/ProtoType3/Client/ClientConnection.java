@@ -9,7 +9,7 @@ import Utility.HandShake;
 import Utility.LogModule;
 
 public class ClientConnection {
-    private LogModule logMod = new LogModule(ClientConnection.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(ClientConnection.class).launchLog(true, true);
     private Logger logger = logMod.getLogger();
 
     private Socket serverSocket;

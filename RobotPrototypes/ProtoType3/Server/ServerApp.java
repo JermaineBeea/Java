@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import Utility.LogModule;
 
 public class ServerApp {
-    private static LogModule logMod = new LogModule(ServerHandler.class).launchLog(false, false);
+    private static LogModule logMod = new LogModule(ServerApp.class).launchLog(false, false);
     private static Logger logger = logMod.getLogger();
     
     private static final int PORT = 9000;

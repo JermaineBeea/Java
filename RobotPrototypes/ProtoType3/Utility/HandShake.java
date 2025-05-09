@@ -2,17 +2,16 @@ package Utility;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import Server.ServerCodes;
-import Server.ServerHandler;
-
 import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import Server.ServerCodes;
+
+
 public class HandShake {
-    private LogModule logMod = new LogModule(ServerHandler.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(HandShake.class).launchLog(false, false);
     private Logger logger = logMod.getLogger();
     
     private DataInputStream fromPartner;

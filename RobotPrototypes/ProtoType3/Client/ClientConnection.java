@@ -2,16 +2,14 @@ package Client;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import Server.ServerHandler;
-import Utility.HandShake;
-import Utility.LogModule;
-
 import java.net.Socket;
 import java.io.IOException;
 
+import Utility.HandShake;
+import Utility.LogModule;
+
 public class ClientConnection {
-    private LogModule logMod = new LogModule(ServerHandler.class).launchLog(false, false);
+    private LogModule logMod = new LogModule(ClientConnection.class).launchLog(false, false);
     private Logger logger = logMod.getLogger();
 
     private Socket serverSocket;

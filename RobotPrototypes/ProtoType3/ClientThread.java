@@ -1,6 +1,53 @@
+import java.net.Socket;
+import java.net.ServerSocket;
+// import java.io.DataInputStream;
+// import java.io.DataOutputStream;
+// import java.io.ObjectInputStream;
+// import java.io.ObjectOutputStream;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ClientThread {
+    private final LogModule logMod = new LogModule(ClientThread.class);
+    private final Logger logger = logMod.getLogger();
+    private Thread thread;
+    private AtomicBoolean threadRunning = new AtomicBoolean(false);
+    private Runnable wrapperFunction;
+
+    {
+        logMod.enableLogging(true);
+        logMod.enablePrintStack(true);
+    }
     
-    public ClientThread(ServerConnection connection){
-        
+    public ClientThread(int clientId, Socket clientSocket, ServerSocket serverSocket){
+        wrapperFunction = ()-> {
+           try{
+                if(threadRunning.get() && !clientSocket.isClosed() && !serverSocket.isClosed()){
+                    new ClientHandler(clientId, clientSocket, serverSocket);
+                }else{
+                    throw new Exception("Error creating client thread");
+                }
+           }catch(Exception e){
+            logger.log(Level.SEVERE, e.getMessage());
+            logMod.printStackTrace(e);
+           }
+        };
+    }
+
+
+    public void startThread(){
+        // Check if thread has not been started prior.
+        if(thread != null && thread.isAlive()){
+            return;
+        }
+
+        // Run thread.
+        threadRunning.set(true);
+
+        // Create thread and run thread.
+        thread = new Thread(wrapperFunction);
+        thread.start();
     }
 }

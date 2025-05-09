@@ -2,61 +2,84 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerConnection {
-    private final Logging logging = new Logging(ServerConnection.class);
-    private final Logger logger = logging.getLogger();
+    private final LogModule logMod = new LogModule(ServerConnection.class);
+    private final Logger logger = logMod.getLogger();
 
-    // Public resorces.
-    public ServerSocket serverSocket;
-    public Socket clientSocket;
-    public boolean serverRunning = false;
-    public DataInputStream dataFromClient;
-    public  DataOutputStream dataToClient;
+    private ServerSocket serverSocket;
+    private Socket clientSocket;
+    private final int PORT;
+    private final int BACKLOG;
 
     {
-        logging.enableLogging(true);
-        logging.enablePrintStack(true);
+        logMod.enableLogging(true);
+        logMod.enablePrintStack(true);
     }
 
-    public ServerConnection(int serverPort, int backlog) throws IOException{
+    /**
+     * Initialise server connection.
+     * @param serverPort
+     * @param backlog
+     */
+    public ServerConnection(int serverPort, int backlog){
+       this.PORT = serverPort;
+       this.BACKLOG = backlog;
+    }
+
+    /**
+     * Run the server, and connect clients.
+     */
+    public void runConnection(){
+        System.out.println();
+        logger.info("Establishing server connection...");
         try{
-            this.serverSocket = new ServerSocket(serverPort, backlog, InetAddress.getByName("0.0.0.0"));
-            serverRunning = true;
-            connectClients();
+            this.serverSocket = new ServerSocket(PORT, BACKLOG, InetAddress.getByName("0.0.0.0"));
+            connectClients(); // Connect clients to server.
         }catch(IOException e){
             closeConnection();
-            System.out.println("Connection Error: " + e.getMessage());
+            logger.log(Level.SEVERE, "Connection Error: " + e);
+            logMod.printStackTrace(e);
+        }
+    }
+
+    /**
+     * Method to handle connecting clients to server.
+     */
+    private void connectClients() throws IOException{
+        int clientCount = 0;
+        while (serverSocket.isBound() && !serverSocket.isClosed()){
+            
+            // Accept client connection.
+            clientSocket = serverSocket.accept();
+            logger.info("Client" + clientCount + "connected from: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+                        
+            //Establish connection test to client before running thread.
+            logger.info("Connection Test: Send and recieve handshake from client...\n");
+            HandShake handShake = new HandShake(clientSocket);
+            handShake.sendHandshake();
+            logger.info("Connection Test: Hanshake recieved!\nCreating thread for client.");
+
+            // Run thread.
+            clientCount++;
+            final int clientId = clientCount;
+            ClientThread clientThread = new ClientThread(clientId, clientSocket, serverSocket);
+            clientThread.startThread();
         }
     }
     
-    private void connectClients(){
-        int clientCount = 0;
-        try{
-            while (serverSocket.isBound() && serverRunning){
-                clientSocket = serverSocket.accept();
-                clientCount++;
-                new ClientThread(this);
-            }
-        }catch(IOException e){
-            logger.log(Level.SEVERE, "Error connection client " + clientCount, e);
-            logging.printStackTrace(e);
-        }
-    }
-
-    public void closeConnection() throws IOException{
+    /**
+     * Closes input and output resources.
+     */
+    public void closeConnection(){
         try{
             if(serverSocket != null) serverSocket.close();
-            if(dataFromClient != null) dataFromClient.close();
-            if(dataToClient != null) dataToClient.close();
+            if(clientSocket != null) clientSocket.close();
         }catch(IOException e){
-            logger.log(Level.SEVERE,"Error closing connections", e);
-            logging.printStackTrace(e);
+            logger.log(Level.SEVERE,"Error closing connections\n", e);
+            logMod.printStackTrace(e);
         }
     }
-
 }

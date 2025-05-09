@@ -2,8 +2,9 @@ package Server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import Utility.LogModule;
 import java.util.logging.Logger;
+
+import Utility.LogModule;
 
 public class ServerSession {
     private LogModule logMod = new LogModule(ServerSession.class).launchLog(false, false);

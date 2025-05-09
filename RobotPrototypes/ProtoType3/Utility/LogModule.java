@@ -12,11 +12,11 @@ public class LogModule{
     private boolean printStack;
 
     public LogModule(Class<?> classObject){
-        this.printStack = true;
-        this.logLevel = Level.ALL;
+        this.printStack = false;
+        this.logLevel = Level.OFF;
         this.logger = Logger.getLogger(classObject.getName());
         this.rootLogger = Logger.getLogger("");
-        this.setLogLevel(Level.ALL);
+        this.setLogLevel(Level.OFF);
     }
 
     public LogModule launchLog(boolean enableLog, boolean enablePrintStack){

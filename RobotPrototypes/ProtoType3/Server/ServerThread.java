@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 import Utility.LogModule;
 
 public class ServerThread {
-    private LogModule logMod = new LogModule(ServerHandler.class);
-    private Logger logger = logMod.launchLog(false, false);
+    private LogModule logMod = new LogModule(ServerHandler.class).launchLog(false, false);
+    private Logger logger = logMod.getLogger();
     
     private Thread thread;
     private AtomicBoolean threadRunning = new AtomicBoolean(false);

@@ -2,8 +2,12 @@ package Server;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Utility.LogModule;
+
 public class ServerApp {
-    private static Logger logger = Logger.getLogger(ServerApp.class.getName());
+    private static LogModule logMod = new LogModule(ServerHandler.class).launchLog(false, false);
+    private static Logger logger = logMod.getLogger();
+    
     private static final int PORT = 9000;
     private static final int BACKLOG = 50;
     static ServerConnection connection = new ServerConnection(PORT, BACKLOG);

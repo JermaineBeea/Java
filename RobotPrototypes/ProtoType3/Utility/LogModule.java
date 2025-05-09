@@ -20,11 +20,10 @@ public class LogModule{
         this.setLogLevel(Level.ALL);
     }
 
-    public Logger launchLog(boolean enableLog, boolean enablePrintStack){
-        // Fix: use the class properly and return the logger
+    public LogModule launchLog(boolean enableLog, boolean enablePrintStack){
         enableLogging(enableLog);
         enablePrintStack(enablePrintStack);
-        return getLogger();
+        return this;
     }
 
     public Logger getLogger(){
@@ -32,7 +31,7 @@ public class LogModule{
     }
 
     public boolean loggingEnabled(){
-        return logLevel != Level.OFF; // Fixed: returns true when logging is enabled
+        return logLevel != Level.OFF; 
     }
 
     public void printStackTrace(Exception ex){

@@ -12,8 +12,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class HandShake {
-    private LogModule logMod = new LogModule(ServerHandler.class);
-    private Logger logger = logMod.launchLog(false, false);
+    private LogModule logMod = new LogModule(ServerHandler.class).launchLog(false, false);
+    private Logger logger = logMod.getLogger();
     
     private DataInputStream fromPartner;
     private DataOutputStream toPartner;

@@ -20,14 +20,12 @@ public class ServerThread {
     private AtomicBoolean threadRunning = new AtomicBoolean(false);
     private Runnable wrapperFunction;
 
-
-    
     public ServerThread(int clientId, Socket clientSocket, ServerSocket serverSocket){
         wrapperFunction = ()-> {
            try{
                 if(threadRunning.get() && !clientSocket.isClosed() && !serverSocket.isClosed()){
                     // Begin onboarding of new clients.
-                    new ServerSession(clientId, clientSocket, serverSocket);
+                    new ServerSession(clientId, clientSocket, thread);
                 }else{
                     throw new Exception("Error creating client thread");
                 }

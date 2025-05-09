@@ -11,10 +11,10 @@ public class LogModule{
 
     public LogModule(Class<?> classObject){
         this.printStack = false;
-        this.logLevel = Level.ALL;
+        this.logLevel = Level.OFF;
         this.logger = Logger.getLogger(classObject.getName());
         this.rootLogger = Logger.getLogger("");
-        this.setLogLevel(Level.ALL);
+        this.setLogLevel(logLevel);
     }
 
     public Logger getLogger(){

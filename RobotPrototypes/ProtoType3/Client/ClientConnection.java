@@ -14,7 +14,7 @@ public class ClientConnection {
 
     private Socket serverSocket;
     private final String SERVER_IP;
-    private final int SERVER_PORT;
+    private final int SERVER_PORT;  
 
 
     /**
@@ -36,21 +36,21 @@ public class ClientConnection {
         try{
             this.serverSocket = new Socket(SERVER_IP, SERVER_PORT);
             establishConnection();
-        }catch(IOException e){
+        }catch(Exception e){
             closeConnection();
             logger.log(Level.SEVERE, "Connection error", e);
             logConfig.printStack(e);
         }
     }
 
-    private void establishConnection() throws IOException{
+    private void establishConnection() throws Exception{
         logger.info("Successfully connected from: " + 
                     serverSocket.getInetAddress() + ":" + serverSocket.getPort() + "\n");
         logger.info("Connection Test: Recieve and send handshake from server...\n");
         
         //Establish connection test to server.
         HandShake handShake = new HandShake(serverSocket);
-        handShake.recieveHandshake();
+        handShake.receiveHandshake();
         logger.info("Connection Test: Hanshake sent!\n");
 
         // Begin onboarding process of client.

@@ -26,39 +26,43 @@ public class ServerSession {
         runSession();
     }
 
-    private void runSession(){
-        try(
+    private void runSession() {
+        try (
             DataInputStream datafromClient = new DataInputStream(clientSocket.getInputStream());
             DataOutputStream datatoClient = new DataOutputStream(clientSocket.getOutputStream());
             ObjectInputStream ObjectFromClient = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
-        ){
-        for(int n = 0; n < ServerConstants.EXECUTION_ATTEMPTS.num; n++){
-            // Begin onborading by recieving name from client.
-            System.out.println();
-            logger.info("Waiting for client to send name...\n");
-
-            String clientName = datafromClient.readUTF();
-            logger.info("Recieved client name: " + clientName);
-
-            // Create instance of client with name and add to client list.
-            Client client = new Client(clientName, clientId, clientSocket, serverThread);
-            ClientSet.addClient(clientId, client);
-
-            // Confirm client exists.
-            boolean clientExits = ClientSet.confirmClientDetails(clientId, clientName);
-
-            // Send status message to client.
-            if(n + 1 == ServerConstants.EXECUTION_ATTEMPTS.num){
-                datatoClient.writeInt(ServerCodes.STATUS_ERROR.code);
+        ) {
+            for (int n = 0; n < ServerConstants.EXECUTION_ATTEMPTS.num; n++) {
+                logger.info("Waiting for client to send name...");
+                
+                String clientName = datafromClient.readUTF();
+                logger.info("Received client name: " + clientName);
+                
+                // Create instance of client with name and add to client list
+                Client client = new Client(clientName, clientId, clientSocket, serverThread);
+                ClientSet.addClient(clientId, client);
+                
+                // Confirm client exists
+                boolean clientExists = ClientSet.confirmClientDetails(clientId, clientName);
+                
+                // Send exactly one status code to the client
+                int status;
+                if (n + 1 == ServerConstants.EXECUTION_ATTEMPTS.num && !clientExists) {
+                    status = ServerCodes.STATUS_ERROR.code;
+                } else {
+                    status = clientExists ? ServerCodes.STATUS_OK.code : ServerCodes.STATUS_EXCEPTION.code;
+                }
+                
+                datatoClient.writeInt(status);
+                
+                if (status == ServerCodes.STATUS_OK.code) {
+                    logger.info("Client successfully added!");
+                    break;
+                }
             }
-            int status = (clientExits) ? ServerCodes.STATUS_OK.code:ServerCodes.STATUS_EXCEPTION.code;
-            datatoClient.writeInt(status);
-        }
-
-
-        }catch(IOException e){
-            logger.log(Level.SEVERE , "Server Session Error", e);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Server Session Error", e);
             logConfig.printStack(e);
         }
     }

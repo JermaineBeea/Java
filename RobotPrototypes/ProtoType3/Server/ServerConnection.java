@@ -40,7 +40,7 @@ public class ServerConnection {
         try{
             this.serverSocket = new ServerSocket(PORT, BACKLOG, InetAddress.getByName("0.0.0.0"));
             connectClients(); // Connect clients to server.
-        }catch(IOException e){
+        }catch(Exception  e){
             closeConnection();
             logger.log(Level.SEVERE, "Connection Error: " + e);
             logConfig.printStack(e);
@@ -50,7 +50,7 @@ public class ServerConnection {
     /**
      * Method to handle connecting clients to server.
      */
-    private void connectClients() throws IOException{
+    private void connectClients() throws Exception{
         int clientCount = 0;
         while (serverSocket.isBound() && !serverSocket.isClosed()){
             

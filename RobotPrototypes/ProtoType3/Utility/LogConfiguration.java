@@ -16,7 +16,34 @@ public class LogConfiguration {
     private static final Map<String, Level> classConfigs = new HashMap<>();
     
     static {
-        // Initialize with default configurations
+        // Initialize with default configurations for all classes
+        // Client package
+        classConfigs.put("Client.ClientApp", GLOBAL_LEVEL);
+        classConfigs.put("Client.ClientCodes", GLOBAL_LEVEL);
+        classConfigs.put("Client.ClientConnection", GLOBAL_LEVEL);
+        classConfigs.put("Client.ClientSession", GLOBAL_LEVEL);
+        
+        // RobotModules package
+        classConfigs.put("RobotModules.Direction", GLOBAL_LEVEL);
+        classConfigs.put("RobotModules.Position", GLOBAL_LEVEL);
+        classConfigs.put("RobotModules.Robot", GLOBAL_LEVEL);
+        classConfigs.put("RobotModules.RobotTypes", GLOBAL_LEVEL);
+        classConfigs.put("RobotModules.World", GLOBAL_LEVEL);
+        
+        // Server package
+        classConfigs.put("Server.Client", GLOBAL_LEVEL);
+        classConfigs.put("Server.ClientSet", GLOBAL_LEVEL);
+        classConfigs.put("Server.ServerApp", GLOBAL_LEVEL);
+        classConfigs.put("Server.ServerCodes", GLOBAL_LEVEL);
+        classConfigs.put("Server.ServerConnection", GLOBAL_LEVEL);
+        classConfigs.put("Server.ServerSession", GLOBAL_LEVEL);
+        classConfigs.put("Server.ServerThread", GLOBAL_LEVEL);
+        
+        // Utility package
+        classConfigs.put("Utility.HandShake", GLOBAL_LEVEL);
+        classConfigs.put("Utility.LogConfiguration", GLOBAL_LEVEL);
+        
+        // Keep original config entries
         classConfigs.put("Practice.Class1", GLOBAL_LEVEL);
         classConfigs.put("Practice.Class2", GLOBAL_LEVEL);
     }

@@ -12,58 +12,128 @@ import java.io.ObjectOutputStream;
 import Utility.LogConfiguration;
 
 public class ServerSession {
-    private static LogConfiguration logConfig = new LogConfiguration(ServerSession.class.getName());
-    private static Logger logger = logConfig.getLogger();
+    private static final LogConfiguration logConfig = new LogConfiguration(ServerSession.class.getName());
+    private static final Logger logger = logConfig.getLogger();
     
     private final int clientId;
     private final Socket clientSocket;
     private final Thread serverThread;
+
+    ObjectOutputStream objectToClient;
+    DataOutputStream dataToClient;
     
-    public ServerSession(int clientIdArg, Socket clientSocketArg, Thread serverThreadArg){
+    // Then initialize input streams
+    ObjectInputStream objectFromClient;
+    DataInputStream dataFromClient;
+
+    
+    public ServerSession(int clientIdArg, Socket clientSocketArg, Thread serverThreadArg) {
         this.clientId = clientIdArg;
         this.clientSocket = clientSocketArg;
         this.serverThread = serverThreadArg;
+        
         runSession();
     }
 
     private void runSession() {
-        try (
-            DataInputStream datafromClient = new DataInputStream(clientSocket.getInputStream());
-            DataOutputStream datatoClient = new DataOutputStream(clientSocket.getOutputStream());
-            ObjectInputStream ObjectFromClient = new ObjectInputStream(clientSocket.getInputStream());
-            ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
-        ) {
-            for (int n = 0; n < ServerConstants.EXECUTION_ATTEMPTS.num; n++) {
-                logger.info("Waiting for client to send name...");
+        // Initialize streams outside try-with-resources to handle specific initialization errors
+        try {
+            // Initialize output streams first to avoid potential deadlocks
+            this.objectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
+            this.dataToClient = new DataOutputStream(clientSocket.getOutputStream());
+            
+            // Then initialize input streams
+            this.objectFromClient = new ObjectInputStream(clientSocket.getInputStream());
+            this.dataFromClient = new DataInputStream(clientSocket.getInputStream());
+            
+            if (handleClientRegistration()) {
+                // Continue with main session logic after successful registration
+                handleMainSession();
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error establishing streams with client " + clientId, e);
+            logConfig.printStack(e);
+        } finally {
+            closeClientConnection();
+        }
+    }
+    
+    private boolean handleClientRegistration() {
+        logger.info("Handling registration for client ID: " + clientId);
+        
+        for (int attempt = 0; attempt < ServerConstants.EXECUTION_ATTEMPTS.num; attempt++) {
+            try {
+                logger.info("Waiting for client " + clientId + " to send name (attempt " + (attempt + 1) + ")");
                 
-                String clientName = datafromClient.readUTF();
-                logger.info("Received client name: " + clientName);
+                String clientName = dataFromClient.readUTF().trim();
+                logger.info("Received name from client " + clientId + ": " + clientName);
                 
-                // Create instance of client with name and add to client list
+                if (clientName.isEmpty()) {
+                    logger.warning("Client " + clientId + " sent empty name");
+                    dataToClient.writeInt(ServerCodes.STATUS_EXCEPTION.code);
+                    continue;
+                }
+                
+                // Create client instance and add to client registry
                 Client client = new Client(clientName, clientId, clientSocket, serverThread);
                 ClientSet.addClient(clientId, client);
                 
-                // Confirm client exists
-                boolean clientExists = ClientSet.confirmClientDetails(clientId, clientName);
+                // Verify client was properly registered
+                boolean clientRegistered = ClientSet.confirmClientDetails(clientId, clientName);
                 
-                // Send exactly one status code to the client
-                int status;
-                if (n + 1 == ServerConstants.EXECUTION_ATTEMPTS.num && !clientExists) {
-                    status = ServerCodes.STATUS_ERROR.code;
+                if (clientRegistered) {
+                    logger.info("Client " + clientId + " successfully registered as: " + clientName);
+                    dataToClient.writeInt(ServerCodes.STATUS_OK.code);
+                    return true;
                 } else {
-                    status = clientExists ? ServerCodes.STATUS_OK.code : ServerCodes.STATUS_EXCEPTION.code;
+                    logger.warning("Failed to confirm registration for client " + clientId);
+                    
+                    // If this is the last attempt, send ERROR, otherwise send EXCEPTION
+                    if (attempt + 1 == ServerConstants.EXECUTION_ATTEMPTS.num) {
+                        dataToClient.writeInt(ServerCodes.STATUS_ERROR.code);
+                        return false;
+                    } else {
+                        dataToClient.writeInt(ServerCodes.STATUS_EXCEPTION.code);
+                    }
                 }
-                
-                datatoClient.writeInt(status);
-                
-                if (status == ServerCodes.STATUS_OK.code) {
-                    logger.info("Client successfully added!");
-                    break;
-                }
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "IO error during registration of client " + clientId, e);
+                logConfig.printStack(e);
+                return false;
             }
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Server Session Error", e);
+        }
+        
+        logger.severe("All registration attempts failed for client " + clientId);
+        return false;
+    }
+    
+    private void handleMainSession() {
+        // Main session logic would go here
+        // This is where you would handle the primary client-server interaction
+        logger.info("Starting main session for client " + clientId);
+        
+        try {
+            // Example of main session logic
+            
+            // Main communication loop would go here
+            
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);
             logConfig.printStack(e);
+        }
+    }
+    
+    private void closeClientConnection() {
+        try {
+            if (clientSocket != null && !clientSocket.isClosed()) {
+                clientSocket.close();
+                logger.info("Connection closed for client " + clientId);
+            }
+            
+            // Clean up client from registry if needed
+            ClientSet.removeClient(clientId);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error closing connection for client " + clientId, e);
         }
     }
 }

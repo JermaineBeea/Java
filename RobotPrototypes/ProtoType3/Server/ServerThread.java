@@ -10,10 +10,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Utility.LogConfig;
+import Utility.LogConfiguration;
 
 public class ServerThread {
-    private Logger logger = Logger.getLogger(ServerThread.class.getName());
+    private static LogConfiguration logConfig = new LogConfiguration(ServerThread.class.getName());
+    private static Logger logger = logConfig.getLogger();
+
+
     private Thread thread;
     private AtomicBoolean threadRunning = new AtomicBoolean(false);
     private Runnable wrapperFunction;
@@ -31,7 +34,7 @@ public class ServerThread {
                 }
            }catch(Exception e){
             logger.log(Level.SEVERE, e.getMessage());
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
            }
         };
     }

@@ -6,16 +6,16 @@ import java.net.Socket;
 import java.io.IOException;
 
 import Utility.HandShake;
-import Utility.LogConfig;
+import Utility.LogConfiguration;
 
 public class ClientConnection {
-    private Logger logger = Logger.getLogger(ClientConnection.class.getName());
+    private static LogConfiguration logConfig = new LogConfiguration(ClientConnection.class.getName());
+    private static Logger logger = logConfig.getLogger();
 
     private Socket serverSocket;
     private final String SERVER_IP;
     private final int SERVER_PORT;
 
-    {logger.setLevel(Level.ALL);}
 
     /**
      * Initialise client connection to server.
@@ -39,7 +39,7 @@ public class ClientConnection {
         }catch(IOException e){
             closeConnection();
             logger.log(Level.SEVERE, "Connection error", e);
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
         }
     }
 
@@ -65,7 +65,7 @@ public class ClientConnection {
             if(serverSocket != null) serverSocket.close();
         }catch(IOException e){
             logger.log(Level.SEVERE,"Error closing connections", e);
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
         }
     }
 }

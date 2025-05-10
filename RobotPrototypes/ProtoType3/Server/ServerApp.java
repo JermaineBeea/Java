@@ -2,18 +2,17 @@ package Server;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Utility.LogConfig;
+import Client.ClientConnection;
+import Utility.LogConfiguration;
 
 public class ServerApp {
-    private static Logger logger = Logger.getLogger(ServerApp.class.getName());
+    private static LogConfiguration logConfig = new LogConfiguration(ServerApp.class.getName());
+    private static Logger logger = logConfig.getLogger();
+    
     private static final int PORT = 9000;
     private static final int BACKLOG = 50;
     private static ServerConnection connection = new ServerConnection(PORT, BACKLOG);
 
-    static {
-        LogConfig.setUp(Level.OFF, false);
-        logger.setLevel(Level.ALL);
-    }
 
     public static void main(String[] args) {
         try{

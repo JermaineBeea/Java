@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import Utility.LogConfig;
+import Utility.LogConfiguration;
 
 public class ServerSession {
-    private Logger logger = Logger.getLogger(ServerSession.class.getName());
+    private static LogConfiguration logConfig = new LogConfiguration(ServerSession.class.getName());
+    private static Logger logger = logConfig.getLogger();
+    
     private final int clientId;
     private final Socket clientSocket;
     private final Thread serverThread;
@@ -42,7 +44,7 @@ public class ServerSession {
 
         }catch(IOException e){
             logger.log(Level.SEVERE , "Server Session Error", e);
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
         }
     }
 }

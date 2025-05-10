@@ -10,7 +10,9 @@ import java.io.IOException;
 import Server.ServerCodes;
 
 public class HandShake {
-    private Logger logger = Logger.getLogger(HandShake.class.getName());
+    private static LogConfiguration logConfig = new LogConfiguration(HandShake.class.getName());
+    private static Logger logger = logConfig.getLogger();
+    
     private DataInputStream fromPartner;
     private DataOutputStream toPartner;
    
@@ -20,7 +22,7 @@ public class HandShake {
             this.toPartner = new DataOutputStream(partnerSocket.getOutputStream());
         }catch(IOException e){
             logger.log(Level.SEVERE, "Connection error.", e);
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
         }
     }
 
@@ -30,7 +32,7 @@ public class HandShake {
             fromPartner.readInt(); // Expected to recieve same HandShake code.
         }catch(IOException e){
             logger.log(Level.SEVERE, "Error establishing handshake", e);
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
             fromPartner.close();
             toPartner.close();
         }
@@ -42,7 +44,7 @@ public class HandShake {
             toPartner.writeInt(code); // Send same code that you recieved from partner.
         }catch(IOException e){
             logger.log(Level.SEVERE, "Error establishing handshake.", e);
-            LogConfig.printStackTrace(e);
+            logConfig.printStack(e);
             fromPartner.close();
             toPartner.close();
         }

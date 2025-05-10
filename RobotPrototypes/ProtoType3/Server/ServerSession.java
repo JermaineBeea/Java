@@ -53,7 +53,7 @@ public class ServerSession {
                 datatoClient.writeInt(ServerCodes.STATUS_ERROR.code);
             }
             int status = (clientExits) ? ServerCodes.STATUS_OK.code:ServerCodes.STATUS_EXCEPTION.code;
-            
+            datatoClient.writeInt(status);
         }
 
 

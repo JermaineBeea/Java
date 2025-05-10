@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import Utility.LogModule;
+import Utility.LogConfig;
 
 public class ServerSession {
-    private LogModule logMod = new LogModule(ServerSession.class).launchLog(true, true);
-    private Logger logger = logMod.getLogger();
-
+    private Logger logger = Logger.getLogger(ServerSession.class.getName());
     private final int clientId;
     private final Socket clientSocket;
     private final Thread serverThread;
+
+    {logger.setLevel(Level.ALL);}
     
     public ServerSession(int clientIdArg, Socket clientSocketArg, Thread serverThreadArg){
         this.clientId = clientIdArg;
@@ -42,7 +42,7 @@ public class ServerSession {
 
         }catch(IOException e){
             logger.log(Level.SEVERE , "Server Session Error", e);
-            logMod.printStackTrace(e);
+            LogConfig.printStackTrace(e);
         }
     }
 }

@@ -10,12 +10,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import Utility.LogModule;
+import Utility.LogConfig;
 
 public class ClientSession {
-    private LogModule logMod = new LogModule(ClientSession.class).launchLog(true, true);
-    private Logger logger = logMod.getLogger();
-    private static Socket serverSocket;
+    private Logger logger = Logger.getLogger(ClientSession.class.getName());
+    private Socket serverSocket;
+    
+    {logger.setLevel(Level.ALL);}
 
     public ClientSession(Socket serverSocketArg){
         this.serverSocket = serverSocketArg;
@@ -39,7 +40,7 @@ public class ClientSession {
 
         }catch(IOException e){
             logger.log(Level.SEVERE , "Client Session Error", e);
-            logMod.printStackTrace(e);
+            LogConfig.printStackTrace(e);
         }
     }
 }

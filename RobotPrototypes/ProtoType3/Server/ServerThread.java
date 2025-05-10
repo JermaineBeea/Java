@@ -10,15 +10,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Utility.LogModule;
+import Utility.LogConfig;
 
 public class ServerThread {
-    private LogModule logMod = new LogModule(ServerThread.class).launchLog(true, true);
-    private Logger logger = logMod.getLogger();
-    
+    private Logger logger = Logger.getLogger(ServerThread.class.getName());
     private Thread thread;
     private AtomicBoolean threadRunning = new AtomicBoolean(false);
     private Runnable wrapperFunction;
+
+    {logger.setLevel(Level.ALL);}
 
     public ServerThread(int clientId, Socket clientSocket, ServerSocket serverSocket){
         wrapperFunction = ()-> {
@@ -31,7 +31,7 @@ public class ServerThread {
                 }
            }catch(Exception e){
             logger.log(Level.SEVERE, e.getMessage());
-            logMod.printStackTrace(e);
+            LogConfig.printStackTrace(e);
            }
         };
     }

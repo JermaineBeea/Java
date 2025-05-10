@@ -7,16 +7,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Utility.HandShake;
-import Utility.LogModule;
+import Utility.LogConfig;
 
 public class ServerConnection {
-    private LogModule logMod = new LogModule(ServerConnection.class).launchLog(true, true);
-    private Logger logger = logMod.getLogger();
-
+    private Logger logger = Logger.getLogger(ServerConnection.class.getName());
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private final int PORT;
     private final int BACKLOG;
+
+    {logger.setLevel(Level.ALL);}
 
     /**
      * Initialise server connection.
@@ -41,7 +41,7 @@ public class ServerConnection {
         }catch(IOException e){
             closeConnection();
             logger.log(Level.SEVERE, "Connection Error: " + e);
-            logMod.printStackTrace(e);
+            LogConfig.printStackTrace(e);
         }
     }
 
@@ -79,7 +79,7 @@ public class ServerConnection {
             if(clientSocket != null) clientSocket.close();
         }catch(IOException e){
             logger.log(Level.SEVERE,"Error closing connections\n", e);
-            logMod.printStackTrace(e);
+            LogConfig.printStackTrace(e);
         }
     }
 }

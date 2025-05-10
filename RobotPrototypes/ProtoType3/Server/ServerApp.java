@@ -12,7 +12,6 @@ public class ServerApp {
 
     static {
         LogConfig.setUp(Level.OFF, false);
-
         logger.setLevel(Level.ALL);
     }
 

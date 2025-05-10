@@ -32,12 +32,18 @@ public class ClientSession {
             ObjectOutputStream ObjectdataToServer = new ObjectOutputStream(serverSocket.getOutputStream());
             ObjectInputStream ObjectdataFromServer = new ObjectInputStream(serverSocket.getInputStream());
         ){
-        // Begin onborading by recieving name from client.
-        System.out.print("Please enter your name: ");
-        String clientName = consoleIn.nextLine();
+        
+        while(true){
+            // Begin onborading by recieving name from client.
+            System.out.print("Please enter your name: ");
+            String clientName = consoleIn.nextLine();
 
-        // Send name to server.
-        dataToServer.writeUTF(clientName);
+            // Send name to server.
+            dataToServer.writeUTF(clientName);
+
+            // Wait for server to complete onboarding.
+            dataFromServer.readInt();
+        }
 
         }catch(IOException e){
             logger.log(Level.SEVERE , "Client Session Error", e);

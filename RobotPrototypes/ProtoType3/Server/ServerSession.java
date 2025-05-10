@@ -18,8 +18,6 @@ public class ServerSession {
     private final int clientId;
     private final Socket clientSocket;
     private final Thread serverThread;
-
-    {logger.setLevel(Level.ALL);}
     
     public ServerSession(int clientIdArg, Socket clientSocketArg, Thread serverThreadArg){
         this.clientId = clientIdArg;
@@ -35,12 +33,25 @@ public class ServerSession {
             ObjectInputStream ObjectFromClient = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
         ){
-        // Begin onborading by recieving name from client.
-        System.out.println();
-        logger.info("Waiting flor client to send name...\n");
+        for(int n = 0; n < ServerCodes.EXECUTION_ATTEMPTS.code; n++){
+            // Begin onborading by recieving name from client.
+            System.out.println();
+            logger.info("Waiting for client to send name...\n");
 
-        String clientName = datafromClient.readUTF();
-        logger.info("Recieved client name: " + clientName);
+            String clientName = datafromClient.readUTF();
+            logger.info("Recieved client name: " + clientName);
+
+            // Create instance of client with name and add to client list.
+            Client client = new Client(clientName, clientId, clientSocket, serverThread);
+            ClientSet.addClient(clientId, client);
+
+            // Confirm client exists.
+            boolean clientExits = ClientSet.confirmClientDetails(clientId, clientName);
+
+            // Send status message to client.
+        }
+
+        // Send status ok code to client, confirming that name is recived.
 
         }catch(IOException e){
             logger.log(Level.SEVERE , "Server Session Error", e);

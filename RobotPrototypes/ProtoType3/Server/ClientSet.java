@@ -1,28 +1,40 @@
 package Server;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import Utility.LogConfiguration;
 
-import java.util.HashSet;
 
 public class ClientSet {
 
-    private static Set<Client> setClients = Collections.synchronizedSet(new HashSet<>());
+    private static Map<Integer, Client> setClients = Collections.synchronizedMap(new HashMap<>());
 
-    public void addClient(Client client){
-        setClients.add(client);
+    public static void addClient(int clientId, Client client){
+        setClients.put(clientId, client);
     }
 
-    public void removeClient(Client client){
-        setClients.remove(client);
+    public static void removeClient(int clientId){
+        setClients.remove(clientId);
     }
 
-    public Set<Client> getAllClients(){
+    public static Client getClient(int clientId){
+        return setClients.getOrDefault(clientId, null);
+    }
+
+    public static Map<Integer, Client> getAllClients(){
         synchronized(setClients){
-            return new HashSet<>(setClients);
+            return new HashMap<>(setClients);
         }
+    }
+
+    public static boolean confirmClientDetails(int clientId, String name){
+        Client client = setClients.get(clientId);
+        if(client == null){
+            return false;
+        }
+        return client.getID() == clientId && client.getName().equals(name);
     }
 }

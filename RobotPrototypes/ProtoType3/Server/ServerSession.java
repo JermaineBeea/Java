@@ -33,7 +33,7 @@ public class ServerSession {
             ObjectInputStream ObjectFromClient = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream ObjectToClient = new ObjectOutputStream(clientSocket.getOutputStream());
         ){
-        for(int n = 0; n < ServerCodes.EXECUTION_ATTEMPTS.code; n++){
+        for(int n = 0; n < ServerConstants.EXECUTION_ATTEMPTS.num; n++){
             // Begin onborading by recieving name from client.
             System.out.println();
             logger.info("Waiting for client to send name...\n");
@@ -49,9 +49,13 @@ public class ServerSession {
             boolean clientExits = ClientSet.confirmClientDetails(clientId, clientName);
 
             // Send status message to client.
+            if(n + 1 == ServerConstants.EXECUTION_ATTEMPTS.num){
+                datatoClient.writeInt(ServerCodes.STATUS_ERROR.code);
+            }
+            int status = (clientExits) ? ServerCodes.STATUS_OK.code:ServerCodes.STATUS_EXCEPTION.code;
+            
         }
 
-        // Send status ok code to client, confirming that name is recived.
 
         }catch(IOException e){
             logger.log(Level.SEVERE , "Server Session Error", e);

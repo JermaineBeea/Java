@@ -17,8 +17,6 @@ public class ClientSession {
     private static Logger logger = logConfig.getLogger();
     private Socket serverSocket;
     
-    {logger.setLevel(Level.ALL);}
-
     public ClientSession(Socket serverSocketArg){
         this.serverSocket = serverSocketArg;
         runSession();
@@ -33,18 +31,33 @@ public class ClientSession {
             ObjectInputStream ObjectdataFromServer = new ObjectInputStream(serverSocket.getInputStream());
         ){
         
+        System.out.print("Please enter your name: ");
         while(true){
             // Begin onborading by recieving name from client.
-            System.out.print("Please enter your name: ");
             String clientName = consoleIn.nextLine();
 
             // Send name to server.
             dataToServer.writeUTF(clientName);
 
-            // Wait for server to complete onboarding.
-            dataFromServer.readInt();
-        }
+            // Reciev status code from server.
+            int serverCode = dataFromServer.readInt();
 
+            // Valida server code.
+            if(serverCode == ClientCodes.STATUS_OK.code){
+                break;
+            }else if(serverCode == ClientCodes.STATUS_EXCEPTION.code){
+                System.out.println("\nServer Error!");
+                System.out.print("\nPlease re-enter your name: ");
+                continue;
+            }else if (serverCode == ClientCodes.STATUS_ERROR.code){
+                System.err.println("Server Error " + ClientCodes.STATUS_ERROR.code);
+                System.err.println("Closing connection to Server..." + ClientCodes.STATUS_ERROR.code);
+                logger.log(Level.SEVERE, "Error getting client name\n");
+                logger.log(Level.SEVERE, "Closing connection to server!");
+            }else{
+                logger.log(Level.SEVERE, "Error: Unknown Status Code");
+            }
+        }
         }catch(IOException e){
             logger.log(Level.SEVERE , "Client Session Error", e);
             logConfig.printStack(e);

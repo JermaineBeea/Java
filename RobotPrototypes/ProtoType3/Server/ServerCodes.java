@@ -1,14 +1,16 @@
 package Server;
+
+
 public enum ServerCodes {
     STATUS_OK(300), 
     STATUS_ERROR(700),
-    HANDSHAKE(3579),
-    EXECUTION_ATTEMPTS(5);
-    
-    public int code;
+    STATUS_EXCEPTION(1100),
+    HANDSHAKE(3579);
 
-    ServerCodes(int statusCode){
-        this.code = statusCode;
+    public final int code;
+
+    ServerCodes(int codeArg){
+        this.code = codeArg;
     }
-    
 }
+

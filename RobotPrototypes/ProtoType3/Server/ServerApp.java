@@ -2,7 +2,6 @@ package Server;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Client.ClientConnection;
 import Utility.LogConfiguration;
 
 public class ServerApp {

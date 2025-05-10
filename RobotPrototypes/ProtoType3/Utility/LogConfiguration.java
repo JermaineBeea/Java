@@ -10,7 +10,7 @@ public class LogConfiguration {
     private final String className;
     private final Logger logger;
     
-    private static Level GLOBAL_LEVEL = Level.INFO; 
+    private static Level GLOBAL_LEVEL = Level.ALL; 
     private static boolean GLOBAL_ENABLE_PRINT_STACK = false;
     
     private static final Map<String, Level> classConfigs = new HashMap<>();
@@ -43,9 +43,6 @@ public class LogConfiguration {
         classConfigs.put("Utility.HandShake", GLOBAL_LEVEL);
         classConfigs.put("Utility.LogConfiguration", GLOBAL_LEVEL);
         
-        // Keep original config entries
-        classConfigs.put("Practice.Class1", GLOBAL_LEVEL);
-        classConfigs.put("Practice.Class2", GLOBAL_LEVEL);
     }
     
     public LogConfiguration(String className) {

@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import Client.ClientConnection;
 import Utility.LogConfiguration;
 
 import java.util.HashSet;

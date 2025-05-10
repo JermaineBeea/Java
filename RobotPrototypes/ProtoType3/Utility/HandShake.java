@@ -19,14 +19,12 @@ public class HandShake {
     
     private DataInputStream fromPartner;
     private DataOutputStream toPartner;
-    private Socket partnerSocket;
    
     /**
      * Creates a new handshake object for the given socket
      * @param partnerSocket The socket connecting to the partner
      */
     public HandShake(Socket partnerSocket) {
-        this.partnerSocket = partnerSocket;
         try {
             this.fromPartner = new DataInputStream(partnerSocket.getInputStream());
             this.toPartner = new DataOutputStream(partnerSocket.getOutputStream());

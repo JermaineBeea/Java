@@ -2,6 +2,7 @@ package Utility;
 
 import RobotModules.Robot;
 import RobotModules.Position;
+import org.json.JSONObject;
 
 public class RobotString {
     private String name;
@@ -25,7 +26,7 @@ public class RobotString {
     }
 
     // Method to return properties as a JSON-like string
-    public String toJson() {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nType: ").append(type).append(", ");
         sb.append("\nRateFuelUsage: ").append(rateFuelUsage).append(", ");
@@ -36,11 +37,32 @@ public class RobotString {
         return sb.toString();
     }
 
+        // Method to return properties as a JSON object
+        public JSONObject toJson() {
+            JSONObject json = new JSONObject();
+            json.put("name", name);
+            json.put("type", type);
+            json.put("rateFuelUsage", rateFuelUsage);
+            json.put("durability", durability);
+            json.put("maxShots", maxShots);
+            json.put("fuelAmount", fuelAmount);
+    
+            JSONObject positionJson = new JSONObject();
+            positionJson.put("x", position.getX());
+            positionJson.put("y", position.getY());
+            positionJson.put("direction", position.getDirection());
+    
+            json.put("position", positionJson);
+    
+            return json;
+        }
+
+
     public static void main(String[] args) {
         // Example usage
         Robot robot = new Robot("GermanBullTerrier", 30, 300, 30);
         RobotString robotString = new RobotString(robot);
-        System.out.println(robotString.toJson());
+        System.out.println(robotString.toJson().toString(4));
     }
 
 }

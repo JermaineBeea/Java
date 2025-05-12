@@ -17,7 +17,7 @@ public class ServerApp {
         try{
             connection.runConnection();
         }catch(Exception e){
-            logger.log(Level.SEVERE, "Error runnig server connection", e);
+            logger.log(Level.SEVERE, "Error running server connection", e);
         }
         
     }

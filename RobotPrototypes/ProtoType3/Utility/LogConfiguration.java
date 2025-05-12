@@ -10,6 +10,7 @@ public class LogConfiguration {
     private final String className;
     private final Logger logger;
     
+    private static boolean LOCAL_OVERIDE = true;
     private static Level GLOBAL_LEVEL = Level.ALL; 
     private static boolean GLOBAL_ENABLE_PRINT_STACK = false;
     
@@ -60,7 +61,9 @@ public class LogConfiguration {
     }
     
     public Logger getLogger(Level level) {
-        logger.setLevel(level);
+        if (LOCAL_OVERIDE){
+            logger.setLevel(level);
+        }
         return logger;
     }
     

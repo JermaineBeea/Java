@@ -56,13 +56,15 @@ public class ServerConnection {
             
             // Accept client connection.
             clientSocket = serverSocket.accept();
+            logger.info("\n");
             logger.info("Client" + clientCount + "connected from: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
                         
             //Establish connection test to client before running thread.
+            logger.info("\n");
             logger.info("Connection Test: Send and recieve handshake from client...\n");
             HandShake handShake = new HandShake(clientSocket);
             handShake.sendHandshake();
-            logger.info("Connection Test: Hanshake recieved!\nCreating thread for client.");
+            logger.info("Connection Test: Hanshake recieved!\nCreating thread for client.\n");
 
             // Run thread.
             clientCount++;

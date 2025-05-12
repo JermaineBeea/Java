@@ -59,13 +59,16 @@ public class ServerSession {
     }
     
     private boolean handleClientRegistration() {
+        logger.info("\n");
         logger.info("Handling registration for client ID: " + clientId);
         
         for (int attempt = 0; attempt < ServerConstants.EXECUTION_ATTEMPTS.num; attempt++) {
             try {
+                logger.info("\n");
                 logger.info("Waiting for client " + clientId + " to send name (attempt " + (attempt + 1) + ")");
                 
                 String clientName = dataFromClient.readUTF().trim();
+                logger.info("\n");
                 logger.info("Received name from client " + clientId + ": " + clientName);
                 
                 if (clientName.isEmpty()) {
@@ -76,12 +79,13 @@ public class ServerSession {
                 
                 // Create client instance and add to client registry
                 Client client = new Client(clientName, clientId, clientSocket, serverThread);
-                ClientSet.addClient(clientId, client);
+                ClientRegistry.addClient(clientId, client);
                 
                 // Verify client was properly registered
-                boolean clientRegistered = ClientSet.confirmClientDetails(clientId, clientName);
+                boolean clientRegistered = ClientRegistry.confirmClientDetails(clientId, clientName);
                 
                 if (clientRegistered) {
+                    logger.info("\n");
                     logger.info("Client " + clientId + " successfully registered as: " + clientName);
                     dataToClient.writeInt(ServerCodes.STATUS_OK.code);
                     return true;
@@ -102,7 +106,7 @@ public class ServerSession {
                 return false;
             }
         }
-        
+        logger.info("\n");
         logger.severe("All registration attempts failed for client " + clientId);
         return false;
     }
@@ -110,6 +114,7 @@ public class ServerSession {
     private void handleMainSession() {
         // Main session logic would go here
         // This is where you would handle the primary client-server interaction
+        logger.info("\n");
         logger.info("Starting main session for client " + clientId);
         
         try {
@@ -131,7 +136,7 @@ public class ServerSession {
             }
             
             // Clean up client from registry if needed
-            ClientSet.removeClient(clientId);
+            ClientRegistry.removeClient(clientId);
         } catch (IOException e) {
             logger.log(Level.WARNING, "Error closing connection for client " + clientId, e);
         }

@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import Utility.LogConfiguration;
 
 
-public class ClientSet {
+public class ClientRegistry {
 
     private static Map<Integer, Client> setClients = Collections.synchronizedMap(new HashMap<>());
 

@@ -3,9 +3,8 @@ package Utility;
 import RobotModules.Robot;
 import RobotModules.Position;
 import org.json.JSONObject;
-import java.util.TreeMap;
 
-public class RobotString {
+public class RobotJson {
     private String name;
     private String type;
     private int rateFuelUsage;
@@ -15,7 +14,7 @@ public class RobotString {
     private Position position;
 
     // Constructor
-    public RobotString(Robot robot) {
+    public RobotJson(Robot robot) {
         this.name = robot.getName();
         this.type = robot.getBuildType();
         this.rateFuelUsage = robot.getRateUsage();
@@ -48,12 +47,10 @@ public class RobotString {
         json.put("maxShots", maxShots);
         json.put("fuelAmount", fuelAmount);
 
-        JSONObject positionJson = new JSONObject();
-        positionJson.put("x", position.getX());
-        positionJson.put("y", position.getY());
-        positionJson.put("direction", position.getDirection());
-
-        json.put("position", positionJson);
+        // JSONObject positionJson = new JSONObject();
+        // positionJson.put("x", position.getX());
+        // positionJson.put("y", position.getY());
+        // positionJson.put("direction", position.getDirection());
 
         return json;
     }
@@ -84,7 +81,7 @@ public class RobotString {
     public static void main(String[] args) {
         // Example usage
         Robot robot = new Robot("GermanBullTerrier", 30, 300, 30);
-        RobotString robotString = new RobotString(robot);
+        RobotJson robotString = new RobotJson(robot);
         System.out.println(robotString.toJson().toString(4));
     }
 

@@ -17,8 +17,10 @@ public class ClientSession {
     private static final Logger logger = logConfig.getLogger();
     private final Socket serverSocket;
 
+    // Initialize output streams first to avoid potential deadlocks
     ObjectOutputStream objectToServer;
     ObjectInputStream objectFromServer;
+    // Then initialize input streams
     DataOutputStream dataToServer;
     DataInputStream dataFromServer;
     
@@ -128,7 +130,7 @@ public class ClientSession {
             System.out.println("Connection established with server. Type 'exit' to disconnect.");
 
             // Begin main session loop
-            System.out.println("\nPlease select the roboty type");
+            System.out.println("\nPlease select the robot type");
             
             
         } catch (Exception e) {

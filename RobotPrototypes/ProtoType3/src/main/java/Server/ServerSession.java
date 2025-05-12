@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+
 import Utility.LogConfiguration;
 
 public class ServerSession {
@@ -19,9 +20,10 @@ public class ServerSession {
     private final Socket clientSocket;
     private final Thread serverThread;
 
+    // Initialize output streams first to avoid potential deadlocks
     ObjectOutputStream objectToClient;
     DataOutputStream dataToClient;
-    
+
     // Then initialize input streams
     ObjectInputStream objectFromClient;
     DataInputStream dataFromClient;
@@ -131,7 +133,9 @@ public class ServerSession {
         
         try {
             // Send client robot types.
-            
+            logger.info("Sending robot types to client " + clientId);
+            // JSONObject json = new JSONObject();
+
             
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);

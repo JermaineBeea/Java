@@ -46,6 +46,7 @@ public class Robot {
             fuelAmount -= rateFuelUsage * distance;
         }    
     }
+    
 
     // Methods to change position of robot.
 

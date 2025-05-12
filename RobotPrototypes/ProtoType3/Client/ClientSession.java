@@ -126,8 +126,10 @@ public class ClientSession {
             // Example of main session logic
             System.out.println();
             System.out.println("Connection established with server. Type 'exit' to disconnect.");
+
+            // Begin main session loop
+            System.out.println("\nPlease select the roboty type");
             
-            // Main communication loop would go here
             
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session", e);

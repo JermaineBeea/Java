@@ -1,12 +1,14 @@
 package RobotModules;
+
 import java.util.function.Consumer;
 
 public class Robot {
 
-    private String name;
+    // All robots have a default fuel amount of 1000.
+    private final int DEFAULT_FUEL = 1000;
 
     // Immutable once set.
-    private final int FUEL_AMOUNT = 1000;
+    private String name;
     private String buildType;
     private int rateFuelUsage;
 
@@ -16,15 +18,14 @@ public class Robot {
     private int fuelAmount;
     private Position position;
 
-    public Robot(String buildArg, int durabilityArg, int maxShotsArg, int rateArg) {
+    public Robot(String buildArg, int rateArg, int durabilityArg, int maxShotsArg) {
         this.name = "";
-        this.fuelAmount = FUEL_AMOUNT; // All robots have initial fuel amount
-        this.position = new Position(0, 0, Direction.NORTH);
-
         this.buildType = buildArg;
+        this.rateFuelUsage = rateArg;
         this.durability = durabilityArg;
         this.maxShots = maxShotsArg;
-        this.rateFuelUsage = rateArg;
+        this.fuelAmount = DEFAULT_FUEL; 
+        this.position = new Position(0, 0, Direction.NORTH);
     }
     
     // Movement methods that delegate to Position
@@ -102,7 +103,7 @@ public class Robot {
         return name;
     }
 
-    public String getBuild() {
+    public String getBuildType() {
         return buildType;
     }
 
@@ -118,7 +119,7 @@ public class Robot {
         return fuelAmount;
     }
 
-    public int getRate() {
+    public int getRateUsage() {
         return rateFuelUsage;
     }
 }

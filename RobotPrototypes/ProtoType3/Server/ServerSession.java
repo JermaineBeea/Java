@@ -130,9 +130,8 @@ public class ServerSession {
         logger.info("Starting main session for client " + clientId);
         
         try {
-            // Example of main session logic
+            // Send client robot types.
             
-            // Main communication loop would go here
             
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);

@@ -3,6 +3,7 @@ package Utility;
 import RobotModules.Robot;
 import RobotModules.Position;
 import org.json.JSONObject;
+import java.util.TreeMap;
 
 public class RobotString {
     private String name;
@@ -37,26 +38,48 @@ public class RobotString {
         return sb.toString();
     }
 
-        // Method to return properties as a JSON object
-        public JSONObject toJson() {
-            JSONObject json = new JSONObject();
-            json.put("name", name);
-            json.put("type", type);
-            json.put("rateFuelUsage", rateFuelUsage);
-            json.put("durability", durability);
-            json.put("maxShots", maxShots);
-            json.put("fuelAmount", fuelAmount);
-    
-            JSONObject positionJson = new JSONObject();
-            positionJson.put("x", position.getX());
-            positionJson.put("y", position.getY());
-            positionJson.put("direction", position.getDirection());
-    
-            json.put("position", positionJson);
-    
-            return json;
-        }
+    // Method to return properties as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("type", type);
+        json.put("rateFuelUsage", rateFuelUsage);
+        json.put("durability", durability);
+        json.put("maxShots", maxShots);
+        json.put("fuelAmount", fuelAmount);
 
+        JSONObject positionJson = new JSONObject();
+        positionJson.put("x", position.getX());
+        positionJson.put("y", position.getY());
+        positionJson.put("direction", position.getDirection());
+
+        json.put("position", positionJson);
+
+        return json;
+    }
+
+    /*
+    import java.util.LinkedHashMap;
+    
+    public JSONObject toJson() {
+        LinkedHashMap<String, Object> jsonMap = new LinkedHashMap<>();
+        jsonMap.put("name", name);
+        jsonMap.put("type", type);
+        jsonMap.put("rateFuelUsage", rateFuelUsage);
+        jsonMap.put("durability", durability);
+        jsonMap.put("maxShots", maxShots);
+        jsonMap.put("fuelAmount", fuelAmount);
+    
+        LinkedHashMap<String, Object> positionMap = new LinkedHashMap<>();
+        positionMap.put("x", position.getX());
+        positionMap.put("y", position.getY());
+        positionMap.put("direction", position.getDirection());
+    
+        jsonMap.put("position", positionMap);
+    
+        return new JSONObject(jsonMap);
+    }
+        */
 
     public static void main(String[] args) {
         // Example usage

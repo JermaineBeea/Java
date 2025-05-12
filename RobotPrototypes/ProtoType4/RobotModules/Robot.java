@@ -7,8 +7,8 @@ public class Robot {
 
     // Immutable once set.
     private final int FUEL_AMOUNT = 1000;
-    private String buildType;
-    private int rateFuelUsage;
+    private final String buildType;
+    private final int rateFuelUsage;
 
     // Mutable properties.
     private int durability;

@@ -18,11 +18,11 @@ public class RobotTypes {
         new Robot("FrenchPoodle", 50, 100, 10)
     );
 
-    public  Set<Robot> getRobotTypes(){
+    public Set<Robot> getRobotTypes(){
         return new HashSet<>(robotTypes);
     }
 
-    public JSONObject getRobotTypesAsJson() {
+    public static JSONObject getRobotTypesAsJson() {
         JSONObject json = new JSONObject();
         for (Robot robot : robotTypes) {
             JSONObject robotJson = new RobotJson(robot).toJson();
@@ -34,8 +34,7 @@ public class RobotTypes {
 
     public static void main(String[] args) {
     //Dispaly robot types for client
-        RobotTypes robotTypes = new RobotTypes();
         System.out.println("\nRobot Types:");
-        System.out.println(robotTypes.getRobotTypesAsJson().toString(4));
+        System.out.println(RobotTypes.getRobotTypesAsJson().toString(2));
     }
 }

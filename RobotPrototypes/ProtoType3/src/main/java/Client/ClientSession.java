@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import org.json.JSONObject;
 
 import Utility.LogConfiguration;
 
@@ -19,14 +20,15 @@ public class ClientSession {
 
     // Initialize output streams first to avoid potential deadlocks
     ObjectOutputStream objectToServer;
-    ObjectInputStream objectFromServer;
-    // Then initialize input streams
     DataOutputStream dataToServer;
+
+    // Then initialize input streams
+    ObjectInputStream objectFromServer;
     DataInputStream dataFromServer;
+
     
     public ClientSession(Socket serverSocketArg) {
         this.serverSocket = serverSocketArg;
-        
         runSession();
     }
 
@@ -46,7 +48,7 @@ public class ClientSession {
                     // Continue with the main session logic after successful onboarding
                     handleMainSession(consoleIn);
                 }
-            }
+            }System.out.println();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error establishing streams with server", e);
             logConfig.printStack(e);
@@ -119,24 +121,46 @@ public class ClientSession {
     }
 
     private void handleMainSession(Scanner consoleIn) {
-        // Main session logic would go here
-        // This is where you would handle the primary client-server interaction
         System.out.println();
         logger.info("Client successfully onboarded, beginning main session");
         
         try {
-            // Example of main session logic
+            // Establish connection established message
             System.out.println();
             System.out.println("Connection established with server. Type 'exit' to disconnect.");
-
-            // Begin main session loop
-            System.out.println("\nPlease select the robot type");
+    
+            // Read JSON as a string from the server
+            String robotTypesJsonString = dataFromServer.readUTF();
             
+            // Parse the JSON string into a JSONObject
+            JSONObject robotTypes = new JSONObject(robotTypesJsonString);
+            
+            // Display available robot types
+            System.out.println("\nPlease select the robot type by typing its name:");
+            System.out.println(robotTypes.toString(4));
+            
+            // Optional: Add logic for robot type selection
+            while (true) {
+                System.out.print("Enter robot type: ");
+                String selectedType = consoleIn.nextLine().trim();
+                
+                if (selectedType.equalsIgnoreCase("exit")) {
+                    break;
+                }
+                
+                if (robotTypes.has(selectedType)) {
+                    System.out.println("Selected robot details:");
+                    System.out.println(robotTypes.getJSONObject(selectedType).toString(4));
+                    // Additional logic for robot selection can be added here
+                    break;
+                } else {
+                    System.out.println("Invalid robot type. Please try again.");
+                }
+            }
             
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session", e);
             logConfig.printStack(e);
         }
-    }
-    
+    }    
 }

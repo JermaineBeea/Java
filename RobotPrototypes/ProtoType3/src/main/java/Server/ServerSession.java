@@ -2,6 +2,11 @@ package Server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
+
+import RobotModules.RobotTypes;
+
 import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,6 +28,7 @@ public class ServerSession {
     // Initialize output streams first to avoid potential deadlocks
     ObjectOutputStream objectToClient;
     DataOutputStream dataToClient;
+    
 
     // Then initialize input streams
     ObjectInputStream objectFromClient;
@@ -126,21 +132,21 @@ public class ServerSession {
     }
 
     private void handleMainSession() {
-        // Main session logic would go here
-        // This is where you would handle the primary client-server interaction
         System.out.println();
         logger.info("Starting main session for client " + clientId);
         
         try {
-            // Send client robot types.
-            logger.info("Sending robot types to client " + clientId);
-            // JSONObject json = new JSONObject();
-
+            // Convert JSON object to string before sending
+            String robotTypesJsonString = RobotTypes.getRobotTypesAsJson().toString();
             
+            // Use DataOutputStream to send the JSON string
+            dataToClient.writeUTF(robotTypesJsonString);
+            dataToClient.flush();
+            
+            logger.info("Robot types sent to client " + clientId);    
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);
             logConfig.printStack(e);
         }
     }
-
 }

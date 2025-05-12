@@ -25,6 +25,10 @@ public class RobotJson {
    
     }
 
+    public static void displayJSON(JSONObject jsonObject) {
+        System.out.println(jsonObject.toString(4));
+    }
+
     // Method to return properties as a JSON-like string
     public String toString() {
         StringBuilder sb = new StringBuilder();

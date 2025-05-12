@@ -39,7 +39,9 @@ public class ServerConnection {
         logger.info("Establishing server connection...");
         try{
             this.serverSocket = new ServerSocket(PORT, BACKLOG, InetAddress.getByName("0.0.0.0"));
-            connectClients(); // Connect clients to server.
+            System.out.println();
+            logger.info("Connected succesfuly to port " + PORT + "!");
+                connectClients(); // Connect clients to server.
         }catch(Exception  e){
             closeConnection();
             logger.log(Level.SEVERE, "Connection Error: " + e);
@@ -51,26 +53,27 @@ public class ServerConnection {
      * Method to handle connecting clients to server.
      */
     private void connectClients() throws Exception{
-        int clientCount = 0;
+        int clientCount = 1;
         while (serverSocket.isBound() && !serverSocket.isClosed()){
             
             // Accept client connection.
             clientSocket = serverSocket.accept();
-            logger.info("\n");
-            logger.info("Client" + clientCount + "connected from: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+            System.out.println();
+            logger.info("Client " + clientCount + "connected from: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
                         
             //Establish connection test to client before running thread.
-            logger.info("\n");
-            logger.info("Connection Test: Send and recieve handshake from client...\n");
             HandShake handShake = new HandShake(clientSocket);
+            System.out.println();
+            logger.info("Connection Test: Send and recieve handshake from client...");
             handShake.sendHandshake();
-            logger.info("Connection Test: Hanshake recieved!\nCreating thread for client.\n");
+            System.out.println();
+            logger.info("Connection Test: Hanshake recieved!\nCreating thread for client.");
 
             // Run thread.
             clientCount++;
             final int clientId = clientCount;
-            ServerThread clientThread = new ServerThread(clientId, clientSocket, serverSocket);
-            clientThread.startThread();
+            ServerThread serverThread = new ServerThread(clientId, clientSocket, serverSocket);
+            serverThread.startThread();
         }
     }
     

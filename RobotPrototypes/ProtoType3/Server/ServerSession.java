@@ -30,8 +30,7 @@ public class ServerSession {
     public ServerSession(int clientIdArg, Socket clientSocketArg, Thread serverThreadArg) {
         this.clientId = clientIdArg;
         this.clientSocket = clientSocketArg;
-        this.serverThread = serverThreadArg;
-        
+        this.serverThread = serverThreadArg; 
         runSession();
     }
 
@@ -59,16 +58,15 @@ public class ServerSession {
     }
     
     private boolean handleClientRegistration() {
-        logger.info("\n");
         logger.info("Handling registration for client ID: " + clientId);
         
         for (int attempt = 0; attempt < ServerConstants.EXECUTION_ATTEMPTS.num; attempt++) {
             try {
-                logger.info("\n");
+                System.out.println();
                 logger.info("Waiting for client " + clientId + " to send name (attempt " + (attempt + 1) + ")");
                 
                 String clientName = dataFromClient.readUTF().trim();
-                logger.info("\n");
+                System.out.println();
                 logger.info("Received name from client " + clientId + ": " + clientName);
                 
                 if (clientName.isEmpty()) {
@@ -85,7 +83,7 @@ public class ServerSession {
                 boolean clientRegistered = ClientRegistry.confirmClientDetails(clientId, clientName);
                 
                 if (clientRegistered) {
-                    logger.info("\n");
+                    System.out.println();
                     logger.info("Client " + clientId + " successfully registered as: " + clientName);
                     dataToClient.writeInt(ServerCodes.STATUS_OK.code);
                     return true;
@@ -106,26 +104,9 @@ public class ServerSession {
                 return false;
             }
         }
-        logger.info("\n");
+        System.out.println();
         logger.severe("All registration attempts failed for client " + clientId);
         return false;
-    }
-    
-    private void handleMainSession() {
-        // Main session logic would go here
-        // This is where you would handle the primary client-server interaction
-        logger.info("\n");
-        logger.info("Starting main session for client " + clientId);
-        
-        try {
-            // Example of main session logic
-            
-            // Main communication loop would go here
-            
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);
-            logConfig.printStack(e);
-        }
     }
     
     private void closeClientConnection() {
@@ -141,4 +122,22 @@ public class ServerSession {
             logger.log(Level.WARNING, "Error closing connection for client " + clientId, e);
         }
     }
+
+    private void handleMainSession() {
+        // Main session logic would go here
+        // This is where you would handle the primary client-server interaction
+        System.out.println();
+        logger.info("Starting main session for client " + clientId);
+        
+        try {
+            // Example of main session logic
+            
+            // Main communication loop would go here
+            
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);
+            logConfig.printStack(e);
+        }
+    }
+
 }

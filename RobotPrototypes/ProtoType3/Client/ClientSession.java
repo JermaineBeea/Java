@@ -67,10 +67,12 @@ public class ClientSession {
                 
                 // Send name to server
                 dataToServer.writeUTF(clientName);
+                System.out.println();
                 logger.info("Sent name to server: " + clientName);
                 
                 // Receive status code from server
                 int serverCode = dataFromServer.readInt();
+                System.out.println();
                 logger.info("Received server code: " + serverCode);
                 
                 // Convert int code to enum value for cleaner switch
@@ -79,6 +81,7 @@ public class ClientSession {
                 // Process server response
                 switch (statusCode) {
                     case STATUS_OK:
+                        System.out.println();
                         System.out.println("Connected successfully as: " + clientName);
                         return true;
                     case STATUS_EXCEPTION:
@@ -102,23 +105,6 @@ public class ClientSession {
         }
     }
     
-    private void handleMainSession(Scanner consoleIn) {
-        // Main session logic would go here
-        // This is where you would handle the primary client-server interaction
-        logger.info("Client successfully onboarded, beginning main session");
-        
-        try {
-            // Example of main session logic
-            System.out.println("Connection established with server. Type 'exit' to disconnect.");
-            
-            // Main communication loop would go here
-            
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error in main session", e);
-            logConfig.printStack(e);
-        }
-    }
-    
     private void closeConnection() {
         try {
             if (serverSocket != null && !serverSocket.isClosed()) {
@@ -129,4 +115,24 @@ public class ClientSession {
             logger.log(Level.WARNING, "Error closing server socket", e);
         }
     }
+
+    private void handleMainSession(Scanner consoleIn) {
+        // Main session logic would go here
+        // This is where you would handle the primary client-server interaction
+        System.out.println();
+        logger.info("Client successfully onboarded, beginning main session");
+        
+        try {
+            // Example of main session logic
+            System.out.println();
+            System.out.println("Connection established with server. Type 'exit' to disconnect.");
+            
+            // Main communication loop would go here
+            
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error in main session", e);
+            logConfig.printStack(e);
+        }
+    }
+    
 }

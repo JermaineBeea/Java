@@ -32,7 +32,7 @@ public class ClientConnection {
      */
     public void runConnection(){
         System.out.println();
-        logger.info("Establishing connection to server at " + SERVER_IP + ":" + SERVER_PORT + "\n");
+        logger.info("Establishing connection to server at " + SERVER_IP + ":" + SERVER_PORT);
         try{
             this.serverSocket = new Socket(SERVER_IP, SERVER_PORT);
             establishConnection();
@@ -44,9 +44,9 @@ public class ClientConnection {
     }
 
     private void establishConnection() throws Exception{
-        logger.info("Successfully connected from: " + 
-                    serverSocket.getInetAddress() + ":" + serverSocket.getPort() + "\n");
-        logger.info("Connection Test: Recieve and send handshake from server...\n");
+        System.out.println();
+        logger.info("Successfully connected from: " + serverSocket.getInetAddress() + ":" + serverSocket.getPort());
+        logger.info("Connection Test: Recieve and send handshake from server...");
         
         //Establish connection test to server.
         HandShake handShake = new HandShake(serverSocket);

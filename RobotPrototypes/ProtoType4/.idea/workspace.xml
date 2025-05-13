@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="968bca57-af16-4e6e-b714-3a50328d1522" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ClientApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ClientCodes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ClientConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ClientSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotModules/Direction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotModules/Position.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotModules/Robot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotModules/RobotTypes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotModules/World.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ClientRegistry.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ServerApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ServerCodes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ServerConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ServerConstants.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ServerSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ServerThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/ThreadManger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utility/HandShake.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utility/LogConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utility/RobotString.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom." beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2wzHjqLtCVivBdHOMTCrP3xpklo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.ProtoType3 [clean].executor": "Run",
+    "Maven.ProtoType3 [compile].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/jermaine/Documents/RepositoryAccounts/Personal_GitHUb/Java/RobotPrototypes/ProtoType3"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Server.ServerApp" />
+      <module name="ProtoType3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="968bca57-af16-4e6e-b714-3a50328d1522" name="Changes" comment="" />
+      <created>1747037619929</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747037619929</updated>
+    </task>
+    <servers />
+  </component>
+</project>

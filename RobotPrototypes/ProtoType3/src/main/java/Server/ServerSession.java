@@ -143,7 +143,9 @@ public class ServerSession {
             dataToClient.writeUTF(robotTypesJsonString);
             dataToClient.flush();
             
-            logger.info("Robot types sent to client " + clientId);    
+            logger.info("Robot types sent to client " + clientId);  
+            
+            //
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session for client " + clientId, e);
             logConfig.printStack(e);

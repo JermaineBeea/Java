@@ -13,8 +13,8 @@ import org.json.JSONObject;
 
 import Utility.LogConfiguration;
 
-public class ClientSession {
-    private static final LogConfiguration logConfig = new LogConfiguration(ClientSession.class.getName());
+public class ClientConection {
+    private static final LogConfiguration logConfig = new LogConfiguration(ClientConection.class.getName());
     private static final Logger logger = logConfig.getLogger();
     private final Socket serverSocket;
 
@@ -27,7 +27,7 @@ public class ClientSession {
     DataInputStream dataFromServer;
 
     
-    public ClientSession(Socket serverSocketArg) {
+    public ClientConection(Socket serverSocketArg) {
         this.serverSocket = serverSocketArg;
         runSession();
     }
@@ -149,15 +149,30 @@ public class ClientSession {
                 }
                 
                 if (robotTypes.has(selectedType)) {
-                    System.out.println("Selected robot details:");
+                    System.out.println("View robot details below");
                     System.out.println(robotTypes.getJSONObject(selectedType).toString(4));
-                    // Additional logic for robot selection can be added here
+                    
+                    System.out.println();
+                    System.out.println("Do you want to select this robot type? (yes/no)");
+                    String confirmation = consoleIn.nextLine().trim();
+                    if (confirmation.equalsIgnoreCase("yes")) {
+                        // Send the selected robot type to the server
+                        dataToServer.writeUTF(selectedType);
+                        dataToServer.flush();
+                        
+                        System.out.println();
+                        System.out.println("Robot type " + selectedType + " selected.");
+                        break;
+                    } else if (confirmation.equalsIgnoreCase("no")) {
+                        System.out.println("Please select another robot type.");
+                    } else {
+                        System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                    }
+                } else if (selectedType.equalsIgnoreCase("exit")) {
+                    System.out.println("Exiting the program.");
                     break;
-                } else {
-                    System.out.println("Invalid robot type. Please try again.");
                 }
             }
-            
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in main session", e);
             logConfig.printStack(e);

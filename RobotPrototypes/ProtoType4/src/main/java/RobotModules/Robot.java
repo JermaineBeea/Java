@@ -5,26 +5,54 @@ import java.util.logging.Logger;
 
 import Utility.LogConfiguration;
 
-public class Robot {
+/**
+ * Represents a robot entity in the system.
+ * Contains properties and methods for robot movement, actions, and state management.
+ */
+public class Robot 
+{
+    /** Logger configuration for this class */
     private LogConfiguration logConfig = new LogConfiguration(Robot.class.getName());
+    
+    /** Logger instance for this class */
     private Logger logger = logConfig.getLogger();
 
-
-    // All robots have a default fuel amount of 1000.
+    /** Default fuel amount for all robots */
     private final int DEFAULT_FUEL = 1000;
 
-    // Immutable once set.
+    // Immutable properties (once set)
+    /** Robot name identifier */
     private String name;
+    
+    /** Type of robot build */
     private String buildType;
+    
+    /** Rate at which fuel is consumed per movement unit */
     private int rateFuelUsage;
 
-    // Mutable properties.
+    // Mutable properties
+    /** Current durability/health of the robot */
     private int durability;
+    
+    /** Maximum number of shots the robot can fire */
     private int maxShots;
+    
+    /** Current fuel amount */
     private int fuelAmount;
+    
+    /** Current position and direction of the robot */
     private Position position;
 
-    public Robot(String buildArg, int rateArg, int durabilityArg, int maxShotsArg) {
+    /**
+     * Creates a new robot with specified build parameters.
+     * 
+     * @param buildArg Type of robot build
+     * @param rateArg Rate of fuel consumption per unit of movement
+     * @param durabilityArg Initial durability/health of the robot
+     * @param maxShotsArg Maximum number of shots the robot can fire
+     */
+    public Robot(String buildArg, int rateArg, int durabilityArg, int maxShotsArg) 
+    {
         this.name = "";
         this.buildType = buildArg;
         this.rateFuelUsage = rateArg;
@@ -34,116 +62,236 @@ public class Robot {
         this.position = new Position(0, 0, Direction.NORTH);
     }
     
-    // Movement methods that delegate to Position
-
-    public void rotateRight(int quantity) {
+    /**
+     * Rotates the robot right (clockwise) by the specified amount.
+     * 
+     * @param quantity Number of 90-degree turns to rotate
+     */
+    public void rotateRight(int quantity) 
+    {
         position.rotateRight(quantity);
     }
 
-    public void rotateLeft(int quantity) {
+    /**
+     * Rotates the robot left (counter-clockwise) by the specified amount.
+     * 
+     * @param quantity Number of 90-degree turns to rotate
+     */
+    public void rotateLeft(int quantity) 
+    {
         position.rotateleft(quantity); 
     }
 
-    // Helper method used in methods to move robot position.
-
-    public void moveRobot(int distance, Consumer<Integer> function){
-        if (fuelAmount >= rateFuelUsage * distance) {
+    /**
+     * Helper method to move the robot if sufficient fuel is available.
+     * Decreases fuel based on distance and consumption rate.
+     * 
+     * @param distance Distance to move
+     * @param function Movement function to execute
+     */
+    public void moveRobot(int distance, Consumer<Integer> function)
+    {
+        // Check if there's enough fuel for the movement
+        if (fuelAmount >= rateFuelUsage * distance) 
+        {
+            // Execute the movement function
             function.accept(distance);
+            
+            // Decrease fuel based on distance and consumption rate
             fuelAmount -= rateFuelUsage * distance;
         }    
     }
     
-
-    // Methods to change position of robot.
-
-    public void moveForward(int distance) {
+    /**
+     * Moves the robot forward by the specified distance.
+     * 
+     * @param distance Distance to move forward
+     */
+    public void moveForward(int distance) 
+    {
         moveRobot(distance, position::moveForward);
     }
 
-    public void moveBackward(int distance) {
+    /**
+     * Moves the robot backward by the specified distance.
+     * 
+     * @param distance Distance to move backward
+     */
+    public void moveBackward(int distance) 
+    {
         moveRobot(distance, position::moveBackward);
     }
 
-    public void moveRight(int distance){
+    /**
+     * Moves the robot right (strafe) by the specified distance.
+     * 
+     * @param distance Distance to move right
+     */
+    public void moveRight(int distance)
+    {
         moveRobot(distance, position::moveRight);
     }
 
-    public void moveLeft(int distance){
+    /**
+     * Moves the robot left (strafe) by the specified distance.
+     * 
+     * @param distance Distance to move left
+     */
+    public void moveLeft(int distance)
+    {
         moveRobot(distance, position::moveLeft);
     }
 
-    // Fuel-related helper methods
-
-    public void repair() {
-        if (fuelAmount >= 10) {
+    /**
+     * Repairs the robot, restoring its durability.
+     * Costs 10 fuel units to perform.
+     */
+    public void repair() 
+    {
+        if (fuelAmount >= 10) 
+        {
             fuelAmount -= 10;
             logger.info(name + " repaired to full durability.");
-        } else {
+        } 
+        else 
+        {
             logger.warning(name + " does not have enough fuel to repair.");
         }
     }
 
-    public void refuel() {
-        try {
+    /**
+     * Refuels the robot over a 2-second period.
+     * Simulates the time taken to refuel.
+     */
+    public void refuel() 
+    {
+        try 
+        {
             logger.info(name + " started refueling...");
-            Thread.sleep(2000);
+            Thread.sleep(2000); // Simulate refueling time
             logger.info(name + " refueling complete. Fuel level: " + fuelAmount);
-        } catch (InterruptedException e) {
+        } 
+        catch (InterruptedException e) 
+        {
             logger.warning(name + " was interrupted while refueling.");
             Thread.currentThread().interrupt();
         }
     }
 
-    public void shoot() {
-        if (maxShots > 0) {
+    /**
+     * Fires a shot if the robot has shots remaining.
+     * Decreases available shots by 1.
+     */
+    public void shoot() 
+    {
+        if (maxShots > 0) 
+        {
             maxShots--;
             logger.info(name + " fired a shot. Remaining shots: " + maxShots);
-        } else {
+        } 
+        else 
+        {
             logger.warning(name + " has no shots left to fire!");
         }
     }
 
-    // Assignment Methods
-
-    public void setName(String nameArg) {
+    /**
+     * Sets the robot's name.
+     * 
+     * @param nameArg The name to set
+     */
+    public void setName(String nameArg) 
+    {
         this.name = nameArg;
     }
 
-    public void setDurability(int durability) {
+    /**
+     * Sets the robot's durability.
+     * 
+     * @param durability The durability value to set
+     */
+    public void setDurability(int durability) 
+    {
         this.durability = durability;
     }
 
-    public void setFuelAmount(int amount) {
+    /**
+     * Sets the robot's fuel amount.
+     * 
+     * @param amount The fuel amount to set
+     */
+    public void setFuelAmount(int amount) 
+    {
         this.fuelAmount = amount;
     }
 
-    // Access Methods
-
-    public Position getPosition() {
+    /**
+     * Gets the robot's current position.
+     * 
+     * @return The current position
+     */
+    public Position getPosition() 
+    {
         return position;
     }
 
-    public String getName() {
+    /**
+     * Gets the robot's name.
+     * 
+     * @return The robot's name
+     */
+    public String getName() 
+    {
         return name;
     }
 
-    public String getBuildType() {
+    /**
+     * Gets the robot's build type.
+     * 
+     * @return The build type
+     */
+    public String getBuildType() 
+    {
         return buildType;
     }
 
-    public int getDurability() {
+    /**
+     * Gets the robot's current durability.
+     * 
+     * @return The current durability
+     */
+    public int getDurability() 
+    {
         return durability;
     }
 
-    public int getMaxShots() {
+    /**
+     * Gets the number of shots remaining.
+     * 
+     * @return The remaining shots
+     */
+    public int getMaxShots() 
+    {
         return maxShots;
     }
 
-    public int getFuelAmount() {
+    /**
+     * Gets the current fuel amount.
+     * 
+     * @return The current fuel amount
+     */
+    public int getFuelAmount() 
+    {
         return fuelAmount;
     }
 
-    public int getRateUsage() {
+    /**
+     * Gets the fuel usage rate.
+     * 
+     * @return The fuel usage rate per unit of movement
+     */
+    public int getRateUsage() 
+    {
         return rateFuelUsage;
     }
 }

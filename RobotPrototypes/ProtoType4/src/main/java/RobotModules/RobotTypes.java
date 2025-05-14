@@ -22,6 +22,15 @@ public class RobotTypes {
         return new HashSet<>(robotTypes);
     }
 
+    public static Robot getRobot(String type){
+        for (Robot robot : robotTypes) {
+            if (robot.getBuildType().equals(type)) {
+                return robot;
+            }
+        }
+        return null; // or throw an exception
+    }
+
     public static JSONObject getRobotTypesAsJson() {
         JSONObject json = new JSONObject();
         for (Robot robot : robotTypes) {

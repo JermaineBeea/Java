@@ -20,6 +20,5 @@ public class ServerApp {
         }catch(Exception e){
             logger.log(Level.SEVERE, "Error running server connection", e);
         }
-        
     }
 }

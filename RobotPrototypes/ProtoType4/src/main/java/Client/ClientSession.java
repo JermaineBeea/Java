@@ -13,28 +13,55 @@ import org.json.JSONObject;
 
 import Utility.LogConfiguration;
 
-public class ClientSession {
+/**
+ * Manages the client-side communication session with the server.
+ * Handles the onboarding process and main session functionality.
+ */
+public class ClientSession 
+{
+    /** Logger configuration for this class */
     private static final LogConfiguration logConfig = new LogConfiguration(ClientSession.class.getName());
+    
+    /** Logger instance for this class */
     private static final Logger logger = logConfig.getLogger();
+    
+    /** Socket connection to the server */
     private final Socket serverSocket;
 
-    // Initialize output streams first to avoid potential deadlocks
+    // Output streams - initialized first to avoid potential deadlocks
+    /** Stream for sending objects to the server */
     ObjectOutputStream objectToServer;
+    
+    /** Stream for sending primitive data to the server */
     DataOutputStream dataToServer;
 
-    // Then initialize input streams
+    // Input streams - initialized after output streams
+    /** Stream for receiving objects from the server */
     ObjectInputStream objectFromServer;
+    
+    /** Stream for receiving primitive data from the server */
     DataInputStream dataFromServer;
 
-    
-    public ClientSession(Socket serverSocketArg) {
+    /**
+     * Creates a new client session with the specified server socket.
+     * 
+     * @param serverSocketArg The socket connection to the server
+     */
+    public ClientSession(Socket serverSocketArg) 
+    {
         this.serverSocket = serverSocketArg;
         runSession();
     }
 
-    private void runSession() {
+    /**
+     * Initializes the session by setting up I/O streams and managing the client lifecycle.
+     * First handles onboarding, then moves to the main session if onboarding is successful.
+     */
+    private void runSession() 
+    {
         // Initialize all streams outside the try-with-resources to handle specific stream exceptions
-        try {
+        try 
+        {
             // Initialize output streams first to avoid potential deadlocks
             this.objectToServer = new ObjectOutputStream(serverSocket.getOutputStream());
             this.dataToServer = new DataOutputStream(serverSocket.getOutputStream());
@@ -43,28 +70,48 @@ public class ClientSession {
             this.objectFromServer = new ObjectInputStream(serverSocket.getInputStream());
             this.dataFromServer = new DataInputStream(serverSocket.getInputStream());
             
-            try (Scanner consoleIn = new Scanner(System.in)) {
-                if (clientOnboarding(consoleIn)) {
+            try (Scanner consoleIn = new Scanner(System.in)) 
+            {
+                if (clientOnboarding(consoleIn)) 
+                {
                     // Continue with the main session logic after successful onboarding
                     handleMainSession(consoleIn);
                 }
-            }System.out.println();
-        } catch (IOException e) {
+            }
+            System.out.println();
+        } 
+        catch (IOException e) 
+        {
             logger.log(Level.SEVERE, "Error establishing streams with server", e);
             logConfig.printStack(e);
-        } finally {
+        } 
+        finally 
+        {
             closeConnection();
         }
     }
     
-    private boolean clientOnboarding(Scanner consoleIn) {
-        try {
+    /**
+     * Handles the client onboarding process, including user name collection and server verification.
+     * Continues prompting for a valid name until successful or the server rejects the connection.
+     * 
+     * @param consoleIn Scanner for reading user input
+     * @return true if onboarding was successful, false otherwise
+     */
+    private boolean clientOnboarding(Scanner consoleIn) 
+    {
+        try 
+        {
             System.out.print("Please enter your name: ");
             
-            while (true) {
+            while (true) 
+            {
+                // Get client name from console input
                 String clientName = consoleIn.nextLine().trim();
                 
-                if (clientName.isEmpty()) {
+                // Validate name is not empty
+                if (clientName.isEmpty()) 
+                {
                     System.out.print("Name cannot be empty. Please enter your name: ");
                     continue;
                 }
@@ -82,8 +129,9 @@ public class ClientSession {
                 // Convert int code to enum value for cleaner switch
                 ClientCodes statusCode = ClientCodes.fromCode(serverCode);
                 
-                // Process server response
-                switch (statusCode) {
+                // Process server response based on status code
+                switch (statusCode) 
+                {
                     case STATUS_OK:
                         System.out.println();
                         System.out.println("Connected successfully as: " + clientName);
@@ -102,29 +150,47 @@ public class ClientSession {
                         return false;
                 }
             }
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             logger.log(Level.SEVERE, "Communication error during onboarding", e);
             logConfig.printStack(e);
             return false;
         }
     }
     
-    private void closeConnection() {
-        try {
-            if (serverSocket != null && !serverSocket.isClosed()) {
+    /**
+     * Closes the connection to the server and associated resources.
+     */
+    private void closeConnection() 
+    {
+        try 
+        {
+            if (serverSocket != null && !serverSocket.isClosed()) 
+            {
                 serverSocket.close();
                 logger.info("Connection to server closed");
             }
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             logger.log(Level.WARNING, "Error closing server socket", e);
         }
     }
 
-    private void handleMainSession(Scanner consoleIn) {
+    /**
+     * Handles the main session after successful onboarding.
+     * Displays robot types and allows the user to select one.
+     * 
+     * @param consoleIn Scanner for reading user input
+     */
+    private void handleMainSession(Scanner consoleIn) 
+    {
         System.out.println();
         logger.info("Client successfully onboarded, beginning main session");
         
-        try {
+        try 
+        {
             // Establish connection established message
             System.out.println();
             System.out.println("Connection established with server. Type 'exit' to disconnect.");
@@ -135,30 +201,38 @@ public class ClientSession {
             // Parse the JSON string into a JSONObject
             JSONObject robotTypes = new JSONObject(robotTypesJsonString);
             
-            // Display available robot types
+            // Display available robot types with formatted JSON output
             System.out.println("\nPlease select the robot type by typing its name:");
             System.out.println(robotTypes.toString(4));
             
-            // Optional: Add logic for robot type selection
-            while (true) {
+            // Handle robot type selection
+            while (true) 
+            {
                 System.out.print("Enter robot type: ");
                 String selectedType = consoleIn.nextLine().trim();
                 
-                if (selectedType.equalsIgnoreCase("exit")) {
+                // Check for exit command
+                if (selectedType.equalsIgnoreCase("exit")) 
+                {
                     break;
                 }
                 
-                if (robotTypes.has(selectedType)) {
+                // Validate selection against available types
+                if (robotTypes.has(selectedType)) 
+                {
                     System.out.println("Selected robot details:");
                     System.out.println(robotTypes.getJSONObject(selectedType).toString(4));
-                    // Additional logic for robot selection can be added here
+                    // Additional logic for robot selection would go here
                     break;
-                } else {
+                } 
+                else 
+                {
                     System.out.println("Invalid robot type. Please try again.");
                 }
             }
-            
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             logger.log(Level.SEVERE, "Error in main session", e);
             logConfig.printStack(e);
         }

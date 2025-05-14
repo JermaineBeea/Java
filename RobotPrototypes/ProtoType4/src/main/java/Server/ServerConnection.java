@@ -70,10 +70,11 @@ public class ServerConnection {
             logger.info("Connection Test: Hanshake recieved!\nCreating thread for client.");
 
             // Run thread.
-            clientCount++;
             final int clientId = clientCount;
             ServerThread serverThread = new ServerThread(clientId, clientSocket, serverSocket);
             serverThread.startThread();
+            clientCount++;
+
         }
     }
     

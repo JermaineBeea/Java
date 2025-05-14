@@ -44,7 +44,7 @@ public class ClientSession {
             this.dataFromServer = new DataInputStream(serverSocket.getInputStream());
             
             try (Scanner consoleIn = new Scanner(System.in)) {
-                if (handleClientOnboarding(consoleIn)) {
+                if (clientOnboarding(consoleIn)) {
                     // Continue with the main session logic after successful onboarding
                     handleMainSession(consoleIn);
                 }
@@ -57,7 +57,7 @@ public class ClientSession {
         }
     }
     
-    private boolean handleClientOnboarding(Scanner consoleIn) {
+    private boolean clientOnboarding(Scanner consoleIn) {
         try {
             System.out.print("Please enter your name: ");
             

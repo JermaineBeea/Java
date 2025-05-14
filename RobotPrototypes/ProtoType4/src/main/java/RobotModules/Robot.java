@@ -1,8 +1,14 @@
 package RobotModules;
 
 import java.util.function.Consumer;
+import java.util.logging.Logger;
+
+import Utility.LogConfiguration;
 
 public class Robot {
+    private LogConfiguration logConfig = new LogConfiguration(Robot.class.getName());
+    private Logger logger = logConfig.getLogger();
+
 
     // All robots have a default fuel amount of 1000.
     private final int DEFAULT_FUEL = 1000;
@@ -69,15 +75,32 @@ public class Robot {
     // Fuel-related helper methods
 
     public void repair() {
-        //TODO implement repair logic
+        if (fuelAmount >= 10) {
+            fuelAmount -= 10;
+            logger.info(name + " repaired to full durability.");
+        } else {
+            logger.warning(name + " does not have enough fuel to repair.");
+        }
     }
 
     public void refuel() {
-        // TODO Implement refuel logic
+        try {
+            logger.info(name + " started refueling...");
+            Thread.sleep(2000);
+            logger.info(name + " refueling complete. Fuel level: " + fuelAmount);
+        } catch (InterruptedException e) {
+            logger.warning(name + " was interrupted while refueling.");
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void shoot() {
-        // TODO Implement shooting logic
+        if (maxShots > 0) {
+            maxShots--;
+            logger.info(name + " fired a shot. Remaining shots: " + maxShots);
+        } else {
+            logger.warning(name + " has no shots left to fire!");
+        }
     }
 
     // Assignment Methods

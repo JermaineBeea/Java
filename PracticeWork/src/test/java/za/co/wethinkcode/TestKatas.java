@@ -44,4 +44,13 @@ public class TestKatas {
         assertEquals("(000) 000-0000", Katas.createPhoneNumber(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}));
         assertEquals("(111) 111-1111", Katas.createPhoneNumber(new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}));
     }
+
+    @Test
+    public void testPangram() {
+        assertTrue(Katas.pangram("The quick brown fox jumps over the lazy dog."));
+        assertFalse(Katas.pangram("Hello World"));
+        assertTrue(Katas.pangram2("abcdefghijklmnopqrstuvwxyz"));
+        assertFalse(Katas.pangram2("abcde"));
+    }
+
 }

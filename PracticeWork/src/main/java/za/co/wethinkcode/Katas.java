@@ -223,15 +223,25 @@ public class Katas {
      Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
      */
     static boolean pangram(String sentence){
-
         Set<Character> unique = new HashSet<>();
-
         for(Character character : sentence.toLowerCase().toCharArray()){
             int unicode = (int) character;
             if(Character.isAlphabetic(unicode)) unique.add(character);
         }
+         return (long) unique.size() == 26; // NB!!! CONVERT TO LONG.
+    }
 
-        return (long) unique.size() == 26; // NB!!! CONVERT TO LONG.
+    /*
+     * Problem 6 alternative.
+     * This approach uses a lambda expression to count the number of distinct letters in the sentence.
+     * The toLowerCase() method converts the sentence to lowercase.
+     * The chars() method returns a stream of characters from the sentence.
+     * The filter() method filters the characters based on whether they are alphabetic.
+     * The count() method counts the number of distinct characters that pass the filter.
+     */
+    static boolean pangram2(String sentence){
+        long count = sentence.toLowerCase().chars().filter(Character::isAlphabetic).count();
+        return count == 26;
     }
 
 }

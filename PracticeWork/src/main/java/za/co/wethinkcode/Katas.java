@@ -60,7 +60,7 @@ public class Katas {
      * The length of the resulting string is the number of vowels in the original string.
      */
     public static int vowelCount2(String str){
-        return str.replaceAll("(?i)[aeiou]", "").length();
+        return str.toLowerCase().replaceAll("[^aeiou]", "").length();
     }
 
     /*
@@ -101,7 +101,7 @@ public class Katas {
      * This approach uses a ternary operator to check if the number is a perfect square.
      * If it is, it returns the next perfect square. Otherwise, it returns -1.
      */
-    public static long findfindNextSquare(long squareInt) {
+    public static long findNextSquare2(long squareInt) {
         long root = (long) Math.sqrt(squareInt); // Calculate the square root of the number
         return root * root == squareInt ? (root + 1) * (root + 1) : -1; // Check if the number is a perfect square
     }
@@ -182,7 +182,6 @@ public class Katas {
      * Note that the numbers in the array are not necessarily distinct.
      * Example: Kata.createPhoneNumber(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}) // => returns "(123) 456-7890"
      */
-
      static String createPhoneNumber(int[] numbers) {
         StringBuilder strNumber = new StringBuilder("(");
         for(int n = 0; n < 3; n ++) strNumber.append(numbers[n]);
@@ -243,5 +242,17 @@ public class Katas {
         long count = sentence.toLowerCase().chars().filter(Character::isAlphabetic).count();
         return count == 26;
     }
+
+    /*
+     * 
+     */
+    static boolean pangram3(String sentence){
+        for (char c = 'a'; c<='z'; c++)
+            if (!sentence.toLowerCase().contains("" + c))
+                return false;
+        return true;
+
+  }
+
 
 }

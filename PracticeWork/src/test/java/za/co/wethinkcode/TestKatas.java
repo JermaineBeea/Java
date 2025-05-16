@@ -17,24 +17,24 @@ public class TestKatas {
     public void testVowelCount1() {
         assertEquals(3, Katas.vowelCount1("hello world"));
         assertEquals(3, Katas.vowelCount1("Hello World"));
-        assertEquals(5, Katas.vowelCount1("aeiou"));
-        assertEquals(0, Katas.vowelCount1("bcdfghjklmnpqrstvwxyz"));
+        assertEquals(5, Katas.vowelCount2("aeiou"));
+        assertEquals(0, Katas.vowelCount3("bcdfghjklmnpqrstvwxyz"));
     }
 
     @Test
     public void testFindNextSquare() {
         assertEquals(121, Katas.findNextSquare(100));
         assertEquals(144, Katas.findNextSquare(121));
-        assertEquals(-1, Katas.findNextSquare(114));
-        assertEquals(-1, Katas.findNextSquare(-1));
+        assertEquals(-1, Katas.findNextSquare2(114));
+        assertEquals(-1, Katas.findNextSquare2(-1));
     }
 
     @Test
     public void testUniqueLetters() {
         assertEquals("abcdefwxy", Katas.uniqueLetters("xyaabbbccccdefww", "xyaabbbccccdefww"));
         assertEquals("abcdefghijklmnopqrstuvwxyz", Katas.uniqueLetters("abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnopqrstuvwxyz"));
-        assertEquals("abc", Katas.uniqueLetters("aabbcc", "abc"));
-        assertEquals("ab", Katas.uniqueLetters("a", "b"));
+        assertEquals("abc", Katas.uniqueLetters2("aabbcc", "abc"));
+        assertEquals("ab", Katas.uniqueLetters3("a", "b"));
     }
 
     @Test
@@ -51,6 +51,8 @@ public class TestKatas {
         assertFalse(Katas.pangram("Hello World"));
         assertTrue(Katas.pangram2("abcdefghijklmnopqrstuvwxyz"));
         assertFalse(Katas.pangram2("abcde"));
+        assertTrue(Katas.pangram3("The quick brown fox jumps over the lazy dog."));
+        assertFalse(Katas.pangram3("Hello World"));
     }
 
 }

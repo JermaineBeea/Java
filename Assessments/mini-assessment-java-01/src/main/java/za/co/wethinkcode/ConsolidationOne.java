@@ -50,8 +50,9 @@ public class ConsolidationOne {
      * e.g. recursiveFibonacciN(6) should return 5.
      */
     static int recursiveFibonacciN(int n) {
-        // TODO: implement this method
-        return 0;
+        if(n == 1) return 0;
+        if(n == 2) return 1;
+        return recursiveFibonacciN(n - 1) + recursiveFibonacciN( n - 2);
     }
 
     /**
@@ -61,8 +62,12 @@ public class ConsolidationOne {
      * @return a string * representation of the triangle.
      */
     static String drawTriangle(int n) {
-        // TODO: implement this method
-        return null;
+       StringBuilder triangle = new StringBuilder();
+       for(int k  = 0; k < n; k++){
+            triangle.append("*".repeat(k + 1));
+            triangle.append("\n");
+       }
+       return triangle.toString();
     }
 
     /**
@@ -93,8 +98,7 @@ public class ConsolidationOne {
      * @return the result of the arithmetic operation as number.
      */
     static String calculateModCorrectly(int a, int b, String operator) {
-        // TODO: implement this method
-        return null;
+        return "Okay: " + String.valueOf(a%b);
     }
 
     /**
@@ -104,8 +108,9 @@ public class ConsolidationOne {
      * @return a new list of names sorted in ascending order based on their length.
      */
     static List<String> correctOrder(List<String> names) {
-        // TODO: implement this method
-        return null;
+        List<String> mutableNames = new ArrayList<>(names);
+        mutableNames.sort(Comparator.comparingInt(String::length));
+        return mutableNames;
     }
 
     /**
@@ -114,8 +119,7 @@ public class ConsolidationOne {
      * @return - true if the DNA sequence represents a valid protein, false otherwise.
      */
     static boolean dnaProtein(String dna) {
-        // TODO: implement this method
-        return false;
+        return ((dna.length() % 3 == 0) && dna.startsWith("ATG") && dna.endsWith("TGA"));
     }
 
     /**
@@ -125,8 +129,13 @@ public class ConsolidationOne {
      * @return a 2D array representing the Punnett square.
      */
     static String[][] punnettSquare(String genotype1, String genotype2) {
-        // TODO: implement this method
-        return null;
+        String[][] punnet = new String[2][2];
+        for(int a = 0; a < 2; a++){
+            for(int b =0; b < 2; b++){
+                punnet[a][b] = "" + genotype1.charAt(a) + genotype2.charAt(b);
+            }
+        }
+        return punnet;
     }
 
     /**
@@ -136,8 +145,8 @@ public class ConsolidationOne {
      * @throws IllegalArgumentException if the input is not a valid binary number.
      */
     static String binaryConversion(String binaryNumber) {
-        // TODO: implement this method
-        return null;
+        int decimal = Integer.parseInt(binaryNumber, 2);
+        return Integer.toString(decimal);
     }
 
     /**
@@ -148,8 +157,7 @@ public class ConsolidationOne {
      * @return the index of the first occurrence of the substring in the whole string, or -1 if not found.
      */
     static int firstSubstring(String subString, String wholeString) {
-        // TODO: implement this method
-        return -1;
+        return wholeString.indexOf(subString);
     }
 
     /**
@@ -160,8 +168,7 @@ public class ConsolidationOne {
      * @return the frequency of the specified character in the string.
      */
     static int frequencyOf(int character, String string) {
-        // TODO: implement this method
-        return 0;
+        return (int) string.chars().filter(n -> n == character).count();
     }
 
     /**
@@ -171,8 +178,12 @@ public class ConsolidationOne {
      * @return the Hamming distance between the two strings, or -1 if the strings have different lengths.
      */
     static int hammingDistance(String firstString, String secondString) {
-        // TODO: implement this method
-        return 0;
+        if(firstString.length() != secondString.length()) return -1;
+        int count = 0;
+        for(int k = 0; k < firstString.length(); k++){
+            if(firstString.charAt(k) != secondString.charAt(k)) count++;
+        }
+        return count;
     }
 
     /**
@@ -182,8 +193,8 @@ public class ConsolidationOne {
      * @return true if the string is a palindrome, false otherwise.
      */
     static boolean isPalindrome(String string) {
-        // TODO: implement this method
-        return false;
+        String cleaned = string.toLowerCase().replaceAll("[^a-z0-9]","");
+        return cleaned.contentEquals(new StringBuilder(cleaned).reverse());
     }
 
     /**
@@ -193,18 +204,19 @@ public class ConsolidationOne {
      * @return the sum of all integers in the collection.
      */
     static int sumIntegers(Collection<Integer> numbers) {
-        // TODO: implement this method
-        return 0;
+        return numbers.stream().reduce(0, Integer::sum);
     }
 
     private static int combination(int n, int k) {
-        // TODO: implement this method
-        return 0;
+        return factorial(k) / (factorial(n) * factorial(k - n));
     }
 
     private static int factorial(int num) {
-        // TODO: implement this method
-        return 0;
+        int k = 1;
+        for(int a = 1; a < num + 1; a++ ){
+            k*=a;
+        }
+        return k;
     }
 
     /**
@@ -214,7 +226,10 @@ public class ConsolidationOne {
      * @return the final row of Pascal's triangle as a list
      */
     static List<Integer> pascalTriangle(int n) {
-        // TODO: implement this method
-        return null;
+        List<Integer> pascal = new ArrayList<>();
+        for(int indx = 0; indx < n + 1; indx ++){
+            pascal.add(combination(indx, n));
+        }
+        return pascal;
     }
 }

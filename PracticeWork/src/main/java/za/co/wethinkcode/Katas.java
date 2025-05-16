@@ -119,7 +119,42 @@ public class Katas {
      */
 
      public static String uniqueLetters(String str1, String str2){
-        
-        return "";
+        Set<Character> letters = new HashSet<>();
+        for(Character k: (str1 + str2).toCharArray()){
+            try{
+                Integer.parseInt(String.valueOf(k));
+            }catch(NumberFormatException e){
+                letters.add(k);
+            }
+        }
+
+        List<Character> sortedList = new ArrayList<>(letters);
+        Collections.sort(sortedList);
+
+        StringBuilder sortedLetters = new StringBuilder();
+        for(Character n : sortedList){
+            sortedLetters.append(n);
+        }
+        return sortedLetters.toString();
      }
+     
+     /*
+      * 
+      */
+     public static String uniqueLetters2 (String s1, String s2) {
+        String s = s1 + s2;
+        return 
+        
+        s.chars().distinct().sorted().collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+    }
+
+    /*
+     * 
+     */
+    public static String uniqueLetters3 (String s1, String s2) {
+        StringBuilder sb = new StringBuilder();
+        (s1 + s2).chars().distinct().sorted().forEach(c -> sb.append((char) c));
+        return sb.toString();
+    }
+
 }

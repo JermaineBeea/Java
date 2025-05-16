@@ -8,23 +8,25 @@ public class Main {
 
         String strA = "xyaabbbcc1ccdefww";
         String strB = "xxx2xyyyya2bklmopq";
+        String strC = strA + strB;
         
-        Set<Character> letters = new HashSet<>();
-        for(Character k : (strA + strB).toCharArray()){
+        List<Character> letters = new ArrayList<>();
+        letters.add(strC.charAt(0));
+        
+        for(int n = 1; n < strC.length(); n++){
             try{
-                Integer.parseInt(String.valueOf(k));
+                Integer.parseInt(String.valueOf(strC.charAt(n)));
             }catch(NumberFormatException e){
-                letters.add(k);
+                
             }
         }
         
         // Convert to list for sorting
-        List<Character> sortedList = new ArrayList<>(letters);
-        Collections.sort(sortedList);
+        Collections.sort(letters);
         
         // Build the final string
         StringBuilder sorted = new StringBuilder();
-        for(Character n : sortedList){
+        for(Character n : letters){
             sorted.append(n);
         }
         

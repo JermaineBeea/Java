@@ -6,31 +6,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String strA = "xyaabbbcc1ccdefww";
-        String strB = "xxx2xyyyya2bklmopq";
-        String strC = strA + strB;
-        
-        List<Character> letters = new ArrayList<>();
-        letters.add(strC.charAt(0));
-        
-        for(int n = 1; n < strC.length(); n++){
-            try{
-                Integer.parseInt(String.valueOf(strC.charAt(n)));
-            }catch(NumberFormatException e){
-                
-            }
+        String sentence = "The quick brown fox jumps over the lazy dog.";
+        boolean isPangram  = pangram(sentence);
+        System.out.println(isPangram);
+
+
+    }
+
+    static boolean pangram(String sentence){
+        Set<Character> unique = new HashSet<>();
+        for(Character character : sentence.toLowerCase().toCharArray()){
+            int unicode = (int) character;
+            if(Character.isAlphabetic(unicode)) unique.add(character);
         }
-        
-        // Convert to list for sorting
-        Collections.sort(letters);
-        
-        // Build the final string
-        StringBuilder sorted = new StringBuilder();
-        for(Character n : letters){
-            sorted.append(n);
-        }
-        
-        System.out.println(sorted.toString());
+        System.out.println(unique.size());
+        return (long) unique.size() == 26;
     }
     
 }

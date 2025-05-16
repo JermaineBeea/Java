@@ -139,7 +139,14 @@ public class Katas {
      }
      
      /*
-      * 
+      * Problem 4 alternative.
+      * This approach uses a Set to store the distinct letters from both strings.
+      * The Set automatically handles duplicates.
+      * The sorted() method sorts the characters in the Set.
+      * The collect() method collects the sorted characters into a StringBuilder.
+      * The toString() method converts the StringBuilder to a string.
+      * The distinct() method ensures that only unique characters are included.
+        * The sorted() method sorts the characters in ascending order.
       */
      public static String uniqueLetters2 (String s1, String s2) {
         String s = s1 + s2;
@@ -149,7 +156,13 @@ public class Katas {
     }
 
     /*
-     * 
+     * Problem 4 alternative.
+     * This approach uses a StringBuilder to build the final string.
+     * The chars() method returns a stream of characters from the string.
+     * The distinct() method ensures that only unique characters are included.
+     * The sorted() method sorts the characters in ascending order.
+     * The forEach() method appends each character to the StringBuilder.
+     * The toString() method converts the StringBuilder to a string.
      */
     public static String uniqueLetters3 (String s1, String s2) {
         StringBuilder sb = new StringBuilder();

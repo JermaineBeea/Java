@@ -14,21 +14,46 @@ public class Katas {
      * Constraints: The number will be a 32-bit signed integer.
      * The number will not be zero.
      */
-    public static int reverseOrder(int num){
-        // Check if the number is negative
-        boolean isNegative = num < 0;
+    static int reverseOrder(int number){
+        boolean isPos = number > 0;
+        number = Math.abs(number);
 
-        // Convert the number to a string
-        String strNum = Integer.toString(Math.abs(num));
+        List<Integer> listNum = new ArrayList<>();
+        int reversed = 0;
 
-        // Reverse the string
-        String reversedStrNum = new StringBuilder(strNum).reverse().toString();
+        for(Character k : String.valueOf(number).toCharArray()){
+            String strK = Character.toString(k);
+            int intK = Integer.parseInt(strK);
+            listNum.add(intK);
+        }
+        listNum.sort(Comparator.reverseOrder());
 
-        // Convert the reversed string back to an integer
-        int reversedNum = Integer.parseInt(reversedStrNum);
+        for(int k = 0; k < listNum.size(); k++){
+            reversed += listNum.get(k) * Math.pow(10, listNum.size() - (k + 1));
+        }
+        System.out.println(isPos);
+        return isPos ? reversed : -reversed;
+    }    
+
+    static int reverseOrder2(int number){
+        boolean isPos = number > 0;
+        number = Math.abs(number);
+
+        List<Integer> listNum = new ArrayList<>();
+        StringBuilder strNum = new StringBuilder();
+
+        for(Character k : String.valueOf(number).toCharArray()){
+            String strK = Character.toString(k);
+            int intK = Integer.parseInt(strK);
+            listNum.add(intK);
+        }
+        listNum.sort(Comparator.reverseOrder());
+
+        for(Integer n : listNum){
+            strNum.append(n);
+        }
         
-        // If the number was negative, return the negative of the reversed number
-        return isNegative ? -reversedNum : reversedNum;
+        return isPos ? Integer.parseInt(strNum.toString()): -Integer.parseInt(strNum.toString());
     }
     
 
@@ -41,17 +66,15 @@ public class Katas {
      * Note: The string may contain uppercase and lowercase letters.
      * For example, given the string "Hello World", return 3.
      */
-    public static int vowelCount1(String string){
-        List<Integer> unicodes = new ArrayList<>();
-        Character[] vowels = {'a', 'e', 'i', 'o', 'u'};
-
-        for(Character character : vowels){
-            unicodes.add((int) character);
+    public static int vowelCount1(String str){
+        List<Character> vowels = List.of('a', 'e', 'i', 'o', 'u');
+        int vowelCount = 0;
+        for(Character k : str.toLowerCase().toCharArray()){
+            if(vowels.contains(k)) vowelCount ++;
         }
-
-        return (int) string.toLowerCase().chars().filter(k -> unicodes.contains(k)).count();
+        return vowelCount;
     }
-
+    
     /*
      * Problem 2 alternative.
      * This approach uses regex to count the number of vowels in a string.
@@ -60,7 +83,7 @@ public class Katas {
      * The length of the resulting string is the number of vowels in the original string.
      */
     public static int vowelCount2(String str){
-        return str.toLowerCase().replaceAll("[^aeiou]", "").length();
+        return  (int) str.toLowerCase().chars().filter(k -> "aeiou".indexOf(k) >= 0).count();
     }
 
     /*
@@ -70,8 +93,8 @@ public class Katas {
      * The filter method filters the characters based on whether they are vowels.
      * The count method counts the number of characters that pass the filter.
      */
-    public static int vowelCount3(String str){
-        return (int) str.toLowerCase().chars().filter(k -> "aeiou".indexOf(k) >= 0).count();
+    public static long vowelCount3(String str){
+        return str.toLowerCase().replaceAll("[^aeiou]", "").length();
     }
 
 
@@ -84,28 +107,11 @@ public class Katas {
      * Note: The number may be negative, in which case the sign should be preserved.
      * For example, given the number -4, return -9.
      */
-    public static long findNextSquare(long squareInt){
-        // Check if the number is negative
-        if(squareInt < 0) return -1;
-        // Check if the number is a perfect square
-        // If the number is not a perfect square, return -1
-        long sqroot = (long) Math.sqrt(squareInt);
-        if( ! (sqroot * sqroot == squareInt)) return -1;
-
-        // If the number is a perfect square, return the next perfect square
-        return (long) (sqroot + 1) * (sqroot + 1);
+    public static int findNextSquare(int number){
+        int sqroot = (int) Math.sqrt(number);
+        boolean isSquare = sqroot * sqroot == number;
+        return isSquare ? (sqroot + 1)*(sqroot + 1) : -1;
     }
-
-    /*
-     * Problem 3 alternative.
-     * This approach uses a ternary operator to check if the number is a perfect square.
-     * If it is, it returns the next perfect square. Otherwise, it returns -1.
-     */
-    public static long findNextSquare2(long squareInt) {
-        long root = (long) Math.sqrt(squareInt); // Calculate the square root of the number
-        return root * root == squareInt ? (root + 1) * (root + 1) : -1; // Check if the number is a perfect square
-    }
-
 
 
     //PROBLEM 4
@@ -123,40 +129,23 @@ public class Katas {
      *
      */
 
-     public static String uniqueLetters(String str1, String str2){
-
-        Set<Character> unique = new HashSet<>();
-
-        for(Character charN: (str1 + str2).toCharArray()){
-            int unicode = (int) charN;
-            if(Character.isAlphabetic(unicode)) unique.add(charN);
-        }
-
-        List<Character> sortedList = new ArrayList<>(unique);
-        Collections.sort(sortedList);
-
-        StringBuilder sortedLetters = new StringBuilder();
-        for(Character n : sortedList){
-            sortedLetters.append(n);
-        }
-        return sortedLetters.toString();
-     }
-     
-     /*
-      * Problem 4 alternative.
-      * This approach uses a Set to store the distinct letters from both strings.
-      * The Set automatically handles duplicates.
-      * The sorted() method sorts the characters in the Set.
-      * The collect() method collects the sorted characters into a StringBuilder.
-      * The toString() method converts the StringBuilder to a string.
-      * The distinct() method ensures that only unique characters are included.
-        * The sorted() method sorts the characters in ascending order.
-      */
-     public static String uniqueLetters2 (String s1, String s2) {
-        String s = s1 + s2;
-        return 
+    static String uniqueLetters(String str1, String str2) {
         
-        s.chars().distinct().sorted().collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+        Set<Character> uniqueChars = new TreeSet<>();  
+        
+        String combined = (str1 + str2).toLowerCase();
+        for (char c : combined.toCharArray()) {
+            if(Character.isAlphabetic(c)){
+                uniqueChars.add(c);
+            }
+        }
+        
+        StringBuilder result = new StringBuilder();
+        for (Character c : uniqueChars) {
+            result.append(c);
+        }
+        
+        return result.toString();
     }
 
     /*
@@ -168,10 +157,28 @@ public class Katas {
      * The forEach() method appends each character to the StringBuilder.
      * The toString() method converts the StringBuilder to a string.
      */
-    public static String uniqueLetters3 (String s1, String s2) {
-        StringBuilder sb = new StringBuilder();
-        (s1 + s2).chars().distinct().sorted().forEach(c -> sb.append((char) c));
-        return sb.toString();
+    static String uniqueLetters2 (String str1, String str2) {
+        String combined = (str1 + str2).toLowerCase();
+        StringBuilder result =  new StringBuilder();
+        combined.chars().distinct().filter(n -> Character.isAlphabetic(n)).forEach(k -> result.append((char) k));
+        return result.toString();
+    }
+
+     /*
+      * Problem 4 alternative.
+      * This approach uses a Set to store the distinct letters from both strings.
+      * The Set automatically handles duplicates.
+      * The sorted() method sorts the characters in the Set.
+      * The collect() method collects the sorted characters into a StringBuilder.
+      * The toString() method converts the StringBuilder to a string.
+      * The distinct() method ensures that only unique characters are included.
+        * The sorted() method sorts the characters in ascending order.
+      */
+    static String uniqueLetters3 (String s1, String s2) {
+        String s = s1 + s2;
+        return 
+        
+        s.chars().distinct().sorted().collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     }
 
 
@@ -199,7 +206,8 @@ public class Katas {
      * The String.format method formats the phone number according to the specified format.
      */
      public static String createPhoneNumber2(int[] numbers) {
-        return String.format("(%d%d%d) %d%d%d-%d%d%d%d", java.util.stream.IntStream.of(numbers).boxed().toArray());
+        Object[] arrayStream = java.util.stream.IntStream.of(numbers).boxed().toArray();
+        return String.format("(%d%d%d) %d%d%d-%d%d%d%d", arrayStream);
     }
 
     /*
@@ -221,14 +229,15 @@ public class Katas {
      For example, the sentence "The quick brown fox jumps over the lazy dog" is a pangram, because it uses the letters A-Z at least once (case is irrelevant).
      Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
      */
-    static boolean pangram(String sentence){
-        Set<Character> unique = new HashSet<>();
-        for(Character character : sentence.toLowerCase().toCharArray()){
-            int unicode = (int) character;
-            if(Character.isAlphabetic(unicode)) unique.add(character);
+        static boolean pangram(String sentence){
+            Set<Character> unique = new HashSet<>();
+            for(char c: sentence.toLowerCase().toCharArray()){
+                if(Character.isAlphabetic(c)){
+                    unique.add(c);
+                }
+            }
+            return unique.size() == 26;
         }
-         return (long) unique.size() == 26; // NB!!! CONVERT TO LONG.
-    }
 
     /*
      * Problem 6 alternative.
@@ -239,8 +248,8 @@ public class Katas {
      * The count() method counts the number of distinct characters that pass the filter.
      */
     static boolean pangram2(String sentence){
-        long count = sentence.toLowerCase().chars().filter(Character::isAlphabetic).count();
-        return count == 26;
+        int uniqueAlphaCount =  (int) sentence.toLowerCase().chars().distinct().filter(k -> Character.isAlphabetic(k)).count();
+        return uniqueAlphaCount == 26;
     }
 
     /*

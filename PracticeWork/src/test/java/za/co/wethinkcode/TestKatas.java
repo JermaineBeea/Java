@@ -25,8 +25,8 @@ public class TestKatas {
     public void testFindNextSquare() {
         assertEquals(121, Katas.findNextSquare(100));
         assertEquals(144, Katas.findNextSquare(121));
-        assertEquals(-1, Katas.findNextSquare2(114));
-        assertEquals(-1, Katas.findNextSquare2(-1));
+        assertEquals(-1, Katas.findNextSquare(114));
+        assertEquals(-1, Katas.findNextSquare(-1));
     }
 
     @Test

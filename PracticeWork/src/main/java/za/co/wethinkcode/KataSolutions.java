@@ -164,8 +164,7 @@ public class KataSolutions {
     static String uniqueLetters2 (String str1, String str2) {
         String combined = (str1 + str2).toLowerCase();
         StringBuilder result = new StringBuilder();
-        // Missing sorting operation here - will not return alphabetically sorted result
-        combined.chars().distinct().filter(n -> Character.isAlphabetic(n)).forEach(k -> result.append((char) k));
+        combined.chars().distinct().sorted().filter(n -> Character.isAlphabetic(n)).forEach(k -> result.append((char) k));
         return result.toString();
     }
 

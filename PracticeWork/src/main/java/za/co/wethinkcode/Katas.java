@@ -273,5 +273,24 @@ public class Katas {
      * [2, 4, 0, 100, 4, 11, 2602, 36] -->  11 (the only odd number)
      * [160, 3, 1719, 19, 11, 13, -21] --> 160 (the only even number)
      */
+    static int findOutlier(int[] integers) {
+        int count = (int) Arrays.stream(Arrays.copyOfRange(integers, 0, integers.length)).filter(n -> n % 2 == 0).count();
+        boolean evenDivisor = count >= 2 ;
+        return (int) Arrays.stream(integers).filter(n -> evenDivisor ? n % 2 != 0 : n % 2 == 0).findFirst().getAsInt();
+    }
+
+    public static int findOutlier2(int[] integers) {
+        // Since we are warned the array may be very large, we should avoid counting values any more than we need to.
+
+        // We only need the first 3 integers to determine whether we are chasing odds or evens.
+        // So, take the first 3 integers and compute the value of Math.abs(i) % 2 on each of them.
+        // It will be 0 for even numbers and 1 for odd numbers.
+        // Now, add them. If sum is 0 or 1, then we are chasing odds. If sum is 2 or 3, then we are chasing evens.
+        int sum = Arrays.stream(integers).limit(3).map(i -> Math.abs(i) % 2).sum();
+        int mod = (sum == 0 || sum == 1) ? 1 : 0;
+
+        return Arrays.stream(integers).parallel() // call parallel to get as much bang for the buck on a "large" array
+                .filter(n -> Math.abs(n) % 2 == mod).findFirst().getAsInt();
+    }
 
 }

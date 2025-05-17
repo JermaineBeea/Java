@@ -3,16 +3,16 @@ package za.co.wethinkcode;
 public class Katas {
 
     // PROBLEM 1
-    /*
-     * Reverse the digits of a number
-     * Given a number, return the number with its digits reversed.
+    /**
+     * Sort the digits of a number in descending order
+     * Given a number, return the number with its digits sorted in descending order.
      * For example, given the number 12345, return 54321.
      * Note: The number may be negative, in which case the sign should be preserved.
      * For example, given the number -12345, return -54321.
      * Constraints: The number will be a 32-bit signed integer.
      * The number will not be zero.
      */
-    static int reverseOrder(int number) {
+    static int descendingOrder(int number) {
         // TODO: Implement this method
         return 0;
     }

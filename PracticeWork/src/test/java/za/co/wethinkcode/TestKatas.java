@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestKatas {
 
     @Test
-    public void testReverseOrder() {
-        assertEquals(54321, Katas.reverseOrder(12345));
-        assertEquals(-54321, Katas.reverseOrder(-12345));
-        assertEquals(987654321, Katas.reverseOrder(123456789));
-        assertEquals(-987654321, Katas.reverseOrder(-123456789));
+    public void testdescendingOrder() {
+        assertEquals(54321, Katas.descendingOrder(12345));
+        assertEquals(-54321, Katas.descendingOrder(-12345));
+        assertEquals(987654321, Katas.descendingOrder(123456789));
+        assertEquals(-987654321, Katas.descendingOrder(-123456789));
     }
 
     @Test

@@ -144,10 +144,12 @@ public class KataSolutions {
                 uniqueChars.add(c);
             }
         }
+        List<Character> sortedChars = new ArrayList<>(uniqueChars);
+        Collections.sort(new ArrayList<>(sortedChars));
         
         // Build result string from sorted unique characters
         StringBuilder result = new StringBuilder();
-        for (Character c : uniqueChars) {
+        for (Character c : sortedChars) {
             result.append(c);
         }
         

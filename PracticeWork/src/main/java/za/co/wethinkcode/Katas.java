@@ -1,5 +1,7 @@
 package za.co.wethinkcode;
 
+import static org.junit.jupiter.api.DynamicTest.stream;
+
 import java.util.*;
 
 public class Katas {
@@ -293,4 +295,28 @@ public class Katas {
                 .filter(n -> Math.abs(n) % 2 == mod).findFirst().getAsInt();
     }
 
+
+    //PROBLEM 8
+    /*
+     * In this assignment you are given a string of space separated numbers, and have to return the highest and lowest number.
+     * Examples
+       highAndLow("1 2 3 4 5") // return "5 1"
+       highAndLow("1 2 -3 4 5") // return "5 -3"
+       highAndLow("1 9 3 4 -5") // return "9 -5"
+
+       Notes:
+       There will always be at least one number in the input string.
+       Output string must be two numbers separated by a single space, and highest number is first.
+     */
+    public static String highAndLow(String numbers) {
+        List<Integer> intList = new ArrayList<>();
+        Arrays.stream(numbers.split(" ")).forEach(n -> intList.add(Integer.parseInt(n)));
+        Collections.sort(intList);
+        return String.valueOf(intList.getLast()) + " " + String.valueOf(intList.getFirst());
+    }
+    
+    public static String highAndLow2(String numbers) {
+        List<Integer> nums = Arrays.stream(numbers.split(" ")).map(Integer::parseInt).toList();
+        return "%s %s".formatted(Collections.max(nums), Collections.min(nums));
+    }
 }

@@ -103,6 +103,7 @@ public class Practice {
      * @return a new list of names sorted in ascending order based on their length.
      */
     static List<String> correctOrder(List<String> names) {
+        return null;
     }
 
     /**
@@ -111,6 +112,7 @@ public class Practice {
      * @return - true if the DNA sequence represents a valid protein, false otherwise.
      */
     static boolean dnaProtein(String dna) {
+        return true;
     }
 
     /**
@@ -120,6 +122,7 @@ public class Practice {
      * @return a 2D array representing the Punnett square.
      */
     static String[][] punnettSquare(String genotype1, String genotype2) {
+        return null;
     }
 
     /**
@@ -129,6 +132,7 @@ public class Practice {
      * @throws IllegalArgumentException if the input is not a valid binary number.
      */
     static String binaryConversion(String binaryNumber) {
+        return "";
     }
 
     /**
@@ -139,6 +143,7 @@ public class Practice {
      * @return the index of the first occurrence of the substring in the whole string, or -1 if not found.
      */
     static int firstSubstring(String subString, String wholeString) {
+        return 0;
     }
 
     /**
@@ -149,6 +154,7 @@ public class Practice {
      * @return the frequency of the specified character in the string.
      */
     static int frequencyOf(int character, String string) {
+        return 0;
     }
 
     /**
@@ -158,6 +164,7 @@ public class Practice {
      * @return the Hamming distance between the two strings, or -1 if the strings have different lengths.
      */
     static int hammingDistance(String firstString, String secondString) {
+        return 0;
     }
 
     /**
@@ -167,6 +174,7 @@ public class Practice {
      * @return true if the string is a palindrome, false otherwise.
      */
     static boolean isPalindrome(String string) {
+        return true;
     }
 
     /**
@@ -176,12 +184,15 @@ public class Practice {
      * @return the sum of all integers in the collection.
      */
     static int sumIntegers(Collection<Integer> numbers) {
+        return 0;
     }
 
     private static int combination(int n, int k) {
+        return 0;
     }
 
     private static int factorial(int num) {
+        return 0;
     }
 
     /**
@@ -191,5 +202,6 @@ public class Practice {
      * @return the final row of Pascal's triangle as a list
      */
     static List<Integer> pascalTriangle(int n) {
+        return null;
     }
 }

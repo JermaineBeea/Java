@@ -1,13 +1,22 @@
 package za.co.wethinkcode;
 
+
+import static java.util.Arrays.stream;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(isPalindrome("level"));
-        System.out.println(Character.toUpperCase(0));
+       int[] a = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+       List<Integer> list = Arrays.stream(a).boxed().toList();
     }
+
+    
+    public static int findOdd(int[] arr) {
+        return stream(arr).reduce(0, (x, y) -> x ^ y);
+  }
 
     static boolean isPalindrome(String string) {
         StringBuilder str = new  StringBuilder();
@@ -15,6 +24,8 @@ public class Main {
         System.out.println( str + ":" + str.reverse());
         return str == str.reverse();
     }
+
+    
 
     static String toCamelCase(String s){
         StringBuilder result = new StringBuilder();

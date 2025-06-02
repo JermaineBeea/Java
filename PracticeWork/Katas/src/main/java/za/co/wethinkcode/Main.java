@@ -1,6 +1,5 @@
 package za.co.wethinkcode;
 
-
 import static java.util.Arrays.stream;
 
 import java.util.Arrays;

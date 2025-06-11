@@ -27,16 +27,13 @@ public class ServerThread {
                     throw new Exception("Error creating client thread");
                 }
            }catch(Exception e){
-<<<<<<< HEAD:src/main/java/za/co/wethinkcode/robots/server/RobotGame/ServerPackage/ServerThread.java
                logger.log(Level.SEVERE, e.getMessage());
                logConfig.printStack(e);
            }finally {
 
                ThreadRegistry.closeThread(this);
-=======
             logger.log(Level.SEVERE, e.getMessage());
             logConfig.printStack(e);
->>>>>>> origin:src/main/java/za/co/wethinkcode/robots/Server/ServerThread.java
            }
         };
     }
@@ -53,7 +50,6 @@ public class ServerThread {
         thread = new Thread(wrapperFunction);
         thread.start();
     }
-<<<<<<< HEAD:src/main/java/za/co/wethinkcode/robots/server/RobotGame/ServerPackage/ServerThread.java
 
 
 
@@ -81,4 +77,3 @@ public class ServerThread {
 }
 =======
 }
->>>>>>> origin:src/main/java/za/co/wethinkcode/robots/Server/ServerThread.java

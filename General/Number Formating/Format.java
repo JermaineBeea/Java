@@ -1,6 +1,6 @@
 import java.text.DecimalFormat;
 
-public class Practice {
+public class Format {
 
     public static void main(String[] args) {
             
@@ -15,7 +15,13 @@ public class Practice {
     // Technique two
     String strFormat2 = "R" + String.format("%.2f", number2/100);    
     System.out.println("Technique 2 results: " + strFormat2);
-        
+
+    long rands = number1 / 100;
+    long cents = number1 % 100;
+    String result = String.format("R%d.%02d", rands, cents);
+    System.out.println(result);
     }
+
+    
 
 }

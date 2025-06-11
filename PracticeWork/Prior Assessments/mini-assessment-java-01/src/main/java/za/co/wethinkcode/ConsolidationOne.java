@@ -2,7 +2,7 @@ package za.co.wethinkcode;
 
 import java.util.*;
 
-public class Practice {
+public class ConsolidationOne {
     /**
      * Prints an integer as is if not divisible by 3 or 5.
      * It labels an integer divisible by 3 as "Fizz".
@@ -12,8 +12,10 @@ public class Practice {
      * @return the "FizzBuzz" string corresponding to the input number.
      */
     static String fizzBuzzOnce(int input) {
-        // TODO: implement this method
-        return null;
+        if(input % 15 == 0) return "FizzBuzz";
+        if(input % 5 == 0) return "Buzz";
+        if(input % 3 == 0) return "Fizz";
+        return String.valueOf(input);
     }
 
     /**
@@ -23,8 +25,11 @@ public class Practice {
      * @return a list of strings representing the "FizzBuzz" sequence
      */
     static List<String> fizzBuzz(int n) {
-        // TODO: implement this method
-        return null;
+        List<String> result = new ArrayList<>();
+        for(int k = 0; k < n; k++){
+            result.add(fizzBuzzOnce(k + 1));
+        }
+        return result;
     }
 
     /**
@@ -36,8 +41,24 @@ public class Practice {
      * @return a string representation of the Fibonacci sequence
      */
     static String getFibonacciSequence(int n) {
-        // TODO: implement this method
-        return null;
+        StringBuilder result = new StringBuilder("Fibonacci: ");
+        if(n <= 0) return result.toString();
+        int a = 0; int b = 1;
+
+        result.append(a);
+        if(n == 1) return result.toString();
+
+        result.append(", ").append(b);
+        if(n == 2) return result.toString();
+
+        for(int k = 2; k < n; k++){
+            int next = a + b;
+            a = b;
+            b = next;
+            result.append(", ").append(b);
+        }
+
+        return result.toString();
     }
 
     /**
@@ -52,7 +73,7 @@ public class Practice {
     static int recursiveFibonacciN(int n) {
         if(n == 1) return 0;
         if(n == 2) return 1;
-        return recursiveFibonacciN(n - 1) + recursiveFibonacciN( n - 2);
+        return recursiveFibonacciN(n - 1) + recursiveFibonacciN(n - 2);
     }
 
     /**
@@ -62,7 +83,11 @@ public class Practice {
      * @return a string * representation of the triangle.
      */
     static String drawTriangle(int n) {
-        return "";
+        StringBuilder result = new StringBuilder();
+        for(int k = 0; k < n; k++){
+            result.append("*".repeat(k+1));
+        }
+        return result.toString();
     }
 
     /**
@@ -77,13 +102,28 @@ public class Practice {
      * @return the result of the arithmetic operation as number.
      */
     static String calculate(int a, int b, String operator) {
-        // TODO: implement this method
-        return null;
+        switch (operator) {
+            case "+":
+                return String.valueOf(a + b);
+            case "-":
+                return String.valueOf(a - b);
+            case "*":
+                return String.valueOf(a * b);
+            case "/":
+                if (b == 0) return "Error: Division by zero";
+                return String.valueOf(a / b);
+            case "%":
+                if (b == 0) return "Error: Division by zero";
+                return String.valueOf(a % b);
+            default:
+                return "Error: Unsupported operator";
+        }
     }
 
     /**
      * Calculates the result of the arithmetic operation
-     * between two integers using the specified operator for mod.
+     * between two integers using the speci        return "Okay: " + String.valueOf(a%b);
+fied operator for mod.
      * i.e. 5 modulo 3 = 2
      *
      * @param a        the first integer operand.
@@ -93,7 +133,7 @@ public class Practice {
      * @return the result of the arithmetic operation as number.
      */
     static String calculateModCorrectly(int a, int b, String operator) {
-        return "Okay: " + String.valueOf(a%b);
+        return "";
     }
 
     /**
@@ -103,7 +143,8 @@ public class Practice {
      * @return a new list of names sorted in ascending order based on their length.
      */
     static List<String> correctOrder(List<String> names) {
-        return null;
+        names.sort(Comparator.comparingInt(String::length));
+        return names;
     }
 
     /**
@@ -132,7 +173,11 @@ public class Practice {
      * @throws IllegalArgumentException if the input is not a valid binary number.
      */
     static String binaryConversion(String binaryNumber) {
-        return "";
+        try{
+            return String.valueOf(Integer.parseInt(binaryNumber, 2));
+        }catch(NumberFormatException e){
+            return "Error: Not a binary number.";
+        }
     }
 
     /**
@@ -143,7 +188,7 @@ public class Practice {
      * @return the index of the first occurrence of the substring in the whole string, or -1 if not found.
      */
     static int firstSubstring(String subString, String wholeString) {
-        return 0;
+        return wholeString.indexOf(subString);
     }
 
     /**
@@ -154,7 +199,7 @@ public class Practice {
      * @return the frequency of the specified character in the string.
      */
     static int frequencyOf(int character, String string) {
-        return 0;
+        return (int) string.chars().filter(k -> k == character).count();
     }
 
     /**
@@ -164,7 +209,14 @@ public class Practice {
      * @return the Hamming distance between the two strings, or -1 if the strings have different lengths.
      */
     static int hammingDistance(String firstString, String secondString) {
-        return 0;
+        if(firstString.length() != secondString.length()) return -1;
+        int count = 0;
+        for(int n = 0; n < firstString.length(); n++){
+            if(firstString.charAt(n) != secondString.charAt(n)){
+                count ++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -174,7 +226,9 @@ public class Practice {
      * @return true if the string is a palindrome, false otherwise.
      */
     static boolean isPalindrome(String string) {
-        return true;
+        StringBuilder result = new StringBuilder();
+        string.toLowerCase().chars().filter(Character::isAlphabetic).forEach(k -> result.append((char) k));
+        return result.toString().contentEquals(new StringBuilder(result).reverse());
     }
 
     /**
@@ -184,15 +238,19 @@ public class Practice {
      * @return the sum of all integers in the collection.
      */
     static int sumIntegers(Collection<Integer> numbers) {
-        return 0;
+        return numbers.stream().reduce(0, (a, b) -> a + b);
     }
 
     private static int combination(int n, int k) {
-        return 0;
+        return factorial(n) / (factorial(k) * factorial(n - k));
     }
 
     private static int factorial(int num) {
-        return 0;
+        int result = 1;
+        for(int n = 0; n < num; n++){
+            result *= (n + 1);
+        }
+        return result;
     }
 
     /**
@@ -202,6 +260,10 @@ public class Practice {
      * @return the final row of Pascal's triangle as a list
      */
     static List<Integer> pascalTriangle(int n) {
-        return null;
+        List<Integer> result = new ArrayList<>();
+        for(int k = 0; k < n + 1; k++){
+            result.add(combination(n, k));
+        }
+        return result;
     }
 }

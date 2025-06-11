@@ -2,14 +2,16 @@ package za.co.wethinkcode;
 
 import static java.util.Arrays.stream;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-       int[] a = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-       List<Integer> list = Arrays.stream(a).boxed().toList();
+       long number = 23445;
+       DecimalFormat decimal = new DecimalFormat("R0.00");
+       System.out.println(String.format());
     }
 
     

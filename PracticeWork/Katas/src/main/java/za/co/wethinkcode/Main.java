@@ -10,8 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
        long number = 23445;
-       DecimalFormat decimal = new DecimalFormat("R0.00");
-       System.out.println(String.format());
+      System.out.println(String.format("R%.2f", (double)number/100));
     }
 
     

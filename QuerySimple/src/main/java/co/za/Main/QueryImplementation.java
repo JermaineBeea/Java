@@ -1,16 +1,16 @@
 package co.za.Main;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class QueryImplementation {
 
-    static Scanner scanner = new Scanner(System.in);
-    static VariableDatabase db = new VariableDatabase();
+    private Scanner scanner = new Scanner(System.in);
+    private VariableDatabase db = new VariableDatabase();
 
-    Long aValue; 
-    Long bValue;   
-    Long cValue;
+    private Long aValue; 
+    private Long bValue;   
+    private Long cValue;
 
     public QueryImplementation(Long a, Long b, Long c) {
         this.aValue = a;
@@ -18,52 +18,50 @@ public class QueryImplementation {
         this.cValue = c;
     }
 
-    public void populateTable(){
+    public void createAndPopulateTable() {
         try {
-            // Create & populate the database table
+            // Create and populate the database table
             db.createTable();
             System.out.println("Database table created and populated with default values.");
             
-            // Update "value" column
+            // Update "value" column for variables a, b, c
             db.updateValue("a", "value", aValue);
             db.updateValue("b", "value", bValue);
             db.updateValue("c", "value", cValue);
             System.out.println("Variables updated with 'value' data.");
 
-            // Update both "value" and "query" for variables
-            db.populateQueryVariables(); // This will set test data for value/query
+            // Populate "query" column with test data for each variable
+            db.populateQueryVariables();
             System.out.println("'query' column populated for each variable.");
 
-            // Export data to files
+            // Export data to SQL file or external output
             db.exportToSQL();
-
- 
 
         } catch (SQLException e) {
             System.out.println("Database error: " + e.getMessage());
-        } finally {
-            try {
-                scanner.close();
-                db.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing database: " + e.getMessage());
-            }
         }
     }
 
+    /**
+     * Start the interactive query loop.
+     * User can query variables and columns until they type "exit".
+     */
     public void runQuery() {
-
-        // Start querying the table
         System.out.println("You can now query the database. Type 'exit' to quit.");
         while (true) {
-            if (!QueryTable()) {
+            if (!queryTable()) {
                 System.out.println("Exiting query loop.");
                 break;
             }
         }
     }
 
-    private static boolean QueryTable() {
+    /**
+     * Query the user for a variable and a column, then display the value.
+     * 
+     * @return true to continue loop, false to exit
+     */
+    private boolean queryTable() {
         System.out.print("\nEnter a variable to query (a, b, c) or 'exit' to quit: ");
         String variable = scanner.nextLine().trim().toLowerCase();
 
@@ -90,8 +88,10 @@ public class QueryImplementation {
 
         try {
             if (column.equals("variable")) {
+                // For 'variable' column, just print the variable name itself
                 System.out.println("The value of " + variable + " in column " + column + " is: " + variable);
             } else {
+                // For 'value' or 'query' columns, fetch from database
                 Long value = db.getValueFromColumn(variable, column);
                 System.out.println("The value of " + variable + " in column " + column + " is: " + value);
             }
@@ -100,5 +100,27 @@ public class QueryImplementation {
         }
 
         return true; // Continue loop
+    }
+
+    /**
+     * Close the scanner and database connection resources.
+     * Should be called once user finishes all interactions.
+     */
+    public void close() {
+        try {
+            if (scanner != null) {
+                scanner.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Error closing scanner: " + e.getMessage());
+        }
+
+        try {
+            if (db != null) {
+                db.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error closing database: " + e.getMessage());
+        }
     }
 }

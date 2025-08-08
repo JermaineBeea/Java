@@ -8,7 +8,10 @@ public class MainMethod {
         Long c = 2L;   // Example value for variable c
 
         // Initialize QueryImplementation with example values
-        new QueryImplementation(a, b, c).populateTable();
+        QueryImplementation query = new QueryImplementation(a, b, c);
+        query.createAndPopulateTable();
+        query.runQuery();
+        query.close();
 
         // Note: The QueryFunction class is used internally in VariableDatabase to compute values.
         // If you need to use it directly, you can create an instance like this:

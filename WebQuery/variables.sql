@@ -1,5 +1,5 @@
 -- Variables Database Export
--- Generated on: Fri Aug 08 15:38:49 SAST 2025
+-- Generated on: Fri Aug 08 16:18:02 SAST 2025
 
 DROP TABLE IF EXISTS variables;
 
@@ -10,8 +10,8 @@ CREATE TABLE variables (
 );
 
 -- Insert data
-INSERT INTO variables (variable, value, query) VALUES ('a', 0, 0);
-INSERT INTO variables (variable, value, query) VALUES ('b', 0, 0);
-INSERT INTO variables (variable, value, query) VALUES ('c', 0, 0);
+INSERT INTO variables (variable, value, query) VALUES ('a', 1, 4);
+INSERT INTO variables (variable, value, query) VALUES ('b', 2, -1);
+INSERT INTO variables (variable, value, query) VALUES ('c', 2, -1);
 
 -- End of export

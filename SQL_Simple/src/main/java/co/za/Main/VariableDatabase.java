@@ -53,7 +53,7 @@ public class VariableDatabase {
     }
 
     // Update value and query for a given variable
-    public void updateQueryResult(PreparedStatement statement, long value, String variable) {
+    public void updateQueryResult(PreparedStatement statement, String variable, long value) {
         try {
             statement.setLong(1, value);      
             statement.setString(2, variable); 
@@ -67,7 +67,7 @@ public class VariableDatabase {
     // Example usage: populate query values
     public void populateQueryVariables() {
         try (PreparedStatement pstmt = connection.prepareStatement(
-            "UPDATE " + tableName + " SET value = ?, query = ? WHERE variable = ?")) {
+            "UPDATE " + tableName + " SET query = ? WHERE variable = ?")) {
             
             Long a = getValueFromColumn("a", "value");
             Long b = getValueFromColumn("b", "value");
@@ -75,9 +75,9 @@ public class VariableDatabase {
 
             QueryFunction queryFunction = new QueryFunction(a, b, c);
 
-            updateQueryResult(pstmt, queryFunction.returnA(), "a");
-            updateQueryResult(pstmt, queryFunction.returnB(), "b");
-            updateQueryResult(pstmt, queryFunction.returnC(), "c");
+            updateQueryResult(pstmt, "a", queryFunction.returnA());
+            updateQueryResult(pstmt, "b", queryFunction.returnB());
+            updateQueryResult(pstmt, "c", queryFunction.returnC());
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -18,12 +18,7 @@ public class QueryImplementation {
         this.cValue = c;
     }
 
-    public void runQuery() {
-        // Example values for testing
-        Long aValue = 5L;   
-        Long bValue = 3L;   
-        Long cValue = 2L;   
-
+    public void populateTable(){
         try {
             // Create & populate the database table
             db.createTable();
@@ -42,13 +37,7 @@ public class QueryImplementation {
             // Export data to files
             db.exportToSQL();
 
-            // Query interactively with exit condition
-            while (true) {
-                if (!QueryTable()) {
-                    System.out.println("Exiting query loop.");
-                    break;
-                }
-            }
+ 
 
         } catch (SQLException e) {
             System.out.println("Database error: " + e.getMessage());
@@ -62,42 +51,4 @@ public class QueryImplementation {
         }
     }
 
-    private static boolean QueryTable() {
-        System.out.print("\nEnter a variable to query (a, b, c) or 'exit' to quit: ");
-        String variable = scanner.nextLine().trim().toLowerCase();
-
-        if (variable.isEmpty() || variable.equals("exit")) {
-            return false;  // Exit loop
-        }
-
-        if (!variable.matches("[abc]")) {
-            System.out.println("Invalid variable. Please enter 'a', 'b', or 'c'.");
-            return true;  // Continue loop
-        }
-
-        System.out.print("Enter a column to query (variable, value, query) or 'exit' to quit: ");
-        String column = scanner.nextLine().trim().toLowerCase();
-
-        if (column.isEmpty() || column.equals("exit")) {
-            return false;  // Exit loop
-        }
-
-        if (!column.matches("variable|value|query")) {
-            System.out.println("Invalid column. Please enter one of: variable, value, query");
-            return true;  // Continue loop
-        }
-
-        try {
-            if (column.equals("variable")) {
-                System.out.println("The value of " + variable + " in column " + column + " is: " + variable);
-            } else {
-                Long value = db.getValueFromColumn(variable, column);
-                System.out.println("The value of " + variable + " in column " + column + " is: " + value);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error querying the database: " + e.getMessage());
-        }
-
-        return true; // Continue loop
-    }
 }
